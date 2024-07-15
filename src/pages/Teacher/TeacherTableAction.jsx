@@ -1,9 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { Link } from "react-router-dom";
-
+import Teacher from "./TeacherModal";
+import ViewTeacher from "./ViewTeacher";
 const TeacherTableAction = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  
+
+  const handleOpenEditModal = () => {
+    setShowEditModal(true);
+    setShowDropdown(false);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+  };
   const handleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
@@ -35,14 +48,14 @@ const TeacherTableAction = () => {
           <div className="action-dropdown-menu" ref={dropdownRef}>
             <ul className="dropdown-menu-list">
               <li className="dropdown-menu-item">
-                <Link to="/view" className="dropdown-menu-link">
+                <Link to="/TeacherProfile" className="dropdown-menu-link">
                   View
                 </Link>
               </li>
-              <li className="dropdown-menu-item">
-                <Link to="/view" className="dropdown-menu-link">
+              <li className="dropdown-menu-item" onClick={handleOpenEditModal}>
+            
                   Edit
-                </Link>
+              
               </li>
               <li className="dropdown-menu-item">
                 <Link to="/view" className="dropdown-menu-link">
@@ -53,6 +66,9 @@ const TeacherTableAction = () => {
           </div>
         )}
       </button>
+      {showEditModal && (
+        <Teacher open={showEditModal} handleClose={handleCloseEditModal} />
+      )}
     </>
   );
 };

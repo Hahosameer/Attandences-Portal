@@ -1,11 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { Link } from "react-router-dom";
-
+import BatchModal from "./BatxhModal";
 const SlotsTableAction = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+
   const handleDropdown = () => {
     setShowDropdown(!showDropdown);
+  };
+
+  const handleOpenEditModal = () => {
+    setShowEditModal(true);
+    setShowDropdown(false);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
   };
 
   const dropdownRef = useRef(null);
@@ -34,15 +45,11 @@ const SlotsTableAction = () => {
         {showDropdown && (
           <div className="action-dropdown-menu" ref={dropdownRef}>
             <ul className="dropdown-menu-list">
-              <li className="dropdown-menu-item">
-                <Link to="/view" className="dropdown-menu-link">
-                  View
-                </Link>
-              </li>
-              <li className="dropdown-menu-item">
-                <Link to="/view" className="dropdown-menu-link">
+              
+              <li className="dropdown-menu-item" onClick={handleOpenEditModal}>
+             
                   Edit
-                </Link>
+            
               </li>
               <li className="dropdown-menu-item">
                 <Link to="/view" className="dropdown-menu-link">
@@ -53,6 +60,9 @@ const SlotsTableAction = () => {
           </div>
         )}
       </button>
+      {showEditModal && (
+        <BatchModal open={showEditModal} handleClose={handleCloseEditModal} />
+      )}
     </>
   );
 };

@@ -11,12 +11,12 @@ import {
   MdOutlineLogout,
 
 } from "react-icons/md";
-import HowToRegIcon from '@mui/icons-material/HowToReg';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import SchoolIcon from '@mui/icons-material/School';
 import PersonIcon from '@mui/icons-material/Person';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import GroupIcon from '@mui/icons-material/Group';
-import BookIcon from '@mui/icons-material/Book';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import StarIcon from '@mui/icons-material/Star';
 import { Link } from "react-router-dom";
 import "./Sidebar.scss";
@@ -63,9 +63,9 @@ const Sidebar = () => {
       <div className="sidebar-body">
         <div className="sidebar-menu">
           <ul className="menu-list">
-            <li className="menu-item active">
-              <Link to="/" className="menu-link active">
-                <span className="menu-link-icon active">
+            <li className="menu-item">
+              <Link to="/" className="menu-link">
+                <span className="menu-link-icon">
                   <MdOutlineGridView size={18} />
                 </span>
                 <span className="menu-link-text">Dashboard</span>
@@ -106,17 +106,17 @@ const Sidebar = () => {
             <li className="menu-item">
               <Link to="/course" className="menu-link">
                 <span className="menu-link-icon">
-                  <BookIcon  size={20} />
+                  <VisibilityIcon  size={20} />
                 </span>
-                <span className="menu-link-text">Courses </span>
+                <span className="menu-link-text">View Attendence </span>
               </Link>
             </li>
             <li className="menu-item">
               <Link to="/StudentPerfomence" className="menu-link">
                 <span className="menu-link-icon">
-                  <StarIcon  size={18} />
+                  <CheckCircleIcon  size={18} />
                 </span>
-                <span className="menu-link-text">Student Performance</span>
+                <span className="menu-link-text">Mark Attendence</span>
               </Link>
             </li>
           </ul>

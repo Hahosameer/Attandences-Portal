@@ -1,7 +1,8 @@
 import StudentTableAction from "./StudentTableAction";
-import "./AreaTable.scss";
-import { AreaTop } from "../../components";
+import "./Student.scss";
+// import { AreaTop } from "../../components";
 import { useState } from "react";
+import AreaTop from "../../components/dashboard/areaTop/AreaTop";
 
 const TABLE_HEADS = [
  
@@ -117,6 +118,7 @@ const StudentList = () => {
     
     <>
         <AreaTop />
+      
     <section className="content-area-table">
       <div className="data-table-info">
         <h4 className="data-table-title">

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import BatchTableAction from "./BatchTableAction";
-import "./AreaTable.scss";
-import { AreaTop } from "../../components";
+import "./Batch.scss";
+import AreaTop from "../../components/dashboard/areaTop/AreaTop";
+// import { AreaTop } from "../../components";
 
 const TABLE_HEADS = ["S-NO", "Course", "Started From","EndTime", "Action"];
 

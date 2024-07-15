@@ -6,20 +6,19 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../Redux/Slices/UserSlice.jsx";
 import { useState } from "react";
-import SideModal from "../../Components/SideModal/SideModal.jsx";
-import { AreaTop } from "../../components/index.js";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import AreaTop from "../../components/dashboard/areaTop/AreaTop.jsx";
+// import { AreaTop } from "../../components";
 
 const api = axios.create({
   baseURL: URL,
 });
 
 const Otp = () => {
-  const [message, setMessage] = useState("");
+  const [otp, setOtp] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
-  const [otp, setOtp] = useState("");
   const signedupUser = useSelector(
     (state) => state.SignupUserSlice.currentUser
   );
@@ -44,14 +43,9 @@ const Otp = () => {
       .then((res) => {
         console.log(res.data);
 
-        setMessage(res.data.message);
+        toast.success(res.data.message);
         dispatch(loginSuccess(res.data.data));
-        const setToken = localStorage.setItem(
-          "token",
-          JSON.stringify(res.data.token)
-        );
-
-        setShowModal(true);
+        localStorage.setItem("token", JSON.stringify(res.data.token));
 
         if (res.data.message === "Email Verified Successfully ✅") {
           setTimeout(() => {
@@ -61,31 +55,29 @@ const Otp = () => {
       })
       .catch((err) => {
         console.log(err);
-        setMessage(err.response?.data?.message);
-        setShowModal(true);
+        toast.error(err.response?.data?.message);
       });
   };
 
   return (
     <>
-         <AreaTop />
-    <form className="otp" onSubmit={handleClick}>
-      <h1 className="otpTitle">OTP VERIFICATION</h1>
-      <input
-        type="text"
-        className="otpInput"
-        onChange={(e) => setOtp(e.target.value)}
-        placeholder="Enter otp"
-      />
-      <button className="otpBtn" type="submit">
-        Submit
-      </button>
-
-      {showModal ? (
-        <SideModal setShowModal={setShowModal} message={message} />
-      ) : null}
-    </form>
-        </>
+      <AreaTop />
+      <div className="otpmain">
+        <form className="otp" onSubmit={handleClick}>
+          <h1 className="otpTitle">OTP VERIFICATION</h1>
+          <input
+            type="text"
+            className="otpInput"
+            onChange={(e) => setOtp(e.target.value)}
+            placeholder="Enter otp"
+          />
+          <button className="otpBtn" type="submit">
+            Submit
+          </button>
+        </form>
+      </div>
+      <ToastContainer />
+    </>
   );
 };
 

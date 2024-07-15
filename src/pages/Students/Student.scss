@@ -138,3 +138,100 @@
     }
   }
 }
+
+
+// prfile css 
+.view-student-container{
+  width: 100%;
+  // background-color: yellow;
+
+}
+
+.view-student-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: var(--secondary-color);
+  border-radius: 5px;
+  box-shadow: var(--light-shadow1);
+  color: var(--xl-text-color);
+  text-transform: uppercase;
+}
+.close{
+  background: var(--secondary-color);
+  border-radius: 5px;
+  box-shadow: var(--light-shadow1);
+  color: var(--xl-text-color);
+}
+
+.view-student-body{
+      width: 100%;
+  background: var(--secondary-color);
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row-reverse;
+}
+.profile-picture{
+  // background-color: orange;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+
+}
+.profile-picture img{
+  width: 200px;
+  height: 200px;
+  background-color: var(--xl-text-color);
+  border-radius: 50%;
+
+}
+.student-details{
+  width: 50%;
+  
+}
+.detail-item{
+  padding: 10px;
+  background: var(--secondary-color);
+  border-radius: 5px;
+  box-shadow: var(--light-shadow1);
+  color: var(--xl-text-color);
+}
+.detail-item:hover{
+  opacity: 0.8;
+  background-color: var(--side-link-hover-color);
+  
+}
+
+
+
+@media (max-width: 486px) {
+  .profile-picture{
+   width: 100%;
+  }
+  .view-student-body{
+
+    background: var(--secondary-color);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+   flex-direction: column;
+   width: 100%;
+  //  background-color: red;
+   
+  }
+  .student-details{
+    width: 100%;
+  }
+}
+
+@media (max-width: 486px) {
+  .profile-picture img{
+    width: 150px;
+    height: 150px;
+   }
+}

@@ -1,7 +1,8 @@
 import TeacherTableAction from "./TeacherTableAction";
-import "./AreaTable.scss";
-import { AreaTop } from "../../components";
+import "./Teacher.scss";
+// import { AreaTop } from "../../components";
 import { useState } from "react";
+import AreaTop from "../../components/dashboard/areaTop/AreaTop";
 
 const TABLE_HEADS = ["Name", "Email", "Batch", "Action"];
 
@@ -106,7 +107,7 @@ const TeacherList = () => {
             <thead>
               <tr>
                 {TABLE_HEADS?.map((th, index) => (
-                  <th
+                  <th 
                     key={index}
                     onClick={() =>
                       handleSort(th.toLowerCase().replace(" ", "_"))

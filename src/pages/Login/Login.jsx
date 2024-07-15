@@ -14,7 +14,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { TextField, Button, Container, Typography, IconButton, InputAdornment } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { AreaTop } from "../../components/index.js";
+import AreaTop from "../../components/dashboard/areaTop/AreaTop.jsx";
+// import { AreaTop } from "../../components/index.js";
 
 const api = axios.create({
   baseURL: URL,

@@ -104,7 +104,9 @@
     &:last-child{
         margin-bottom: 0;
     }
-
+    .menu-item:focus{
+      background-color: #1877f2;
+    }
     @media(max-width: 1200px){
         display: flex;
         align-items: center;
@@ -147,7 +149,7 @@
     }
 
     &.active{
-        background-color: var(--primary-color);
+      background-color: #1877f2;
         color: var(--light-color);
         box-shadow: 0px 0px 4px rgba(71, 91, 232, 0.04);
     }
@@ -181,3 +183,5 @@
     margin-top: auto;
   }
 }
+
+

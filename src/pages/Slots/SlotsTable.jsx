@@ -1,7 +1,8 @@
 import SlotsTableAction from "./SlotsTableAction";
-import "./AreaTable.scss";
-import { AreaTop } from "../../components";
+import "./Slot.scss";
+// import { AreaTop } from "../../components";
 import { useState } from "react";
+import AreaTop from "../../components/dashboard/areaTop/AreaTop";
 
 const TABLE_HEADS = ["Course", "Started From", "EndTime", "Batch", "Action"];
 

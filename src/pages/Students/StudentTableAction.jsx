@@ -1,14 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import React from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";// Import the StudentProfileView component
+import ChildModal from "./StudentModal"; // Import the ChildModal component
 
-const StudentTableAction = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
+const StudentTableAction = ({ student }) => {
+  const [showDropdown, setShowDropdown] = React.useState(false);
+  const [showEditModal, setShowEditModal] = React.useState(false);
+
   const handleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
 
-  const dropdownRef = useRef(null);
+  const handleOpenEditModal = () => {
+    setShowEditModal(true);
+    setShowDropdown(false);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+  };
+
+  const dropdownRef = React.useRef(null);
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -16,10 +28,10 @@ const StudentTableAction = () => {
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -35,14 +47,12 @@ const StudentTableAction = () => {
           <div className="action-dropdown-menu" ref={dropdownRef}>
             <ul className="dropdown-menu-list">
               <li className="dropdown-menu-item">
-                <Link to="/view" className="dropdown-menu-link">
-                  View
-                </Link>
+              <Link to="/StudentProfile" className="dropdown-menu-link">
+              View
+              </Link>
               </li>
-              <li className="dropdown-menu-item">
-                <Link to="/view" className="dropdown-menu-link">
-                  Edit
-                </Link>
+              <li className="dropdown-menu-item" onClick={handleOpenEditModal}>
+                Edit
               </li>
               <li className="dropdown-menu-item">
                 <Link to="/view" className="dropdown-menu-link">
@@ -53,6 +63,10 @@ const StudentTableAction = () => {
           </div>
         )}
       </button>
+
+      {showEditModal && (
+        <ChildModal open={showEditModal} handleClose={handleCloseEditModal} />
+      )}
     </>
   );
 };
