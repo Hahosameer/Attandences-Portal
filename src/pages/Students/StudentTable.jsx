@@ -5,7 +5,6 @@ import { useState } from "react";
 import AreaTop from "../../components/dashboard/areaTop/AreaTop";
 
 const TABLE_HEADS = [
- 
   "Name",
   "Course",
   "Email",

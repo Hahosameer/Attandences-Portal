@@ -104,11 +104,11 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/course" className="menu-link">
+              <Link to="/Viewattendence" className="menu-link">
                 <span className="menu-link-icon">
                   <VisibilityIcon  size={20} />
                 </span>
-                <span className="menu-link-text">View Attendence </span>
+                <span className="menu-link-text">View Attendence</span>
               </Link>
             </li>
             <li className="menu-item">

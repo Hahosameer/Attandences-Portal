@@ -23,7 +23,7 @@
 
 
 .area-top-r button{
-  background-color: var(--scroll-track-bg-color);
+  background-color: blue;
 color: var(--xl-text-color);
   padding: 10px 20px;
   margin-right: 20px;
@@ -33,7 +33,7 @@ color: var(--xl-text-color);
   box-shadow: var(--light-shadow1);
 }
 .area-top-r button:hover{
-background-color:var(--scroll-thumb-bg-color) ;
+background-color: var(--primary-color);
 }
 
 

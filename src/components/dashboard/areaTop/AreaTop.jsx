@@ -55,6 +55,14 @@ const handleCloseEditModalSlots = () => {
     setShowEditModal(false);
   };
 
+  const Handleprint = () => {
+
+
+    window.print();
+    
+
+  };
+
   const { openSidebar } = useContext(SidebarContext);
   const location = useLocation();
 
@@ -78,6 +86,8 @@ const handleCloseEditModalSlots = () => {
         return "Courses";
       case "/StudentPerfomence":
         return "Student Performance";
+      case "/Viewattendence":
+        return "View attendence";
       default:
         return "Dashboard";
     }
@@ -134,6 +144,12 @@ const handleCloseEditModalSlots = () => {
         return (
           <Link to="/add-performance">
             <button>Add New Performance</button>
+          </Link>
+        );
+      case "/Viewattendence":
+        return (
+          <Link>
+            <button className="print-btn" onClick={Handleprint}>Print</button>
           </Link>
         );
       default:
