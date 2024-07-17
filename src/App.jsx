@@ -17,6 +17,7 @@ import Otp from "./pages/Otp/Otp.jsx";
 import ViewStudent from "./pages/Students/ViewStudent.jsx";
 import ViewTeacher from "./pages/Teacher/ViewTeacher.jsx";
 import Viewattendence from "./pages/viewattendence/Viewattendence.jsx"
+import Mark from "./pages/Mark/Mark.jsx";
 
 // import BatchList from "./pages/Batche/BatchTable";
 function App() {
@@ -48,6 +49,7 @@ function App() {
             <Route path="/StudentProfile" element={<ViewStudent />} />
             <Route path="/TeacherProfile" element={<ViewTeacher />} />
             <Route path="/viewattendence" element={<Viewattendence />} />
+            <Route path="/markAttendence" element={<Mark />}/>
            
            
           </Route>

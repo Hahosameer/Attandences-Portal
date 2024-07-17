@@ -112,7 +112,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/StudentPerfomence" className="menu-link">
+              <Link to="/markAttendence" className="menu-link">
                 <span className="menu-link-icon">
                   <CheckCircleIcon  size={18} />
                 </span>
