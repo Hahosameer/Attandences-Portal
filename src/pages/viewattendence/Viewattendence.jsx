@@ -108,7 +108,7 @@ const TABLE_DATA = [
     Days: "Saturday, Monday, Wednesday",
     
     
-    
+    Batch: "10",
   },
 ];
 
