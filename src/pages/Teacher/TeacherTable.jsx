@@ -10,7 +10,7 @@ const TABLE_DATA = [
   {
     course: "Web Development",
     Name: "samad",
-    Email: "samad@gmail.com",
+    Email: "samad.e747@gmail.com",
     Batch: "10",
   },
   {
@@ -21,32 +21,32 @@ const TABLE_DATA = [
   },
   {
     course: "Web Development",
-    Name: "subhan",
+    Name: "SHAHAZADA",
     Email: "subhan@gmail.com",
     Batch: "10",
   },
   {
     course: "Web Development",
-    Name: "raza",
+    Name: "SAMIR",
     Email: "raza@gmail.com",
     Batch: "10",
   },
   {
     course: "Web Development",
-    Name: "ahmed",
+    Name: "TOFEE",
     Email: "ahmed@gmail.com",
     Batch: "10",
   },
   {
     course: "Web Development",
-    Name: "daniyal",
-    Email: "daniyal@gmail.com",
+    Name: "MARYAM",
+    Email: "maryam@gmail.com",
     Batch: "10",
   },
   {
     course: "Web Development",
-    Name: "rehman",
-    Email: "rehman@gmail.com",
+    Name: "AFSHEEN",
+    Email: "afsheen@gmail.com",
     Batch: "10",
   },
 ];

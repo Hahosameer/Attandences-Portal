@@ -17,7 +17,7 @@ const TABLE_DATA = [
 
     course: "Web Development",
     
-    Name: "Haroon",
+    Name: "SAMAD",
     Teacher: "Afaq Karim",
     Batch: "10",
     Email: "Haroon@gmail.com"
@@ -26,7 +26,7 @@ const TABLE_DATA = [
 
     course: "Web Development",
     
-    Name: "sameer",
+    Name: "HAROON",
     Teacher: "Afaq Karim",
     Batch: "10",
     Email: "sameer@gmail.com"
@@ -35,7 +35,7 @@ const TABLE_DATA = [
 
     course: "Web Development",
     
-    Name: "haris",
+    Name: "SAMIR",
     Teacher: "Afaq Karim",
     Batch: "10",
     Email: "haris@gmail.com"
@@ -44,7 +44,7 @@ const TABLE_DATA = [
 
     course: "Web Development",
     
-    Name: "waqas",
+    Name: "SHAHZAD",
     Teacher: "Afaq Karim",
     Batch: "10",
     Email: "waqas@gmail.com"
@@ -53,7 +53,7 @@ const TABLE_DATA = [
 
     course: "Web Development",
     
-    Name: "hadi",
+    Name: "TOFEEE",
     Teacher: "Afaq Karim",
     Batch: "10",
     Email: "hadi@gmail.com"
@@ -62,7 +62,7 @@ const TABLE_DATA = [
 
     course: "Web Development",
     
-    Name: "sufiyan",
+    Name: "MARYAM",
     Teacher: "Afaq Karim",
     Batch: "10",
     Email: "sufiyan@gmail.com"
@@ -71,7 +71,7 @@ const TABLE_DATA = [
 
     course: "Web Development",
     
-    Name: "sami",
+    Name: "AFSHEEN",
     Teacher: "Afaq Karim",
     Batch: "10",
     Email: "sami@gmail.com"

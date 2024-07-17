@@ -8,7 +8,7 @@ const TABLE_DATA = [
   {
     course: "Web Development",
     order_id: 11232,
-    Name: "Haroon",
+    Name: "samad",
     Teacher: "4",
     Batch: "10",
     Time: "p",
@@ -17,7 +17,7 @@ const TABLE_DATA = [
   {
     course: "Web Development",
     order_id: 11233,
-    Name: "Ali",
+    Name: "haroon",
     Teacher: "4",
     Batch: "10",
     Time: "p",
@@ -26,7 +26,25 @@ const TABLE_DATA = [
   {
     course: "Web Development",
     order_id: 11234,
-    Name: "Ahmed",
+    Name: "samir",
+    Teacher: "4",
+    Batch: "11",
+    Time: "p",
+    Khali: "",
+  },
+  {
+    course: "Web Development",
+    order_id: 11234,
+    Name: "shahzad",
+    Teacher: "4",
+    Batch: "11",
+    Time: "p",
+    Khali: "",
+  },
+  {
+    course: "Web Development",
+    order_id: 11234,
+    Name: "tOFFE",
     Teacher: "4",
     Batch: "11",
     Time: "p",
@@ -35,7 +53,7 @@ const TABLE_DATA = [
   {
     course: "Web Development",
     order_id: 11235,
-    Name: "Sara",
+    Name: "maryam",
     Teacher: "4",
     Batch: "12",
     Time: "p",

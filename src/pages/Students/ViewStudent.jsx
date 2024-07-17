@@ -8,7 +8,7 @@ import { MdOutlineClose } from "react-icons/md";
 const ViewStudent = ({ student }) => {
   // Sample student data
   const sampleStudent = {
-    name: "John Doe",
+    name: "SAMAD",
     age: 25,
     email: "john.doe@example.com",
     phoneNumber: "+1234567890",
