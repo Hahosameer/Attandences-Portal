@@ -88,6 +88,28 @@ const TABLE_DATA = [
     
     Batch: "10",
   },
+  {
+    ID: 909090,
+    StudentName: "yumna",
+    BatchNo: "10",
+    TeacherName: "Innosufiyan",
+    Timing: "10:00 am - 11:00 am",
+    Days: "Saturday, Monday, Wednesday",
+    
+    
+    Batch: "10",
+  },
+  {
+    ID: 909090,
+    StudentName: "marya",
+    BatchNo: "10",
+    TeacherName: "Innosufiyan",
+    Timing: "10:00 am - 11:00 am",
+    Days: "Saturday, Monday, Wednesday",
+    
+    
+    Batch: "10",
+  },
 ];
 
 const SlotsList = () => {
