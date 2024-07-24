@@ -16,12 +16,25 @@ import Login from "./pages/Login/Login.jsx";
 import Otp from "./pages/Otp/Otp.jsx";
 import ViewStudent from "./pages/Students/ViewStudent.jsx";
 import ViewTeacher from "./pages/Teacher/ViewTeacher.jsx";
-import Viewattendence from "./pages/viewattendence/Viewattendence.jsx"
+import Viewattendence from "./pages/viewattendence/Viewattendence.jsx";
 import Mark from "./pages/Mark/Mark.jsx";
+import { useDispatch } from "react-redux";
+import {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+} from "./Redux/Slices/UserSlice.jsx";
+import axios from "axios";
+import { URL } from "./Utils/url.js";
+
+const api = axios.create({
+  baseURL: URL,
+});
 
 // import BatchList from "./pages/Batche/BatchTable";
 function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const dispatch = useDispatch();
 
   // adding dark-mode class if the dark mode is set on to the body tag
   useEffect(() => {
@@ -31,6 +44,37 @@ function App() {
       document.body.classList.remove("dark-mode");
     }
   }, [theme]);
+
+  // check if the user is logged in
+  useEffect(() => {
+    const isUserLoggedIn = async () => {
+      const token = JSON.parse(localStorage.getItem("token"));
+      if (!token) {
+        dispatch(loginFailure());
+        console.log("no token");
+        return;
+      }
+
+      dispatch(loginStart());
+
+      try {
+        const res = await api.get("/auth/isuserloggedin", {
+          headers: { authorization: `Bearer ${token}` },
+        });
+        if (res.data) {
+          console.log(res.data);
+          dispatch(loginSuccess(res.data.data));
+        }
+      } catch (error) {
+        console.log(error);
+        dispatch(loginFailure(error));
+      }
+    };
+
+    setTimeout(() => {
+      isUserLoggedIn();
+    }, 2000);
+  }, []);
 
   return (
     <>
@@ -43,15 +87,13 @@ function App() {
             <Route path="/teachers" element={<TeacherList />} />
             <Route path="/slots" element={<SlotsList />} />
             <Route path="/batches" element={<BatchList />} />
-            <Route path="/login" element={ <Login />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/Otp" element={<Otp />} />
             <Route path="/StudentProfile" element={<ViewStudent />} />
             <Route path="/TeacherProfile" element={<ViewTeacher />} />
             <Route path="/viewattendence" element={<Viewattendence />} />
-            <Route path="/markAttendence" element={<Mark />}/>
-           
-           
+            <Route path="/markAttendence" element={<Mark />} />
           </Route>
         </Routes>
 

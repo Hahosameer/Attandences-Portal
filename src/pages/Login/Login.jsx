@@ -1,21 +1,18 @@
 import { useState } from "react";
-import "./login.css";
-import axios from "axios";
 import { URL } from "../../Utils/url.js";
-import { useDispatch } from "react-redux";
 import {
   loginSuccess,
   loginFailure,
   loginStart,
 } from "../../Redux/Slices/UserSlice.jsx";
-import { useNavigate, Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-import { TextField, Button, Container, Typography, IconButton, InputAdornment } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import AreaTop from "../../components/dashboard/areaTop/AreaTop.jsx";
-// import { AreaTop } from "../../components/index.js";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./login.scss";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const api = axios.create({
   baseURL: URL,
@@ -23,11 +20,14 @@ const api = axios.create({
 
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const user = useSelector((state) => state.user.currentUser);
+  if (user) {
+    return navigate("/");
+  }
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -59,68 +59,42 @@ const Login = () => {
     }
   };
 
-  const handleClickShowPassword = () => {
-    setShowPassword((prev) => !prev);
-  };
-
-
   return (
-    <>
-         <AreaTop />
-      <div className="login">
-      <form className="loginform" onSubmit={handleClick}>
-          <Typography variant="h4" component="h2" className="title">Login</Typography>
-          <div className="loginInputs">
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Email"
+    <div className="auth-container">
+      <div className="auth-card">
+        <h2>Login</h2>
+        <form onSubmit={handleClick}>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
               type="email"
-              variant="outlined"
+              id="email"
+              name="email"
+              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              variant="outlined"
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
             />
           </div>
-          <Link to="/signup" className="signupLink">
-            Don't have an account?
-          </Link>
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            type="submit"
-            className="loginBtn"
-          >
+          <button type="submit" className="auth-button">
             Login
-          </Button>
+          </button>
         </form>
-        <ToastContainer />
+        <p className="auth-switch">
+          Don't have an account? <Link to="/signup">Signup</Link>
+        </p>
       </div>
-
-    
-    </>
+    </div>
   );
 };
 

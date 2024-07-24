@@ -16,6 +16,10 @@ const api = axios.create({
 });
 
 const Otp = () => {
+  const user = useSelector((state) => state.user.currentUser);
+  if (user) {
+    return navigate("/");
+  }
   const [otp, setOtp] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -61,7 +65,6 @@ const Otp = () => {
 
   return (
     <>
-      <AreaTop />
       <div className="otpmain">
         <form className="otp" onSubmit={handleClick}>
           <h1 className="otpTitle">OTP VERIFICATION</h1>

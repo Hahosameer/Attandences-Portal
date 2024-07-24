@@ -4,25 +4,24 @@ import { LIGHT_THEME } from "../../constants/themeConstants";
 import LogoBlue from "../../assets/images/logo_blue.svg";
 import LogoWhite from "../../assets/images/logo_white.svg";
 import {
- 
   MdOutlineClose,
-
   MdOutlineGridView,
   MdOutlineLogout,
-
 } from "react-icons/md";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import SchoolIcon from '@mui/icons-material/School';
-import PersonIcon from '@mui/icons-material/Person';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import GroupIcon from '@mui/icons-material/Group';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import StarIcon from '@mui/icons-material/Star';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import SchoolIcon from "@mui/icons-material/School";
+import PersonIcon from "@mui/icons-material/Person";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import GroupIcon from "@mui/icons-material/Group";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
 import "./Sidebar.scss";
 import { SidebarContext } from "../../context/SidebarContext";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
+  const user = useSelector((state) => state.user.currentUser);
   const { theme } = useContext(ThemeContext);
   const { isSidebarOpen, closeSidebar } = useContext(SidebarContext);
   const navbarRef = useRef(null);
@@ -45,6 +44,11 @@ const Sidebar = () => {
     };
   }, []);
 
+  const logoutHanlder = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
+
   return (
     <nav
       className={`sidebar ${isSidebarOpen ? "sidebar-show" : ""}`}
@@ -53,7 +57,7 @@ const Sidebar = () => {
       <div className="sidebar-top">
         <div className="sidebar-brand">
           <img src={theme === LIGHT_THEME ? LogoBlue : LogoWhite} alt="" />
-     
+
           <span className="sidebar-brand-text">Attendence Portal</span>
         </div>
         <button className="sidebar-close-btn" onClick={closeSidebar}>
@@ -71,60 +75,70 @@ const Sidebar = () => {
                 <span className="menu-link-text">Dashboard</span>
               </Link>
             </li>
-            <li className="menu-item">
-              <Link to="/students" className="menu-link">
-                <span className="menu-link-icon">
-                  <SchoolIcon size={20} />
-                </span>
-                <span className="menu-link-text">Students</span>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/teachers" className="menu-link">
-                <span className="menu-link-icon">
-                  <PersonIcon size={20} />
-                </span>
-                <span className="menu-link-text">Teachers </span>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/slots" className="menu-link">
-                <span className="menu-link-icon">
-                  <AccessTimeIcon  size={18} />
-                </span>
-                <span className="menu-link-text">Slots </span>
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/batches" className="menu-link">
-                <span className="menu-link-icon">
-                  <GroupIcon  size={20} />
-                </span>
-                <span className="menu-link-text">Batches </span>
-              </Link>
-            </li>
-            <li className="menu-item">
+            {user?.Role === "admin" && (
+              <>
+                <li className="menu-item">
+                  <Link to="/students" className="menu-link">
+                    <span className="menu-link-icon">
+                      <SchoolIcon size={20} />
+                    </span>
+                    <span className="menu-link-text">Students</span>
+                  </Link>
+                </li>
+
+                <li className="menu-item">
+                  <Link to="/teachers" className="menu-link">
+                    <span className="menu-link-icon">
+                      <PersonIcon size={20} />
+                    </span>
+                    <span className="menu-link-text">Teachers </span>
+                  </Link>
+                </li>
+                <li className="menu-item">
+                  <Link to="/slots" className="menu-link">
+                    <span className="menu-link-icon">
+                      <AccessTimeIcon size={18} />
+                    </span>
+                    <span className="menu-link-text">Slots </span>
+                  </Link>
+                </li>
+                <li className="menu-item">
+                  <Link to="/batches" className="menu-link">
+                    <span className="menu-link-icon">
+                      <GroupIcon size={20} />
+                    </span>
+                    <span className="menu-link-text">Batches </span>
+                  </Link>
+                </li>
+              </>
+            )}
+
+            {!user.Role === "teacher" && (
+              <li className="menu-item">
               <Link to="/Viewattendence" className="menu-link">
                 <span className="menu-link-icon">
-                  <VisibilityIcon  size={20} />
+                  <VisibilityIcon size={20} />
                 </span>
                 <span className="menu-link-text">View Attendence</span>
               </Link>
             </li>
-            <li className="menu-item">
-              <Link to="/markAttendence" className="menu-link">
-                <span className="menu-link-icon">
-                  <CheckCircleIcon  size={18} />
-                </span>
-                <span className="menu-link-text">Mark Attendence</span>
-              </Link>
-            </li>
+            )}
+            {user?.Role === "admin" && (
+              <li className="menu-item">
+                <Link to="/markAttendence" className="menu-link">
+                  <span className="menu-link-icon">
+                    <CheckCircleIcon size={18} />
+                  </span>
+                  <span className="menu-link-text">Mark Attendence</span>
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
 
         <div className="sidebar-menu sidebar-menu2">
           <ul className="menu-list">
-            <li className="menu-item">
+            <li className="menu-item" onClick={logoutHanlder}>
               <Link to="/" className="menu-link">
                 <span className="menu-link-icon">
                   <MdOutlineLogout size={20} />
