@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./signup.css";
 import axios from "axios";
 import { URL } from "../../Utils/url.js";
 import { useDispatch } from "react-redux";
@@ -10,20 +9,24 @@ import {
   signupSuccess,
 } from "../../Redux/Slices/SignupUserSlice.jsx";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-import { TextField, Button, Container, Typography, IconButton, InputAdornment } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import AreaTop from "../../components/dashboard/areaTop/AreaTop.jsx";
-// import { AreaTop } from "../../components/index.js";
+import "react-toastify/dist/ReactToastify.css";
+import React from "react";
+import { Link } from "react-router-dom";
+import "./signup.scss";
+import { useSelector } from "react-redux";
 
 const Signup = () => {
+  const user = useSelector((state) => state.user.currentUser);
+  if (user) {
+    return navigate("/");
+  }
   const dispatch = useDispatch();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("student");
   const [showPassword, setShowPassword] = useState(false);
+
+
 
   const api = axios.create({
     baseURL: URL,
@@ -32,17 +35,16 @@ const Signup = () => {
 
   const signup = async (e) => {
     e.preventDefault();
-    if (firstName && lastName && email && password) {
+    if (role && email && password) {
       if (password.length < 7) {
         toast.error("Password must be at least 7 characters 🔒");
         return;
       }
       // create user obj
       const data = {
-        firstName,
-        lastName,
         email,
         password,
+        role,
       };
 
       // signup start
@@ -62,7 +64,7 @@ const Signup = () => {
           toast.success(res.data.message);
 
           // navigate to otp
-          if (res.data.message === "User Registration Successful") {
+          if (res.data.message === "User Registartion Successfull") {
             navigate("/otp");
           }
         })
@@ -81,70 +83,55 @@ const Signup = () => {
   };
 
   return (
-    <>
-         <AreaTop />
-      <div className="signup">
-        <form className="signupform" onSubmit={signup}>
-          <Typography variant="h4" component="h2" gutterBottom className="title">Signup</Typography>
-          <TextField
-            fullWidth
-            margin="normal"
-            label="First Name"
-            variant="outlined"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Last Name"
-            variant="outlined"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Email"
-            type="email"
-            variant="outlined"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Password"
-            type={showPassword ? "text" : "password"}
-            variant="outlined"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
+    <div className="auth-container">
+      <div className="auth-card">
+        <h2>Signup</h2>
+        <form onSubmit={signup}>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="role">Role</label>
+            <select
+              id="role"
+              name="role"
+              required
+              className="role-select"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="student">Student</option>
+              <option value="teacher">Teacher</option>
+              {/* <option value="admin">Admin</option> */}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button type="submit" className="auth-button">
             Signup
-          </Button>
+          </button>
         </form>
-        <ToastContainer />
+        <p className="auth-switch">
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
       </div>
-    </>
+    </div>
   );
 };
 

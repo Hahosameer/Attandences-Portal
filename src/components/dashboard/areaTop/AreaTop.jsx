@@ -8,33 +8,34 @@ import NewStudentModal from "../../../pages/Students/newStudentModal";
 import NewTeacherModal from "../../../pages/Teacher/newTeacherModal";
 import NewSlotsModal from "../../../pages/Slots/newSlotsModal";
 import NewBatchModal from "../../../pages/Batche/newBatchtModal";
+import { useSelector } from "react-redux";
 const AreaTop = () => {
-
- 
+  const user  =  useSelector((state) => state.user.currentUser);
+  console.log(user)
   const [teacherEditModal, setTeacherEditModal] = useState(false); // State to manage edit modal visibility
   const [showEditModal, setShowEditModal] = useState(false); // State to manage edit modal visibility
-const [slotEditModal, setSlotEditModal] = useState(false);
-const [batchEditModal, setBatchEditModal] = useState(false);
+  const [slotEditModal, setSlotEditModal] = useState(false);
+  const [batchEditModal, setBatchEditModal] = useState(false);
 
-const handleOpenEditModalBatch = () => {
-  setBatchEditModal(true);
-  // setShowDropdown(false); // Close dropdown when edit modal opens
-};
+  const handleOpenEditModalBatch = () => {
+    setBatchEditModal(true);
+    // setShowDropdown(false); // Close dropdown when edit modal opens
+  };
 
-const handleCloseEditModalBatch = () => {
-  setBatchEditModal(false);
-};
-// slot modal
-const handleOpenEditModalSlots = () => {
-  setSlotEditModal(true);
-  // setShowDropdown(false); // Close dropdown when edit modal opens
-};
+  const handleCloseEditModalBatch = () => {
+    setBatchEditModal(false);
+  };
+  // slot modal
+  const handleOpenEditModalSlots = () => {
+    setSlotEditModal(true);
+    // setShowDropdown(false); // Close dropdown when edit modal opens
+  };
 
-const handleCloseEditModalSlots = () => {
-  setSlotEditModal(false);
-};
+  const handleCloseEditModalSlots = () => {
+    setSlotEditModal(false);
+  };
 
-// teacher modal
+  // teacher modal
   const handleOpenEditModalTea = () => {
     setTeacherEditModal(true);
     // setShowDropdown(false); // Close dropdown when edit modal opens
@@ -44,7 +45,7 @@ const handleCloseEditModalSlots = () => {
     setTeacherEditModal(false);
   };
 
-  // student 
+  // student
   // modeal ha ay
   const handleOpenEditModal = () => {
     setShowEditModal(true);
@@ -56,11 +57,7 @@ const handleCloseEditModalSlots = () => {
   };
 
   const Handleprint = () => {
-
-
     window.print();
-    
-
   };
 
   const { openSidebar } = useContext(SidebarContext);
@@ -96,9 +93,9 @@ const handleCloseEditModalSlots = () => {
   const getButtons = (pathname) => {
     switch (pathname) {
       case "/":
-        case "/signup":
-        case "/login":
-        case "/otp":
+      case "/signup":
+      case "/login":
+      case "/otp":
         return (
           <>
             <Link to="/signup">
@@ -107,32 +104,19 @@ const handleCloseEditModalSlots = () => {
             <Link to="/login">
               <button>Login</button>
             </Link>
-           
           </>
         );
       case "/students":
-        return (
-      
-            <button onClick={handleOpenEditModal}>Add New Student</button>
-    
-        );
+        return <button onClick={handleOpenEditModal}>Add New Student</button>;
       case "/teachers":
         return (
-  
-            <button onClick={handleOpenEditModalTea}>Add New Teacher</button>
-
+          <button onClick={handleOpenEditModalTea}>Add New Teacher</button>
         );
       case "/slots":
-        return (
-      
-            <button onClick={handleOpenEditModalSlots}>Add New Slot</button>
-    
-        );
+        return <button onClick={handleOpenEditModalSlots}>Add New Slot</button>;
       case "/batches":
         return (
-          
-            <button onClick={handleOpenEditModalBatch}>Add New Batch</button>
-       
+          <button onClick={handleOpenEditModalBatch}>Add New Batch</button>
         );
       case "/courses":
         return (
@@ -149,7 +133,9 @@ const handleCloseEditModalSlots = () => {
       case "/Viewattendence":
         return (
           <Link>
-            <button className="print-btn" onClick={Handleprint}>Print</button>
+            <button className="print-btn" onClick={Handleprint}>
+              Print
+            </button>
           </Link>
         );
       default:
@@ -159,25 +145,43 @@ const handleCloseEditModalSlots = () => {
 
   return (
     <>
-    <section className="content-area-top">
-      <div className="area-top-l">
-        <button
-          className="sidebar-open-btn"
-          type="button"
-          onClick={openSidebar}
-        >
-          <MdOutlineMenu size={24} />
-        </button>
-        <h1>{getPageName(location.pathname)}</h1>
-      </div>
-      <div className="area-top-r">
-        {getButtons(location.pathname)}
-      </div>
-    </section>
-    {teacherEditModal && <NewTeacherModal open={teacherEditModal} handleClose={handleCloseEditModalTea} />}
-    {showEditModal && <NewStudentModal open={showEditModal} handleClose={handleCloseEditModal} />}
-    {slotEditModal && <NewSlotsModal open={slotEditModal} handleClose={handleCloseEditModalSlots} />}
-    {batchEditModal && <NewBatchModal open={batchEditModal} handleClose={handleCloseEditModalBatch} />}
+      <section className="content-area-top">
+        <div className="area-top-l">
+          <button
+            className="sidebar-open-btn"
+            type="button"
+            onClick={openSidebar}
+          >
+            <MdOutlineMenu size={24} />
+          </button>
+          <h1>{getPageName(location.pathname)}</h1>
+        </div>
+        <div className="area-top-r">{!user && getButtons(location.pathname)}</div>
+      </section>
+      {teacherEditModal && (
+        <NewTeacherModal
+          open={teacherEditModal}
+          handleClose={handleCloseEditModalTea}
+        />
+      )}
+      {showEditModal && (
+        <NewStudentModal
+          open={showEditModal}
+          handleClose={handleCloseEditModal}
+        />
+      )}
+      {slotEditModal && (
+        <NewSlotsModal
+          open={slotEditModal}
+          handleClose={handleCloseEditModalSlots}
+        />
+      )}
+      {batchEditModal && (
+        <NewBatchModal
+          open={batchEditModal}
+          handleClose={handleCloseEditModalBatch}
+        />
+      )}
     </>
   );
 };

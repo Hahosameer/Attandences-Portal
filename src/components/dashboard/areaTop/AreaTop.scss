@@ -23,8 +23,8 @@
 
 
 .area-top-r button{
-  background-color: blue;
-color: var(--xl-text-color);
+  background-color: var(--secondary-color);
+color:  var(--xl-text-color);
   padding: 10px 20px;
   margin-right: 20px;
   border-radius: 6px;
@@ -34,6 +34,7 @@ color: var(--xl-text-color);
 }
 .area-top-r button:hover{
 background-color: var(--primary-color);
+color: var(--light-color);
 }
 
 
