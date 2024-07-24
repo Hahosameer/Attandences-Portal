@@ -5,6 +5,8 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import { Select, InputLabel, FormControl, Input } from '@mui/material';
+import { URL } from "../../Utils/url.js";
+import axios from 'axios';
 
 const style = {
   position: "absolute",
@@ -79,18 +81,46 @@ const slots = [
   { day: 'Monday Wednesday Friday', time: '8:00 AM - 10:00 AM' }
 ];
 
+const api = axios.create({
+  baseURL: URL
+});
+
 function NewStudentModal({ open, handleClose }) {
   const [profilePicture, setProfilePicture] = useState(null);
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [fatherEmail, setFatherEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [batchNumber, setBatchNumber] = useState('');
+  const [courseName, setCourseName] = useState('');
+  const [slotId, setSlotId] = useState(slots[0]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setProfilePicture(file);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle form submission with all data including profilePicture
-    handleClose();
+    try {
+      const studentobj = {
+        fullName,
+        email,
+        fatherEmail,
+        phoneNumber,
+        batchNumber,
+        courseName,
+        slotId
+      }
+       
+      const res = await api.post('/student/add', studentobj);
+      console.log(res.data);
+
+      handleClose();
+  
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -109,6 +139,7 @@ function NewStudentModal({ open, handleClose }) {
             id="fullName"
             label="Full Name"
             variant="outlined"
+            onChange={(e) => setFullName(e.target.value)}
           />
 
           <TextField
@@ -118,6 +149,17 @@ function NewStudentModal({ open, handleClose }) {
             label="Email"
             type="email"
             variant="outlined"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <TextField
+            fullWidth
+            margin="normal"
+            id="fatherEmail"
+            label="Father Email"
+            type="email"
+            variant="outlined"
+            onChange={(e) => setFatherEmail(e.target.value)}
           />
 
           <TextField
@@ -127,6 +169,7 @@ function NewStudentModal({ open, handleClose }) {
             label="Phone Number"
             type="tel"
             variant="outlined"
+            onChange={(e) => setPhoneNumber(e.target.value)}
           />
 
           <TextField
@@ -136,15 +179,17 @@ function NewStudentModal({ open, handleClose }) {
             label="Batch"
             type="number"
             variant="outlined"
+            onChange={(e) => setBatchNumber(e.target.value)}
           />
 
-          <FormControl fullWidth margin="normal">
+          {/* <FormControl fullWidth margin="normal">
             <InputLabel id="campus-label">Campus</InputLabel>
             <Select
               labelId="campus-label"
               id="campus"
               label="Campus"
               defaultValue=""
+              onChange={(e) => setCampus(e.target.value)}
             >
               {campuses.map((campus, index) => (
                 <MenuItem key={index} value={campus}>
@@ -152,7 +197,7 @@ function NewStudentModal({ open, handleClose }) {
                 </MenuItem>
               ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
 
           <FormControl fullWidth margin="normal">
             <InputLabel id="course-label">Course</InputLabel>
@@ -161,6 +206,7 @@ function NewStudentModal({ open, handleClose }) {
               id="course"
               label="Course"
               defaultValue=""
+              onChange={(e) => setCourseName(e.target.value)}
             >
               {courses.map((course, index) => (
                 <MenuItem key={index} value={course}>
@@ -177,6 +223,7 @@ function NewStudentModal({ open, handleClose }) {
               id="slot"
               label="Slot"
               defaultValue=""
+              onChange={(e) => setSlotId(e.target.value)}
             >
               {slots.map((slot, index) => (
                 <MenuItem key={index} value={`${slot.day} ${slot.time}`}>

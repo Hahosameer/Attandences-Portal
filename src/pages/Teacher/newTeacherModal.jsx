@@ -79,8 +79,10 @@ const slots = [
   { day: 'Monday Wednesday Friday', time: '8:00 AM - 10:00 AM' }
 ];
 
+
 function NewTeacherModal({ open, handleClose }) {
   const [profilePicture, setProfilePicture] = useState(null);
+
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];

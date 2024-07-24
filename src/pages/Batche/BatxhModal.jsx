@@ -81,6 +81,7 @@ const slots = [
 ];
 
 function BatchModal({ open, handleClose }) {
+  
   return (
     <Modal
       open={open}
