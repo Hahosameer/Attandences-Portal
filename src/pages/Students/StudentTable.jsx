@@ -116,7 +116,9 @@ const StudentList = () => {
   return (
     
     <>
+
         <AreaTop />
+        
       
     <section className="content-area-table">
       <div className="data-table-info">

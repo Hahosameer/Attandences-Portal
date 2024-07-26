@@ -18,6 +18,7 @@ import ViewStudent from "./pages/Students/ViewStudent.jsx";
 import ViewTeacher from "./pages/Teacher/ViewTeacher.jsx";
 import Viewattendence from "./pages/viewattendence/Viewattendence.jsx";
 import Mark from "./pages/Mark/Mark.jsx";
+import CourseList from "./pages/courses/coursestable.jsx";
 import { useDispatch } from "react-redux";
 import {
   loginStart,
@@ -94,6 +95,7 @@ function App() {
             <Route path="/TeacherProfile" element={<ViewTeacher />} />
             <Route path="/viewattendence" element={<Viewattendence />} />
             <Route path="/markAttendence" element={<Mark />} />
+            <Route path="/courses" element={<CourseList />} />
           </Route>
         </Routes>
 

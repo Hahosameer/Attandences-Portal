@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
@@ -17,16 +17,15 @@ const style = {
   height: "80vh",
   bgcolor: "background.paper",
   borderRadius: '20px',
-  // border: "2px solid #000",
   boxShadow: 24,
   overflowY: "scroll",
-  scrollbarWidth: "none", // For Firefox
-  msOverflowStyle: "none", // For Internet Explorer and Edge
+  scrollbarWidth: "none",
+  msOverflowStyle: "none",
   pt: 2,
   px: 4,
   pb: 3,
   "&::-webkit-scrollbar": {
-    display: "none" // For Chrome, Safari, and Opera
+    display: "none"
   },
   "@media (max-width: 768px)": {
     width: "100%",
@@ -34,47 +33,6 @@ const style = {
   },
 };
 
-const courses = [
-  'Web Development',
-  'Graphic Designing',
-  'Digital Marketing',
-  'AutoCAD',
-  'Mobile App Development',
-  'English Language',
-  'Chinese Language',
-  'Networking',
-  'Database Management',
-  'CCNA',
-  'Microsoft Office',
-  'Project Management',
-  'Artificial Intelligence',
-  'Machine Learning',
-  'Blockchain Technology',
-  'Game Development',
-  'UI/UX Design',
-  'Video Editing',
-  'Photography',
-  'Animation',
-  'Robotics',
-  'Data Science',
-  'Cyber Security',
-  'Internet of Things (IoT)',
-  'Virtual Reality (VR)',
-  'Augmented Reality (AR)',
-  'Cloud Computing',
-  '3D Printing',
-  'E-commerce',
-  'Financial Management',
-  'Accounting Software',
-  'Entrepreneurship',
-  'Fashion Designing',
-  'Interior Designing',
-  'Culinary Arts',
-  'Film Making',
-  'Music Production'
-];
-
-const campuses = ['Gulshan', 'Bahadurabad', 'Malir'];
 const slots = [
   { day: 'Monday Wednesday Friday', time: '6:00 AM - 9:00 AM' },
   { day: 'Monday Wednesday Friday', time: '2:00 PM - 4:00 PM' },
@@ -94,6 +52,7 @@ function NewStudentModal({ open, handleClose }) {
   const [batchNumber, setBatchNumber] = useState('');
   const [courseName, setCourseName] = useState('');
   const [slotId, setSlotId] = useState(slots[0]);
+  const [fetchcourse, setFetchCourse] = useState([]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -122,6 +81,19 @@ function NewStudentModal({ open, handleClose }) {
       console.log(error);
     }
   };
+
+  const getAllCourses = async () => {
+    try {
+      const res = await api.get('/course');
+      setFetchCourse(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllCourses();
+  }, []);
 
   return (
     <Modal
@@ -182,23 +154,6 @@ function NewStudentModal({ open, handleClose }) {
             onChange={(e) => setBatchNumber(e.target.value)}
           />
 
-          {/* <FormControl fullWidth margin="normal">
-            <InputLabel id="campus-label">Campus</InputLabel>
-            <Select
-              labelId="campus-label"
-              id="campus"
-              label="Campus"
-              defaultValue=""
-              onChange={(e) => setCampus(e.target.value)}
-            >
-              {campuses.map((campus, index) => (
-                <MenuItem key={index} value={campus}>
-                  {campus}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl> */}
-
           <FormControl fullWidth margin="normal">
             <InputLabel id="course-label">Course</InputLabel>
             <Select
@@ -208,9 +163,9 @@ function NewStudentModal({ open, handleClose }) {
               defaultValue=""
               onChange={(e) => setCourseName(e.target.value)}
             >
-              {courses.map((course, index) => (
-                <MenuItem key={index} value={course}>
-                  {course}
+              {fetchcourse.map((course, index) => (
+                <MenuItem key={index} value={course.courseName}>
+                  {course.CourseName}
                 </MenuItem>
               ))}
             </Select>
@@ -234,17 +189,16 @@ function NewStudentModal({ open, handleClose }) {
           </FormControl>
 
           <FormControl fullWidth margin="normal">
-         
             <Input
               id="profile-picture"
               type="file"
               accept="image/*"
-              style={{ display: 'none' }} // Hide the file input
+              style={{ display: 'none' }}
               onChange={handleImageChange}
             />
             <label htmlFor="profile-picture">
               <Button component="span" variant="outlined">
-           upload image
+                Upload Image
               </Button>
             </label>
             {profilePicture && (

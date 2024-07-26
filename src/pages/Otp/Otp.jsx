@@ -17,9 +17,10 @@ const api = axios.create({
 
 const Otp = () => {
   const user = useSelector((state) => state.user.currentUser);
-  if (user) {
-    return navigate("/");
-  }
+  // if (user) {
+  //   return navigate("/");
+
+  // }
   const [otp, setOtp] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();

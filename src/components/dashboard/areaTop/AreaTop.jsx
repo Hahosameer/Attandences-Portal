@@ -9,13 +9,15 @@ import NewTeacherModal from "../../../pages/Teacher/newTeacherModal";
 import NewSlotsModal from "../../../pages/Slots/newSlotsModal";
 import NewBatchModal from "../../../pages/Batche/newBatchtModal";
 import { useSelector } from "react-redux";
+import CoursesModal from "../../../pages/courses/Coursemodal";
 const AreaTop = () => {
   const user  =  useSelector((state) => state.user.currentUser);
-  console.log(user)
+  // console.log(user)
   const [teacherEditModal, setTeacherEditModal] = useState(false); // State to manage edit modal visibility
   const [showEditModal, setShowEditModal] = useState(false); // State to manage edit modal visibility
   const [slotEditModal, setSlotEditModal] = useState(false);
   const [batchEditModal, setBatchEditModal] = useState(false);
+  const [courseEditModal, setCourseEditModal] = useState(false);
 
   const handleOpenEditModalBatch = () => {
     setBatchEditModal(true);
@@ -52,9 +54,27 @@ const AreaTop = () => {
     // setShowDropdown(false); // Close dropdown when edit modal opens
   };
 
+
+
   const handleCloseEditModal = () => {
     setShowEditModal(false);
   };
+
+  const handleOpencourseModal = () => {
+    setCourseEditModal(true);
+    // setShowDropdown(false); // Close dropdown when edit modal opens
+  };
+
+  const handleopencourseModal = () => {
+    setCourseEditModal(false);
+  };
+  
+
+  const handleClosecourseModal = () => {
+    setCourseEditModal(false);
+  };
+
+
 
   const Handleprint = () => {
     window.print();
@@ -106,6 +126,13 @@ const AreaTop = () => {
             </Link>
           </>
         );
+      default:
+        return null;
+    }
+  };
+
+  const Addbutton = (pathname) => {
+    switch(pathname){
       case "/students":
         return <button onClick={handleOpenEditModal}>Add New Student</button>;
       case "/teachers":
@@ -117,12 +144,6 @@ const AreaTop = () => {
       case "/batches":
         return (
           <button onClick={handleOpenEditModalBatch}>Add New Batch</button>
-        );
-      case "/courses":
-        return (
-          <Link to="/add-course">
-            <button>Add New Course</button>
-          </Link>
         );
       case "/StudentPerfomence":
         return (
@@ -138,10 +159,16 @@ const AreaTop = () => {
             </button>
           </Link>
         );
+        case "/courses":
+          return (
+            <button onClick={handleOpencourseModal}>Add New Course</button>
+          )
       default:
         return null;
     }
-  };
+  }
+
+
 
   return (
     <>
@@ -151,13 +178,17 @@ const AreaTop = () => {
             className="sidebar-open-btn"
             type="button"
             onClick={openSidebar}
+            
           >
             <MdOutlineMenu size={24} />
           </button>
           <h1>{getPageName(location.pathname)}</h1>
         </div>
-        <div className="area-top-r">{!user && getButtons(location.pathname)}</div>
+        <div className="area-top-r">{!user ? getButtons(location.pathname) : null}
+          {Addbutton(location.pathname)}
+        </div>
       </section>
+
       {teacherEditModal && (
         <NewTeacherModal
           open={teacherEditModal}
@@ -180,6 +211,14 @@ const AreaTop = () => {
         <NewBatchModal
           open={batchEditModal}
           handleClose={handleCloseEditModalBatch}
+        />
+
+      )}
+
+      {courseEditModal && (
+        <CoursesModal
+          open={courseEditModal}
+          handleClose={handleClosecourseModal}
         />
       )}
     </>
