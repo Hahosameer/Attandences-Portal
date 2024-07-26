@@ -113,7 +113,7 @@ const Sidebar = () => {
               </>
             )}
 
-            {!user.Role === "teacher" && (
+            {!user?.Role === "teacher" && (
               <li className="menu-item">
               <Link to="/Viewattendence" className="menu-link">
                 <span className="menu-link-icon">
