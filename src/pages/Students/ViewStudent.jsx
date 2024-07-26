@@ -1,72 +1,113 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { MdOutlineClose } from "react-icons/md";
-// import "./ViewStudent.css"; // Add your CSS styles here
+import axios from "axios";
+import { URL } from "../../Utils/url.js";
 
-const ViewStudent = ({ student }) => {
-  // Sample student data
-  const sampleStudent = {
-    name: "SAMAD",
-    age: 25,
-    email: "john.doe@example.com",
-    phoneNumber: "+1234567890",
-    course: "Web Development",
-    batch: "Batch A",
-    slot: "Morning Slot",
-    profilePicture: "https://example.com/profile.jpg", // Replace with actual URL or local image path
+const api = axios.create({
+  baseURL: URL,
+});
+
+const ViewStudent = () => {
+  const location = useLocation();
+  const { student } = location.state || {}; // Destructure student from location.state
+  const [slot, setSlot] = useState(null);
+  const [teacher, setTeacher] = useState(null);
+
+  useEffect(() => {
+    console.log("Received student data: ", student);
+    if (student?.SlotId) {
+      fetchSlot(student.SlotId);
+    }
+  }, [student]);
+
+  const fetchSlot = async (slotId) => {
+    try {
+      // Assuming slotId is in the correct format
+      const response = await api.get(`/slot/${slotId}`);
+      console.log("Fetched slot data: ", response.data.data);
+      setSlot(response.data.data);
+      if (response.data.data?.TeacherId) {
+        fetchTeacher(response.data.data.TeacherId);
+      }
+    } catch (error) {
+      console.error("Error fetching slot data: ", error.message);
+    }
   };
 
-  // Use sampleStudent if student prop is not provided
-  student = student || sampleStudent;
+  if (!student) {
+    return <div>No student data found</div>;
+  }
 
   return (
     <div className="view-student-container">
       <div className="view-student-header">
         <h2>Student Profile</h2>
         <button className="close-btn">
-        <Link to="/" className="view-student-link">
-          <MdOutlineClose className="close" size={24} />
-        </Link>
+          <Link to="/" className="view-student-link">
+            <MdOutlineClose className="close" size={24} />
+          </Link>
         </button>
       </div>
       <div className="view-student-body">
         <div className="profile-picture">
-          <img src="/public/user.webp" alt="" />
+          <img src={student.ProfilePicture || "/public/user.webp"} alt="Profile" />
         </div>
         <div className="student-details">
           <div className="detail-item">
             <label>Name:</label>
-            <span>{student.name}</span>
-          </div>
-          <div className="detail-item">
-            <label>Age:</label>
-            <span>{student.age}</span>
+            <span> {student.FullName}</span>
           </div>
           <div className="detail-item">
             <label>Email:</label>
-            <span>{student.email}</span>
+            <span> {student.Email}</span>
           </div>
           <div className="detail-item">
             <label>Phone Number:</label>
-            <span>{student.phoneNumber}</span>
+            <span> {student.PhoneNumber}</span>
           </div>
           <div className="detail-item">
-            <label>Course:</label>
-            <span>{student.course}</span>
+            <label>Father Email:</label>
+            <span> {student.FatherEmail}</span>
           </div>
           <div className="detail-item">
-            <label>Batch:</label>
-            <span>{student.batch}</span>
+            <label>Course Name:</label>
+            <span> {student.CourseName}</span>
           </div>
           <div className="detail-item">
-            <label>Slot:</label>
-            <span>{student.slot}</span>
+            <label>Batch Number:</label>
+            <span> {student.BatchNumber}</span>
           </div>
+          <div className="detail-item">
+            <label>Present Days:</label>
+            <span> {student.PresentDays}</span>
+          </div>
+          <div className="detail-item">
+            <label>Absent Days:</label>
+            <span> {student.AbsentDays}</span>
+          </div>
+          <div className="detail-item">
+            <label>Total Days:</label>
+            <span> {student.TotalDays}</span>
+          </div>
+          {slot && (
+            <>
+              <div className="detail-item">
+                <label>Days:</label>
+                <span> {slot.Days.join(", ")}</span>
+              </div>
+              <div className="detail-item">
+                <label>Start Time:</label>
+                <span> {slot.StartTime}</span>
+              </div>
+              <div className="detail-item">
+                <label>End Time:</label>
+                <span> {slot.EndTime}</span>
+              </div>
+            </>
+          )}
         </div>
       </div>
-    
     </div>
   );
 };
