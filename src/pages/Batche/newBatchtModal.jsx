@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import axios from 'axios';
-import { Select, InputLabel, FormControl, Input } from '@mui/material';
+import { Select, InputLabel, FormControl } from '@mui/material';
 import { URL } from "../../Utils/url.js";
 
 const style = {
@@ -17,7 +17,6 @@ const style = {
   height: "80vh",
   bgcolor: "background.paper",
   borderRadius: '20px',
-  // border: "2px solid #000",
   boxShadow: 24,
   overflowY: "scroll",
   scrollbarWidth: "none", // For Firefox
@@ -34,87 +33,54 @@ const style = {
   },
 };
 
-const courses = [
-  'Web Development',
-  'Graphic Designing',
-  'Digital Marketing',
-  'AutoCAD',
-  'Mobile App Development',
-  'English Language',
-  'Chinese Language',
-  'Networking',
-  'Database Management',
-  'CCNA',
-  'Microsoft Office',
-  'Project Management',
-  'Artificial Intelligence',
-  'Machine Learning',
-  'Blockchain Technology',
-  'Game Development',
-  'UI/UX Design',
-  'Video Editing',
-  'Photography',
-  'Animation',    // Handle form submission with all data including profilePicture
-
-  'Robotics',
-  'Data Science',
-  'Cyber Security',
-  'Internet of Things (IoT)',
-  'Virtual Reality (VR)',
-  'Augmented Reality (AR)',
-  'Cloud Computing',
-  '3D Printing',
-  'E-commerce',
-  'Financial Management',
-  'Accounting Software',
-  'Entrepreneurship',
-  'Fashion Designing',
-  'Interior Designing',
-  'Culinary Arts',
-  'Film Making',
-  'Music Production'
-];
-
-const campuses = ['Gulshan', 'Bahadurabad', 'Malir'];
-const slots = [
-  { day: 'Monday Wednesday Friday', time: '6:00 AM - 9:00 AM' },
-  { day: 'Monday Wednesday Friday', time: '2:00 PM - 4:00 PM' },
-  { day: 'Monday Wednesday Friday', time: '8:00 AM - 10:00 AM' }
-];
-
 const api = axios.create({
   baseURL: URL
 });
 
 function NewBatchModal({ open, handleClose }) {
-  const [sirname, setSirname] = useState('');
-  const [batchNumber, setBatchNumber] = useState({});
-  const [courseName, setCourseName] = useState({});
+  const [batchNumber, setBatchNumber] = useState("");
+  const [courseName, setCourseName] = useState('');
   const [startedFrom, setStartedFrom] = useState('');
   const [endDate, setEndDate] = useState('');
-
-
-  // const handleImageChange = (event) => {
-  //   const file = event.target.files[0];
-  //   setProfilePicture(file);
-  // };
+  const [getcourse, setgetcourse] = useState([]);
+  const [error, setError] = useState("");
+  const [batch, setBatch] = useState([]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
- try {
-  const AddBatch = {sirname, batchNumber , courseName, startedFrom, endDate};
-  console.log(AddBatch);
-  // Handle form submission with all data including profilePicture
-  const res = await api.post('/batch/add', AddBatch);
-  console.log(res.data);
-  handleClose();
 
- } catch (error) {
-  console.log(error);
-
- }
-
+    if (!batchNumber || !courseName || !startedFrom || !endDate) {
+      setError("All Fields are required");
+      return;
+    }
+    setError(""); // Clear previous errors
+    try {
+      const AddBatch = { batchNumber, courseName, startedFrom, endDate };
+      const res = await api.post('/batch/add', AddBatch);
+      console.log(res.data);
+      setBatch(res.data.data);
+      handleClose()
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+      setError("An error occurred while adding the batch. Please try again.");
+    }
   };
+
+  const getcourses = async () => {
+    try {
+      const res = await api.get("/course");
+      console.log(res.data.data);
+      setgetcourse(res.data.data);
+    } catch (error) {
+      console.log(error);
+      setError("Failed to fetch courses.");
+    }
+  };
+
+  useEffect(() => {
+    getcourses();
+  }, []);
 
   return (
     <Modal
@@ -125,18 +91,8 @@ function NewBatchModal({ open, handleClose }) {
     >
       <Box sx={{ ...style, width: 500 }}>
         <h2 id="child-modal-title">NEW BATCH</h2>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
         <form onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            margin="normal"
-            id="fullName"
-            label="Full Name"
-            variant="outlined"
-            onChange={(e)=> setSirname(e.target.value)}
-          />
-
-
-
           <TextField
             fullWidth
             margin="normal"
@@ -144,34 +100,26 @@ function NewBatchModal({ open, handleClose }) {
             label="Batch"
             type="number"
             variant="outlined"
-            onChange={(e)=> setBatchNumber(e.target.value)}
+            onChange={(e) => setBatchNumber(e.target.value)}
           />
-
-
-         <TextField
+          <TextField
             fullWidth
             margin="normal"
             id="startDate"
             type="date"
             variant="outlined"
-            onChange={(e)=> setStartedFrom(e.target.value)}
+            onChange={(e) => setStartedFrom(e.target.value)}
+            InputLabelProps={{ shrink: true }}
           />
-
-        <TextField
+          <TextField
             fullWidth
             margin="normal"
             id="endDate"
             type="date"
             variant="outlined"
-            onChange={(e)=> setEndDate(e.target.value)}
+            onChange={(e) => setEndDate(e.target.value)}
+            InputLabelProps={{ shrink: true }}
           />
- 
-
-
-
-          
-
-      
           <FormControl fullWidth margin="normal">
             <InputLabel id="course-label">Course</InputLabel>
             <Select
@@ -179,41 +127,21 @@ function NewBatchModal({ open, handleClose }) {
               id="course"
               label="Course"
               defaultValue=""
-              onChange={(e)=> setCourseName(e.target.value)}
+              onChange={(e) => setCourseName(e.target.value)}
             >
-              {courses.map((course, index) => (
-                <MenuItem key={index} value={course}>
-                  {course}
+              {getcourse?.map((course, index) => (
+                <MenuItem key={index} value={course.CourseName}>
+                  {course.CourseName}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
-
-          {/* <FormControl fullWidth margin="normal">
-            <InputLabel id="slot-label">Slot</InputLabel>
-            <Select
-              labelId="slot-label"
-              id="slot"
-              label="Slot"
-              defaultValue=""
-              onChange={(e)=> setSlot(e.target.value)}
-            >
-              {slots.map((slot, index) => (
-                <MenuItem key={index} value={`${slot.day} ${slot.time}`}>
-                  {`${slot.day} ${slot.time}`}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl> */}
-
-
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
             <Button onClick={handleClose} variant="outlined" sx={{ mr: 2 }}>
               Cancel
             </Button>
             <Button type="submit" variant="contained">
-              Add Student
-              
+              Add Batch
             </Button>
           </Box>
         </form>

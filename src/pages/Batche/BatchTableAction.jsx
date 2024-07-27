@@ -1,10 +1,28 @@
 import { useEffect, useRef, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import BatchModal from "./BatxhModal";
+import axios from "axios"
+import { URL } from "../../Utils/url.js";
+
+
+const api = axios.create({
+  baseURL: URL,
+})
 const SlotsTableAction = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const {id} = useParams();
+
+
+  const HandleDelete = async () => {
+   try {
+    await api.delete(`/batch/${id}`);
+    
+   } catch (error) {
+    console.log(error)
+   }    
+  };
 
   const handleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -48,13 +66,11 @@ const SlotsTableAction = () => {
               
               <li className="dropdown-menu-item" onClick={handleOpenEditModal}>
              
-                  Edit
+                  <button className="btn">Edit</button>
             
               </li>
               <li className="dropdown-menu-item">
-                <Link to="/view" className="dropdown-menu-link">
-                  Delete
-                </Link>
+              <button className="btn" onClick={HandleDelete}>Delete</button>
               </li>
             </ul>
           </div>

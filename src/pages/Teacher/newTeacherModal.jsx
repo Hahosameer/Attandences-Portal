@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import { Select, InputLabel, FormControl, Input } from '@mui/material';
-
+import {URL} from "../../Utils/url"
+import axios from 'axios';
 const style = {
   position: "absolute",
   top: "50%",
@@ -32,45 +33,6 @@ const style = {
   },
 };
 
-const courses = [
-  'Web Development',
-  'Graphic Designing',
-  'Digital Marketing',
-  'AutoCAD',
-  'Mobile App Development',
-  'English Language',
-  'Chinese Language',
-  'Networking',
-  'Database Management',
-  'CCNA',
-  'Microsoft Office',
-  'Project Management',
-  'Artificial Intelligence',
-  'Machine Learning',
-  'Blockchain Technology',
-  'Game Development',
-  'UI/UX Design',
-  'Video Editing',
-  'Photography',
-  'Animation',
-  'Robotics',
-  'Data Science',
-  'Cyber Security',
-  'Internet of Things (IoT)',
-  'Virtual Reality (VR)',
-  'Augmented Reality (AR)',
-  'Cloud Computing',
-  '3D Printing',
-  'E-commerce',
-  'Financial Management',
-  'Accounting Software',
-  'Entrepreneurship',
-  'Fashion Designing',
-  'Interior Designing',
-  'Culinary Arts',
-  'Film Making',
-  'Music Production'
-];
 
 const campuses = ['Gulshan', 'Bahadurabad', 'Malir'];
 const slots = [
@@ -79,10 +41,53 @@ const slots = [
   { day: 'Monday Wednesday Friday', time: '8:00 AM - 10:00 AM' }
 ];
 
+const api = axios.create({
+  baseURL: URL,
+})
+
+
+
 
 function NewTeacherModal({ open, handleClose }) {
   const [profilePicture, setProfilePicture] = useState(null);
+  const [Courses, setCourses] = useState([])
+  const [teacherName, setTeacherName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [teacherOf, setTeacherOf] = useState("")
+  const [teacherId, setTeacherId] = useState("")
 
+  const HandleAddTeacher = async () => {
+   const TeacherObj = {
+     teacherName,
+     email,
+     phoneNumber,
+     teacherOf,
+     teacherId
+   }
+
+
+
+    try {
+      const res = await api.post("/teacher/add", TeacherObj)
+      console.log(res.teacherOf)
+      alert("ADD")
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
+
+  const getCourses = async () =>{
+    const res = await api.get("/course")
+    setCourses(res.data.data)
+  }
+
+
+  useEffect(() => {
+    getCourses()
+  }, [])
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -111,6 +116,7 @@ function NewTeacherModal({ open, handleClose }) {
             id="fullName"
             label="Full Name"
             variant="outlined"
+            onChange={(e) => setTeacherName(e.target.value)}
           />
 
           <TextField
@@ -120,6 +126,7 @@ function NewTeacherModal({ open, handleClose }) {
             label="Email"
             type="email"
             variant="outlined"
+            onChange={(e) => setEmail(e.target.value)}
           />
 
           <TextField
@@ -129,9 +136,20 @@ function NewTeacherModal({ open, handleClose }) {
             label="Phone Number"
             type="tel"
             variant="outlined"
+            onChange={(e) => setPhoneNumber(e.target.value)}
           />
 
-       
+
+
+          <TextField
+            fullWidth
+            margin="normal"
+            id="TeacherID"
+            label="Teacher ID"
+            variant="outlined"
+            onChange={(e) => setTeacherId(e.target.value)}
+          />
+
 
           <FormControl fullWidth margin="normal">
             <InputLabel id="course-label">Course</InputLabel>
@@ -140,10 +158,11 @@ function NewTeacherModal({ open, handleClose }) {
               id="course"
               label="Course"
               defaultValue=""
+              onChange={(e) => setTeacherOf(e.target.value)}
             >
-              {courses.map((course, index) => (
+              {Courses.map((course, index) => (
                 <MenuItem key={index} value={course}>
-                  {course}
+                  {course.CourseName}
                 </MenuItem>
               ))}
             </Select>
@@ -174,7 +193,7 @@ function NewTeacherModal({ open, handleClose }) {
             <Button onClick={handleClose} variant="outlined" sx={{ mr: 2 }}>
               Cancel
             </Button>
-            <Button type="submit" variant="contained">
+            <Button type="submit" variant="contained" onClick={HandleAddTeacher}>
               Add Student
             </Button>
           </Box>
