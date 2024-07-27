@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import { Select, InputLabel, FormControl, Input } from '@mui/material';
-import {URL} from "../../Utils/url"
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import { Select, InputLabel, FormControl, Input } from "@mui/material";
+import { URL } from "../../Utils/url";
+import axios from "axios";
 const style = {
   position: "absolute",
   top: "50%",
@@ -15,7 +15,7 @@ const style = {
   width: 750,
   height: "80vh",
   bgcolor: "background.paper",
-  borderRadius: '20px',
+  borderRadius: "20px",
   // border: "2px solid #000",
   boxShadow: 24,
   overflowY: "scroll",
@@ -25,7 +25,7 @@ const style = {
   px: 4,
   pb: 3,
   "&::-webkit-scrollbar": {
-    display: "none" // For Chrome, Safari, and Opera
+    display: "none", // For Chrome, Safari, and Opera
   },
   "@media (max-width: 768px)": {
     width: "100%",
@@ -33,61 +33,53 @@ const style = {
   },
 };
 
-
-const campuses = ['Gulshan', 'Bahadurabad', 'Malir'];
+const campuses = ["Gulshan", "Bahadurabad", "Malir"];
 const slots = [
-  { day: 'Monday Wednesday Friday', time: '6:00 AM - 9:00 AM' },
-  { day: 'Monday Wednesday Friday', time: '2:00 PM - 4:00 PM' },
-  { day: 'Monday Wednesday Friday', time: '8:00 AM - 10:00 AM' }
+  { day: "Monday Wednesday Friday", time: "6:00 AM - 9:00 AM" },
+  { day: "Monday Wednesday Friday", time: "2:00 PM - 4:00 PM" },
+  { day: "Monday Wednesday Friday", time: "8:00 AM - 10:00 AM" },
 ];
 
 const api = axios.create({
   baseURL: URL,
-})
-
-
-
+});
 
 function NewTeacherModal({ open, handleClose }) {
   const [profilePicture, setProfilePicture] = useState(null);
-  const [Courses, setCourses] = useState([])
-  const [teacherName, setTeacherName] = useState("")
-  const [email, setEmail] = useState("")
-  const [phoneNumber, setPhoneNumber] = useState("")
-  const [teacherOf, setTeacherOf] = useState("")
-  const [teacherId, setTeacherId] = useState("")
+  const [ Courses, setCourses] = useState([]);
+  const [teacherName, setTeacherName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [teacherOf, setTeacherOf] = useState("");
+  const [teacherId, setTeacherId] = useState("");
 
   const HandleAddTeacher = async () => {
-   const TeacherObj = {
-     teacherName,
-     email,
-     phoneNumber,
-     teacherOf,
-     teacherId
-   }
-
-
+    const TeacherObj = {
+      teacherName,
+      email,
+      phoneNumber,
+      teacherOf,
+      teacherId,
+    };
+    console.log(TeacherObj);
 
     try {
-      const res = await api.post("/teacher/add", TeacherObj)
-      console.log(res.teacherOf)
-      alert("ADD")
+      const res = await api.post("/teacher/add", TeacherObj);
+      console.log(res.teacherOf);
+      alert("ADD");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
+  };
 
-  }
-
-
-  const getCourses = async () =>{
-    const res = await api.get("/course")
-    setCourses(res.data.data)
-  }
-
+  const getCourses = async () => {
+    const res = await api.get("/course");
+    setCourses(res.data.data);
+  };
 
   useEffect(() => {
-    getCourses()
-  }, [])
+    getCourses();
+  }, []);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -139,8 +131,6 @@ function NewTeacherModal({ open, handleClose }) {
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
 
-
-
           <TextField
             fullWidth
             margin="normal"
@@ -149,7 +139,6 @@ function NewTeacherModal({ open, handleClose }) {
             variant="outlined"
             onChange={(e) => setTeacherId(e.target.value)}
           />
-
 
           <FormControl fullWidth margin="normal">
             <InputLabel id="course-label">Course</InputLabel>
@@ -161,39 +150,40 @@ function NewTeacherModal({ open, handleClose }) {
               onChange={(e) => setTeacherOf(e.target.value)}
             >
               {Courses.map((course, index) => (
-                <MenuItem key={index} value={course}>
+                <MenuItem key={index} value={course.CourseName}>
                   {course.CourseName}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
 
-          
-
           <FormControl fullWidth margin="normal">
-         
             <Input
               id="profile-picture"
               type="file"
               accept="image/*"
-              style={{ display: 'none' }} // Hide the file input
+              style={{ display: "none" }} // Hide the file input
               onChange={handleImageChange}
             />
             <label htmlFor="profile-picture">
               <Button component="span" variant="outlined">
-           upload image
+                upload image
               </Button>
             </label>
             {profilePicture && (
-              <span style={{ marginLeft: '1em' }}>{profilePicture.name}</span>
+              <span style={{ marginLeft: "1em" }}>{profilePicture.name}</span>
             )}
           </FormControl>
 
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
             <Button onClick={handleClose} variant="outlined" sx={{ mr: 2 }}>
               Cancel
             </Button>
-            <Button type="submit" variant="contained" onClick={HandleAddTeacher}>
+            <Button
+              type="submit"
+              variant="contained"
+              onClick={HandleAddTeacher}
+            >
               Add Student
             </Button>
           </Box>
