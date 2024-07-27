@@ -138,4 +138,9 @@
       opacity: 0.9;
     }
   }
+
+  .btn{
+    background-color: var(--secondary-color);
+    color: var(--text-color-inverted);
+  }
 }

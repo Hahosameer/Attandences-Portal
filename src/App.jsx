@@ -27,6 +27,7 @@ import {
 } from "./Redux/Slices/UserSlice.jsx";
 import axios from "axios";
 import { URL } from "./Utils/url.js";
+import SlotsTableAction from "./pages/Batche/BatchTableAction.jsx";
 
 const api = axios.create({
   baseURL: URL,

@@ -33,11 +33,11 @@ const style = {
   },
 };
 
-const slots = [
-  { day: 'Monday Wednesday Friday', time: '6:00 AM - 9:00 AM' },
-  { day: 'Monday Wednesday Friday', time: '2:00 PM - 4:00 PM' },
-  { day: 'Monday Wednesday Friday', time: '8:00 AM - 10:00 AM' }
-];
+// const slots = [
+//   { day: 'Monday Wednesday Friday', time: '6:00 AM - 9:00 AM' },
+//   { day: 'Monday Wednesday Friday', time: '2:00 PM - 4:00 PM' },
+//   { day: 'Monday Wednesday Friday', time: '8:00 AM - 10:00 AM' }
+// ];
 
 const api = axios.create({
   baseURL: URL
@@ -51,7 +51,7 @@ function NewStudentModal({ open, handleClose }) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [batchNumber, setBatchNumber] = useState('');
   const [courseName, setCourseName] = useState('');
-  const [slotId, setSlotId] = useState(slots[0]);
+  const [slotId, setSlotId] = useState("");
   const [fetchcourse, setFetchCourse] = useState([]);
 
   const handleImageChange = (event) => {
@@ -74,7 +74,6 @@ function NewStudentModal({ open, handleClose }) {
        
       const res = await api.post('/student/add', studentobj);
       console.log(res.data);
-
       handleClose();
   
     } catch (error) {
@@ -164,14 +163,29 @@ function NewStudentModal({ open, handleClose }) {
               onChange={(e) => setCourseName(e.target.value)}
             >
               {fetchcourse.map((course, index) => (
-                <MenuItem key={index} value={course.courseName}>
+                <MenuItem key={index} value={course.CourseName}>
                   {course.CourseName}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
 
-          <FormControl fullWidth margin="normal">
+
+
+          <TextField
+            fullWidth
+            margin="normal"
+            id="slot"
+            label="slot"
+            type="number"
+            variant="outlined"
+            onChange={(e) => setSlotId(e.target.value)}
+          />
+
+
+
+
+          {/* <FormControl fullWidth margin="normal">
             <InputLabel id="slot-label">Slot</InputLabel>
             <Select
               labelId="slot-label"
@@ -187,7 +201,7 @@ function NewStudentModal({ open, handleClose }) {
               ))}
             </Select>
           </FormControl>
-
+ */}
           <FormControl fullWidth margin="normal">
             <Input
               id="profile-picture"
