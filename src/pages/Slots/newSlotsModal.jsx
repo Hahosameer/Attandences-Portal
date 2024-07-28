@@ -100,7 +100,7 @@ function NewSlotsModal({ open, handleClose }) {
       aria-describedby="child-modal-description"
     >
       <Box sx={{ ...style, width: 500 }}>
-        <h2 id="child-modal-title">NEW STUDENT</h2>
+        <h2 id="child-modal-title">NEW SLOTS</h2>
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth

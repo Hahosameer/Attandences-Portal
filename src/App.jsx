@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./App.scss";
 import { ThemeContext } from "./context/ThemeContext";
 import { DARK_THEME, LIGHT_THEME } from "./constants/themeConstants";
@@ -18,6 +18,7 @@ import ViewStudent from "./pages/Students/ViewStudent.jsx";
 import ViewTeacher from "./pages/Teacher/ViewTeacher.jsx";
 import Viewattendence from "./pages/viewattendence/Viewattendence.jsx";
 import Mark from "./pages/Mark/Mark.jsx";
+import CourseList from "./pages/courses/coursestable.jsx";
 import { useDispatch } from "react-redux";
 import {
   loginStart,
@@ -26,6 +27,8 @@ import {
 } from "./Redux/Slices/UserSlice.jsx";
 import axios from "axios";
 import { URL } from "./Utils/url.js";
+import styled from "styled-components";
+
 
 const api = axios.create({
   baseURL: URL,
@@ -35,7 +38,7 @@ const api = axios.create({
 function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const dispatch = useDispatch();
-
+  const [loading, setLoading] = useState(true);
   // adding dark-mode class if the dark mode is set on to the body tag
   useEffect(() => {
     if (theme === DARK_THEME) {
@@ -76,6 +79,24 @@ function App() {
     }, 2000);
   }, []);
 
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+
+  if (loading) {
+    return (
+      <LoadingContainer>
+        <img src="/public/loder.gif" alt="LinkedIn Logo" />
+  
+      </LoadingContainer>
+    );
+  }
+
+
   return (
     <>
       <Router>
@@ -94,6 +115,7 @@ function App() {
             <Route path="/TeacherProfile" element={<ViewTeacher />} />
             <Route path="/viewattendence" element={<Viewattendence />} />
             <Route path="/markAttendence" element={<Mark />} />
+            <Route path="/courses" element={<CourseList />} />
           </Route>
         </Routes>
 
@@ -111,5 +133,22 @@ function App() {
     </>
   );
 }
+
+
+
+const LoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+
+  img {
+    width: 380px;
+    object-fit: contain;
+  }
+`;
+
 
 export default App;

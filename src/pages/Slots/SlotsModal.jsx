@@ -89,7 +89,7 @@ function SlotsModal({ open, handleClose }) {
       aria-describedby="child-modal-description"
     >
       <Box sx={{ ...style, width: 500 }}>
-        <h2 id="child-modal-title">EDIT STUDENT</h2>
+        <h2 id="child-modal-title">EDIT SLOTE</h2>
         <form>
           <TextField
             fullWidth

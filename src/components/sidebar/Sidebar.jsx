@@ -87,6 +87,16 @@ const Sidebar = () => {
                 </li>
 
                 <li className="menu-item">
+                  <Link to="/courses" className="menu-link">
+                    <span className="menu-link-icon">
+                      <PersonIcon size={20} />
+                    </span>
+                    <span className="menu-link-text">Courses </span>
+                  </Link>
+                </li>
+
+
+                <li className="menu-item">
                   <Link to="/teachers" className="menu-link">
                     <span className="menu-link-icon">
                       <PersonIcon size={20} />
@@ -110,6 +120,22 @@ const Sidebar = () => {
                     <span className="menu-link-text">Batches </span>
                   </Link>
                 </li>
+                <li className="menu-item">
+              <Link to="/Viewattendence" className="menu-link">
+                <span className="menu-link-icon">
+                  <VisibilityIcon size={20} />
+                </span>
+                <span className="menu-link-text">View Attendence</span>
+              </Link>
+            </li>
+            <li className="menu-item">
+                <Link to="/markAttendence" className="menu-link">
+                  <span className="menu-link-icon">
+                    <CheckCircleIcon size={18} />
+                  </span>
+                  <span className="menu-link-text">Mark Attendence</span>
+                </Link>
+              </li>
               </>
             )}
 
@@ -123,13 +149,13 @@ const Sidebar = () => {
               </Link>
             </li>
             )}
-            {user?.Role === "admin" && (
+            {user?.Role === "student" && (
               <li className="menu-item">
                 <Link to="/markAttendence" className="menu-link">
                   <span className="menu-link-icon">
                     <CheckCircleIcon size={18} />
                   </span>
-                  <span className="menu-link-text">Mark Attendence</span>
+                  <span className="menu-link-text">View Attendence</span>
                 </Link>
               </li>
             )}

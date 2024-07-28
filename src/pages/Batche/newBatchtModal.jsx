@@ -4,7 +4,9 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+import axios from 'axios';
 import { Select, InputLabel, FormControl, Input } from '@mui/material';
+import { URL } from "../../Utils/url.js";
 
 const style = {
   position: "absolute",
@@ -52,7 +54,8 @@ const courses = [
   'UI/UX Design',
   'Video Editing',
   'Photography',
-  'Animation',
+  'Animation',    // Handle form submission with all data including profilePicture
+
   'Robotics',
   'Data Science',
   'Cyber Security',
@@ -79,18 +82,38 @@ const slots = [
   { day: 'Monday Wednesday Friday', time: '8:00 AM - 10:00 AM' }
 ];
 
+const api = axios.create({
+  baseURL: URL
+});
+
 function NewBatchModal({ open, handleClose }) {
-  const [profilePicture, setProfilePicture] = useState(null);
+  const [sirname, setSirname] = useState('');
+  const [batchNumber, setBatchNumber] = useState({});
+  const [courseName, setCourseName] = useState({});
+  const [startedFrom, setStartedFrom] = useState('');
+  const [endDate, setEndDate] = useState('');
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    setProfilePicture(file);
-  };
 
-  const handleSubmit = (event) => {
+  // const handleImageChange = (event) => {
+  //   const file = event.target.files[0];
+  //   setProfilePicture(file);
+  // };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle form submission with all data including profilePicture
-    handleClose();
+ try {
+  const AddBatch = {sirname, batchNumber , courseName, startedFrom, endDate};
+  console.log(AddBatch);
+  // Handle form submission with all data including profilePicture
+  const res = await api.post('/batch/add', AddBatch);
+  console.log(res.data);
+  handleClose();
+
+ } catch (error) {
+  console.log(error);
+
+ }
+
   };
 
   return (
@@ -109,25 +132,10 @@ function NewBatchModal({ open, handleClose }) {
             id="fullName"
             label="Full Name"
             variant="outlined"
+            onChange={(e)=> setSirname(e.target.value)}
           />
 
-          <TextField
-            fullWidth
-            margin="normal"
-            id="email"
-            label="Email"
-            type="email"
-            variant="outlined"
-          />
 
-          <TextField
-            fullWidth
-            margin="normal"
-            id="phoneNumber"
-            // label="Started From"
-            type="date"
-            variant="outlined"
-          />
 
           <TextField
             fullWidth
@@ -136,7 +144,32 @@ function NewBatchModal({ open, handleClose }) {
             label="Batch"
             type="number"
             variant="outlined"
+            onChange={(e)=> setBatchNumber(e.target.value)}
           />
+
+
+         <TextField
+            fullWidth
+            margin="normal"
+            id="startDate"
+            type="date"
+            variant="outlined"
+            onChange={(e)=> setStartedFrom(e.target.value)}
+          />
+
+        <TextField
+            fullWidth
+            margin="normal"
+            id="endDate"
+            type="date"
+            variant="outlined"
+            onChange={(e)=> setEndDate(e.target.value)}
+          />
+ 
+
+
+
+          
 
       
           <FormControl fullWidth margin="normal">
@@ -146,6 +179,7 @@ function NewBatchModal({ open, handleClose }) {
               id="course"
               label="Course"
               defaultValue=""
+              onChange={(e)=> setCourseName(e.target.value)}
             >
               {courses.map((course, index) => (
                 <MenuItem key={index} value={course}>
@@ -162,6 +196,7 @@ function NewBatchModal({ open, handleClose }) {
               id="slot"
               label="Slot"
               defaultValue=""
+              onChange={(e)=> setSlot(e.target.value)}
             >
               {slots.map((slot, index) => (
                 <MenuItem key={index} value={`${slot.day} ${slot.time}`}>
@@ -178,6 +213,7 @@ function NewBatchModal({ open, handleClose }) {
             </Button>
             <Button type="submit" variant="contained">
               Add Student
+              
             </Button>
           </Box>
         </form>
