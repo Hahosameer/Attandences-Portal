@@ -1,11 +1,18 @@
 import React from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { Link } from "react-router-dom";// Import the StudentProfileView component
-import ChildModal from "./StudentModal"; // Import the ChildModal component
+import { useNavigate, Link } from "react-router-dom";
+import ChildModal from "./StudentModal";
+import axios from "axios";
+import { URL } from "../../Utils/url.js";
+
+const api = axios.create({
+  baseURL: URL,
+});
 
 const StudentTableAction = ({ student }) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
   const [showEditModal, setShowEditModal] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -35,6 +42,28 @@ const StudentTableAction = ({ student }) => {
     };
   }, []);
 
+  const fetchSingleStudent = async () => {
+    try {
+      const res = await api.get(`/student/${student._id}`);
+      console.log("Fetched student data: ", res.data.data);
+
+      // Navigate to the StudentProfileView component with the fetched student data
+      navigate("/StudentProfile", { state: { student: res.data.data } });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const deleteStudent = async () => {
+    try {
+      const res = await api.delete(`/student/delete/${student._id}`);
+      console.log(res.data);
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
       <button
@@ -47,17 +76,18 @@ const StudentTableAction = ({ student }) => {
           <div className="action-dropdown-menu" ref={dropdownRef}>
             <ul className="dropdown-menu-list">
               <li className="dropdown-menu-item">
-              <Link to="/StudentProfile" className="dropdown-menu-link">
-              View
-              </Link>
+                <button
+                  className="dropdown-menu-link"
+                  onClick={fetchSingleStudent}
+                >
+                  View
+                </button>
               </li>
               <li className="dropdown-menu-item" onClick={handleOpenEditModal}>
                 Edit
               </li>
-              <li className="dropdown-menu-item">
-                <Link to="/view" className="dropdown-menu-link">
+              <li className="dropdown-menu-item" onClick={deleteStudent}>
                   Delete
-                </Link>
               </li>
             </ul>
           </div>

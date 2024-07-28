@@ -1,93 +1,28 @@
 import StudentTableAction from "./StudentTableAction";
 import "./Student.scss";
-// import { AreaTop } from "../../components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AreaTop from "../../components/dashboard/areaTop/AreaTop";
+import { URL } from "../../Utils/url.js";
+import axios from "axios";
 
-const TABLE_HEADS = [
-  "Name",
-  "Course",
-  "Email",
-  "Batch",
-  "Action",
-];
+const TABLE_HEADS = ["Name", "Course", "Roll Number", "Batch", "Action"];
 
-const TABLE_DATA = [
-  {
-
-    course: "Web Development",
-    
-    Name: "SAMAD",
-    Teacher: "Afaq Karim",
-    Batch: "10",
-    Email: "Haroon@gmail.com"
-  },
-  {
-
-    course: "Web Development",
-    
-    Name: "HAROON",
-    Teacher: "Afaq Karim",
-    Batch: "10",
-    Email: "sameer@gmail.com"
-  },
-  {
-
-    course: "Web Development",
-    
-    Name: "SAMIR",
-    Teacher: "Afaq Karim",
-    Batch: "10",
-    Email: "haris@gmail.com"
-  },
-  {
-
-    course: "Web Development",
-    
-    Name: "SHAHZAD",
-    Teacher: "Afaq Karim",
-    Batch: "10",
-    Email: "waqas@gmail.com"
-  },
-  {
-
-    course: "Web Development",
-    
-    Name: "TOFEEE",
-    Teacher: "Afaq Karim",
-    Batch: "10",
-    Email: "hadi@gmail.com"
-  },
-  {
-
-    course: "Web Development",
-    
-    Name: "MARYAM",
-    Teacher: "Afaq Karim",
-    Batch: "10",
-    Email: "sufiyan@gmail.com"
-  },
-  {
-
-    course: "Web Development",
-    
-    Name: "AFSHEEN",
-    Teacher: "Afaq Karim",
-    Batch: "10",
-    Email: "sami@gmail.com"
-  },
-
-
-];
+const api = axios.create({
+  baseURL: URL,
+});
 
 const StudentList = () => {
-  const [data, setData] = useState(TABLE_DATA);
+  const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState(null);
 
   const handleSort = (key) => {
     let direction = "ascending";
-    if (sortConfig && sortConfig.key === key && sortConfig.direction === "ascending") {
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === "ascending"
+    ) {
       direction = "descending";
     }
     setSortConfig({ key, direction });
@@ -113,63 +48,80 @@ const StudentList = () => {
       val.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
-  return (
-    
-    <>
 
-        <AreaTop />
-        
-      
-    <section className="content-area-table">
-      <div className="data-table-info">
-        <h4 className="data-table-title">
-        <input
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const res = await api.get("/student");
+        if (Array.isArray(res.data.data)) {
+          setData(res.data.data);
+          console.log(res.data.data);
+        } else {
+          console.error("Expected an array but got:", res.data);
+          setData([]);
+        }
+      } catch (err) {
+        console.log(err);
+        setData([]); // Set to an empty array in case of error
+      }
+    };
+
+    fetchStudents();
+  }, []);
+
+  return (
+    <>
+      <AreaTop />
+
+      <section className="content-area-table">
+        <div className="data-table-info">
+          <h4 className="data-table-title">
+            <input
               type="text"
               placeholder="Search Data"
               value={searchTerm}
               onChange={handleSearch}
             />
-        </h4>
-      </div>
-      <div className="data-table-diagram">
-        <table>
-          <thead>
-            <tr>
-            {TABLE_HEADS?.map((th, index) => (
-                  <th key={index} onClick={() => handleSort(th.toLowerCase().replace(" ", "_"))}>
-                    {th}
+          </h4>
+        </div>
+        <div className="data-table-diagram">
+          <table>
+            <thead>
+              <tr>
+                {TABLE_HEADS.map((head, index) => (
+                  <th
+                    key={index}
+                    onClick={() =>
+                      handleSort(head.toLowerCase().replace(" ", "_"))
+                    }
+                  >
+                    {head}
                   </th>
                 ))}
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData?.map((dataItem) => {
-              return (
-                <tr key={dataItem.id}>
-                
-                  <td>{dataItem.Name}</td>
-                  <td>{dataItem.course}</td>
-                  <td>{dataItem.Email}</td>
-               
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.map((dataItem) => (
+                <tr key={dataItem.RollNumber}>
+                  <td>{dataItem.FullName}</td>
+                  <td>{dataItem.CourseName}</td>
+                  <td>{dataItem.RollNumber}</td>
                   <td>
                     <div className="dt-status">
-                      <span
-                        // className={`dt-status-dot dot-${dataItem.Batch}`}
-                      ></span>
-                      <span className="dt-status-text">{dataItem.Batch}</span>
+                      <span className="dt-status-text">
+                        {dataItem.BatchNumber}
+                      </span>
                     </div>
                   </td>
-               
                   <td className="dt-cell-action">
-                    <StudentTableAction />
+                    <StudentTableAction student={dataItem} />
                   </td>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </section>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </>
   );
 };

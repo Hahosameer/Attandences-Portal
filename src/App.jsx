@@ -27,9 +27,6 @@ import {
 } from "./Redux/Slices/UserSlice.jsx";
 import axios from "axios";
 import { URL } from "./Utils/url.js";
-import styled from "styled-components";
-
-
 const api = axios.create({
   baseURL: URL,
 });

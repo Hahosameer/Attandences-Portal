@@ -58,7 +58,7 @@ const Sidebar = () => {
         <div className="sidebar-brand">
           <img src={theme === LIGHT_THEME ? LogoBlue : LogoWhite} alt="" />
 
-          <span className="sidebar-brand-text">Attendence Portal</span>
+          <span className="sidebar-brand-text">Attendance Portal</span>
         </div>
         <button className="sidebar-close-btn" onClick={closeSidebar}>
           <MdOutlineClose size={24} />
@@ -125,7 +125,7 @@ const Sidebar = () => {
                 <span className="menu-link-icon">
                   <VisibilityIcon size={20} />
                 </span>
-                <span className="menu-link-text">View Attendence</span>
+                <span className="menu-link-text">View Attendance</span>
               </Link>
             </li>
             <li className="menu-item">
@@ -133,7 +133,7 @@ const Sidebar = () => {
                   <span className="menu-link-icon">
                     <CheckCircleIcon size={18} />
                   </span>
-                  <span className="menu-link-text">Mark Attendence</span>
+                  <span className="menu-link-text">Mark Attendance</span>
                 </Link>
               </li>
               </>
@@ -145,7 +145,7 @@ const Sidebar = () => {
                 <span className="menu-link-icon">
                   <VisibilityIcon size={20} />
                 </span>
-                <span className="menu-link-text">View Attendence</span>
+                <span className="menu-link-text">View Attendance</span>
               </Link>
             </li>
             )}
@@ -155,7 +155,7 @@ const Sidebar = () => {
                   <span className="menu-link-icon">
                     <CheckCircleIcon size={18} />
                   </span>
-                  <span className="menu-link-text">View Attendence</span>
+                  <span className="menu-link-text">View Attendance</span>
                 </Link>
               </li>
             )}

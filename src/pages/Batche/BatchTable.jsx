@@ -1,54 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BatchTableAction from "./BatchTableAction";
 import "./Batch.scss";
 import AreaTop from "../../components/dashboard/areaTop/AreaTop";
-// import { AreaTop } from "../../components";
+import axios from "axios";
+import { URL } from "../../Utils/url.js";
+import Format from "date-fns/format";
+const TABLE_HEADS = ["BatchNumber", "CourseName", "Started From","EndTime", "Action"];
 
-const TABLE_HEADS = ["S-NO", "Course", "Started From","EndTime", "Action"];
 
-const TABLE_DATA = [
-  { course: "Web Development", order_id: 1, Name: "Sufiyan", Teacher: "Afaq Karim", StartTime: "12/7/20024",EndTime: "12/7/20024" },
-  { course: "Web Development", order_id: 2, Name: "Sufiyan", Teacher: "Afaq Karim", StartTime: "12/7/20024",EndTime: "12/7/20024" },
-  { course: "Web Development", order_id: 3, Name: "Sufiyan", Teacher: "Afaq Karim", StartTime: "12/7/20024",EndTime: "12/7/20024" },
-  { course: "Web Development", order_id: 4, Name: "Sufiyan", Teacher: "Afaq Karim", StartTime: "12/7/20024",EndTime: "12/7/20024" },
-  { course: "Web Development", order_id: 5, Name: "Sufiyan", Teacher: "Afaq Karim", StartTime: "12/7/20024",EndTime: "12/7/20024" },
-  { course: "Web Development", order_id: 6, Name: "Sufiyan", Teacher: "Afaq Karim", StartTime: "12/7/20024",EndTime: "12/7/20024" },
-  { course: "Web Development", order_id: 7, Name: "Sufiyan", Teacher: "Afaq Karim", StartTime: "12/7/20024",EndTime: "12/7/20024" },
-];
+const api = axios.create({
+  baseURL: URL,
+});
 
 const BatchList = () => {
-  const [data, setData] = useState(TABLE_DATA);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortConfig, setSortConfig] = useState(null);
+  const [data, setData] = useState([]);
 
-  const handleSort = (key) => {
-    let direction = "ascending";
-    if (sortConfig && sortConfig.key === key && sortConfig.direction === "ascending") {
-      direction = "descending";
+  const getBatch = async () => {
+    try {
+      const response = await api.get("/batch");
+      setData(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {
+      console.log(error);
     }
-    setSortConfig({ key, direction });
-
-    const sortedData = [...data].sort((a, b) => {
-      if (a[key] < b[key]) {
-        return direction === "ascending" ? -1 : 1;
-      }
-      if (a[key] > b[key]) {
-        return direction === "ascending" ? 1 : -1;
-      }
-      return 0;
-    });
-    setData(sortedData);
   };
 
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  };
 
-  const filteredData = data.filter((item) =>
-    Object.values(item).some((val) =>
-      val.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
+  useEffect(() => {
+    getBatch();
+  }, []);
+  
+  // const handleSort = (key) => {
+  //   let direction = "ascending";
+  //   if (sortConfig && sortConfig.key === key && sortConfig.direction === "ascending") {
+  //     direction = "descending";
+  //   }
+  //   setSortConfig({ key, direction });
+
+  //   const sortedData = [...data].sort((a, b) => {
+  //     if (a[key] < b[key]) {
+  //       return direction === "ascending" ? -1 : 1;
+  //     }
+  //     if (a[key] > b[key]) {
+  //       return direction === "ascending" ? 1 : -1;
+  //     }
+  //     return 0;
+  //   });
+  //   setData(sortedData);
+  // };
+
+  // const handleSearch = (e) => {
+  //   setSearchTerm(e.target.value);
+  // };
+
+  // const filteredData = data.filter((item) =>
+  //   Object.values(item).some((val) =>
+  //     val.toString().toLowerCase().includes(searchTerm.toLowerCase())
+  //   )
+  // );
 
   return (
     <>
@@ -59,8 +68,8 @@ const BatchList = () => {
             <input
               type="text"
               placeholder="Search Data"
-              value={searchTerm}
-              onChange={handleSearch}
+              // value={searchTerm}
+              // onChange={handleSearch}
             />
           </h4>
         </div>
@@ -76,19 +85,18 @@ const BatchList = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredData?.map((dataItem, index) => (
+              {data?.map((dataItem, index) => (
                 <tr key={index}>
-                  <td>{dataItem.order_id}</td>
-                  <td>{dataItem.course}</td>
+                  <td>{dataItem.BatchNumber}</td>
+                  <td>{dataItem.CourseName}</td>
                 <td>
                 <div className="dt-status">
-                      <span className="dt-status-text">{dataItem.StartTime}</span>
+                      <span className="dt-status-text">{Format(new Date(dataItem.StartedFrom), "dd/MM/yyyy")}</span>
                     </div>
                 </td>
                   <td>
-                   
                     <div className="dt-status">
-                      <span className="dt-status-text">{dataItem.EndTime}</span>
+                      <span className="dt-status-text">{Format(new Date(dataItem.EndDate), "dd/MM/yyyy")}</span>
                     </div>
                   </td>
                   <td className="dt-cell-action">

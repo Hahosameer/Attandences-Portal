@@ -10,8 +10,8 @@ import NewSlotsModal from "../../../pages/Slots/newSlotsModal";
 import NewBatchModal from "../../../pages/Batche/newBatchtModal";
 import { useSelector } from "react-redux";
 import CoursesModal from "../../../pages/courses/Coursemodal";
-const AreaTop = () => {
-  const user  =  useSelector((state) => state.user.currentUser);
+const AreaTop = ({ title }) => {
+  const user = useSelector((state) => state.user.currentUser);
   // console.log(user)
   const [teacherEditModal, setTeacherEditModal] = useState(false); // State to manage edit modal visibility
   const [showEditModal, setShowEditModal] = useState(false); // State to manage edit modal visibility
@@ -54,8 +54,6 @@ const AreaTop = () => {
     // setShowDropdown(false); // Close dropdown when edit modal opens
   };
 
-
-
   const handleCloseEditModal = () => {
     setShowEditModal(false);
   };
@@ -68,13 +66,10 @@ const AreaTop = () => {
   const handleopencourseModal = () => {
     setCourseEditModal(false);
   };
-  
 
   const handleClosecourseModal = () => {
     setCourseEditModal(false);
   };
-
-
 
   const Handleprint = () => {
     window.print();
@@ -132,7 +127,7 @@ const AreaTop = () => {
   };
 
   const Addbutton = (pathname) => {
-    switch(pathname){
+    switch (pathname) {
       case "/students":
         return <button onClick={handleOpenEditModal}>Add New Student</button>;
       case "/teachers":
@@ -159,16 +154,12 @@ const AreaTop = () => {
             </button>
           </Link>
         );
-        case "/courses":
-          return (
-            <button onClick={handleOpencourseModal}>Add New Course</button>
-          )
+      case "/courses":
+        return <button onClick={handleOpencourseModal}>Add New Course</button>;
       default:
         return null;
     }
-  }
-
-
+  };
 
   return (
     <>
@@ -178,13 +169,13 @@ const AreaTop = () => {
             className="sidebar-open-btn"
             type="button"
             onClick={openSidebar}
-            
           >
             <MdOutlineMenu size={24} />
           </button>
-          <h1>{getPageName(location.pathname)}</h1>
+          <h1>{getPageName(location.pathname) == "markAttendance" && title}</h1>
         </div>
-        <div className="area-top-r">{!user ? getButtons(location.pathname) : null}
+        <div className="area-top-r">
+          {!user ? getButtons(location.pathname) : null}
           {Addbutton(location.pathname)}
         </div>
       </section>
@@ -212,7 +203,6 @@ const AreaTop = () => {
           open={batchEditModal}
           handleClose={handleCloseEditModalBatch}
         />
-
       )}
 
       {courseEditModal && (
