@@ -3,8 +3,14 @@ import { useEffect, useState } from "react";
 import AreaTop from "../../components/dashboard/areaTop/AreaTop";
 import axios from "axios";
 import { URL } from "../../Utils/url";
+<<<<<<< HEAD
 const TABLE_HEADS = ["Course", "Action"];
 import CourseTableAction from "./coursesAction";
+=======
+const TABLE_HEADS = ["Course","" , "Action"];
+import  CourseTableAction from "./coursesAction";
+
+>>>>>>> 9d4a4cd4aecc508320bd07c1773b09b611b90014
 
 const api = axios.create({
   baseURL: URL,
@@ -18,6 +24,7 @@ const CourseList = () => {
       const res = await api.get("/course");
       console.log(res.data.data);
       setCourse(res.data.data);
+      console.log(res.data , "data");
     } catch (error) {
       console.log(error);
     }
@@ -53,10 +60,21 @@ const CourseList = () => {
               </tr>
             </thead>
             <tbody>
-              {course?.map((dataItem) => {
+              {course?.reverse().map((dataItem) => {
                 return (
                   <tr key={dataItem.id}>
                     <td>{dataItem.CourseName}</td>
+<<<<<<< HEAD
+=======
+                    
+                    <td>
+                      <div className="dt-status">
+                        <span
+                        // className={`dt-status-dot dot-${dataItem.Batches}`}
+                        ></span>
+                      </div>
+                    </td>
+>>>>>>> 9d4a4cd4aecc508320bd07c1773b09b611b90014
                     <td className="dt-cell-action">
                       <CourseTableAction  dataItem={dataItem}/>
                     </td>

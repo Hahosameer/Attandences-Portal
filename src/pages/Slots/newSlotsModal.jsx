@@ -97,7 +97,11 @@ function NewSlotsModal({ open, handleClose }) {
       aria-describedby="child-modal-description"
     >
       <Box sx={{ ...style, width: 500 }}>
+<<<<<<< HEAD
         <h2 id="child-modal-title">NEW SLOT</h2>
+=======
+        <h2 id="child-modal-title">NEW SLOTS</h2>
+>>>>>>> 9d4a4cd4aecc508320bd07c1773b09b611b90014
         <form onSubmit={handleSubmit}>
           <FormControl fullWidth margin="normal">
             <InputLabel id="course-label">Course</InputLabel>

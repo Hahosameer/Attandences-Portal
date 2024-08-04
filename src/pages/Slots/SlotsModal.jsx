@@ -97,6 +97,7 @@ function SlotsModal({ open, handleClose, data }) {
       aria-describedby="child-modal-description"
     >
       <Box sx={{ ...style, width: 500 }}>
+<<<<<<< HEAD
         <h2 id="child-modal-title">EDIT SLOT</h2>
         <form onSubmit={handleSubmit}>
           <FormControl fullWidth margin="normal">
@@ -115,6 +116,20 @@ function SlotsModal({ open, handleClose, data }) {
               ))}
             </Select>
           </FormControl>
+=======
+        <h2 id="child-modal-title">EDIT SLOTE</h2>
+        <form>
+          <TextField
+            fullWidth
+            margin="normal"
+            id="fullName"
+            label="Teacher Name"
+            variant="outlined"
+          />
+
+     
+      
+>>>>>>> 9d4a4cd4aecc508320bd07c1773b09b611b90014
 
           <TextField
             onChange={(e) => setBatchNumber(e.target.value)}
