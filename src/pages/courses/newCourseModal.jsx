@@ -26,18 +26,16 @@ const api = axios.create({
   baseURL: URL,
 });
 
-function CoursesModal({ open, handleClose, dataItem }) {
-  console.log(dataItem);
-  const [courseName, setCourseName] = useState(dataItem.CourseName);
+function NewCourseModal({ open, handleClose }) {
+  const [courseName, setCourseName] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const updateCourse = {
+      const newCourse = {
         courseName,
       };
-      console.log(updateCourse);
-      const res = await api.put("/course/update/" + dataItem._id, updateCourse);
+      const res = await api.post("/course/add", newCourse);
       console.log(res.data);
       handleClose();
       window.location.reload();
@@ -55,7 +53,7 @@ function CoursesModal({ open, handleClose, dataItem }) {
     >
       <Box sx={style}>
         <h2 id="new-course-modal-title" style={{ textAlign: "center" }}>
-          UPDATE COURSE
+          NEW COURSE
         </h2>
         <form
           onSubmit={handleSubmit}
@@ -81,7 +79,7 @@ function CoursesModal({ open, handleClose, dataItem }) {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Update
+            Add
           </Button>
         </form>
       </Box>
@@ -89,4 +87,4 @@ function CoursesModal({ open, handleClose, dataItem }) {
   );
 }
 
-export default CoursesModal;
+export default NewCourseModal;

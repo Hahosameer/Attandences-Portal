@@ -27,7 +27,7 @@ import {
 } from "./Redux/Slices/UserSlice.jsx";
 import axios from "axios";
 import { URL } from "./Utils/url.js";
-import SlotsTableAction from "./pages/Batche/BatchTableAction.jsx";
+import ViewSlot from "./pages/Slots/ViewSlot.jsx";
 
 const api = axios.create({
   baseURL: URL,
@@ -92,6 +92,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/Otp" element={<Otp />} />
+            <Route path="/viewslot" element={<ViewSlot />} />
             <Route path="/StudentProfile" element={<ViewStudent />} />
             <Route path="/TeacherProfile" element={<ViewTeacher />} />
             <Route path="/viewattendence" element={<Viewattendence />} />

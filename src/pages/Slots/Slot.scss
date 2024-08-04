@@ -14,14 +14,12 @@
     color: var(--xl-text-color);
     margin-bottom: 12px;
   }
-  .data-table-title input{
-    
+  .data-table-title input {
     background-color: var(--scroll-track-bg-color);
     color: var(--xl-text-color);
     padding: 10px;
     border: none;
-    border: 3px solid var(  --thead-bg-color)!important;
-    
+    border: 3px solid var(--thead-bg-color) !important;
   }
   .data-table-diagram {
     border-radius: 6px;
@@ -136,5 +134,77 @@
     &:hover {
       opacity: 0.9;
     }
+  }
+}
+
+// prfile css
+.view-slot-container {
+  width: 100%;
+  // background-color: yellow;
+}
+
+.view-slot-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: var(--secondary-color);
+  border-radius: 5px;
+  box-shadow: var(--light-shadow1);
+  color: var(--xl-text-color);
+  text-transform: uppercase;
+}
+.close {
+  background: var(--secondary-color);
+  border-radius: 5px;
+  box-shadow: var(--light-shadow1);
+  color: var(--xl-text-color);
+}
+
+.view-slot-body {
+  width: 100%;
+  background: var(--secondary-color);
+  padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+}
+
+
+.slot-details {
+  width: 50%;
+}
+.detail-item {
+  padding: 10px;
+  background: var(--secondary-color);
+  border-radius: 5px;
+  box-shadow: var(--light-shadow1);
+  color: var(--xl-text-color);
+}
+.detail-item:hover {
+  opacity: 0.8;
+  background-color: var(--side-link-hover-color);
+}
+
+@media (max-width: 486px) {
+  .view-slot-body {
+    background: var(--secondary-color);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    //  background-color: red;
+  }
+  .slot-details {
+    width: 100%;
+  }
+}
+
+@media (max-width: 486px) {
+  .profile-picture img {
+    width: 150px;
+    height: 150px;
   }
 }

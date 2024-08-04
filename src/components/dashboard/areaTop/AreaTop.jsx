@@ -1,5 +1,4 @@
 import { MdOutlineMenu } from "react-icons/md";
-
 import "./AreaTop.scss";
 import { useContext, useState } from "react";
 import { SidebarContext } from "../../../context/SidebarContext";
@@ -9,69 +8,57 @@ import NewTeacherModal from "../../../pages/Teacher/newTeacherModal";
 import NewSlotsModal from "../../../pages/Slots/newSlotsModal";
 import NewBatchModal from "../../../pages/Batche/newBatchtModal";
 import { useSelector } from "react-redux";
-import CoursesModal from "../../../pages/courses/Coursemodal";
+import NewCourseModal from "../../../pages/courses/newCourseModal.jsx";
+
 const AreaTop = ({ title }) => {
   const user = useSelector((state) => state.user.currentUser);
-  // console.log(user)
-  const [teacherEditModal, setTeacherEditModal] = useState(false); // State to manage edit modal visibility
-  const [showEditModal, setShowEditModal] = useState(false); // State to manage edit modal visibility
+  const [teacherEditModal, setTeacherEditModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [slotEditModal, setSlotEditModal] = useState(false);
   const [batchEditModal, setBatchEditModal] = useState(false);
   const [courseEditModal, setCourseEditModal] = useState(false);
 
   const handleOpenEditModalBatch = () => {
     setBatchEditModal(true);
-    // setShowDropdown(false); // Close dropdown when edit modal opens
   };
 
   const handleCloseEditModalBatch = () => {
     setBatchEditModal(false);
   };
-  // slot modal
+
   const handleOpenEditModalSlots = () => {
     setSlotEditModal(true);
-    // setShowDropdown(false); // Close dropdown when edit modal opens
   };
 
   const handleCloseEditModalSlots = () => {
     setSlotEditModal(false);
   };
 
-  // teacher modal
   const handleOpenEditModalTea = () => {
     setTeacherEditModal(true);
-    // setShowDropdown(false); // Close dropdown when edit modal opens
   };
 
   const handleCloseEditModalTea = () => {
     setTeacherEditModal(false);
   };
 
-  // student
-  // modeal ha ay
   const handleOpenEditModal = () => {
     setShowEditModal(true);
-    // setShowDropdown(false); // Close dropdown when edit modal opens
   };
 
   const handleCloseEditModal = () => {
     setShowEditModal(false);
   };
 
-  const handleOpencourseModal = () => {
+  const handleOpenCourseModal = () => {
     setCourseEditModal(true);
-    // setShowDropdown(false); // Close dropdown when edit modal opens
   };
 
-  const handleopencourseModal = () => {
+  const handleCloseCourseModal = () => {
     setCourseEditModal(false);
   };
 
-  const handleClosecourseModal = () => {
-    setCourseEditModal(false);
-  };
-
-  const Handleprint = () => {
+  const handlePrint = () => {
     window.print();
   };
 
@@ -99,7 +86,7 @@ const AreaTop = ({ title }) => {
       case "/StudentPerfomence":
         return "Student Performance";
       case "/Viewattendence":
-        return "View attendence";
+        return "View Attendance";
       default:
         return "Dashboard";
     }
@@ -126,7 +113,7 @@ const AreaTop = ({ title }) => {
     }
   };
 
-  const Addbutton = (pathname) => {
+  const AddButton = (pathname) => {
     switch (pathname) {
       case "/students":
         return <button onClick={handleOpenEditModal}>Add New Student</button>;
@@ -149,13 +136,13 @@ const AreaTop = ({ title }) => {
       case "/Viewattendence":
         return (
           <Link>
-            <button className="print-btn" onClick={Handleprint}>
+            <button className="print-btn" onClick={handlePrint}>
               Print
             </button>
           </Link>
         );
       case "/courses":
-        return <button onClick={handleOpencourseModal}>Add New Course</button>;
+        return <button onClick={handleOpenCourseModal}>Add New Course</button>;
       default:
         return null;
     }
@@ -172,11 +159,13 @@ const AreaTop = ({ title }) => {
           >
             <MdOutlineMenu size={24} />
           </button>
-          <h1>{getPageName(location.pathname) == "markAttendance" && title}</h1>
+          <h1>
+            {getPageName(location.pathname) === "markAttendance" && title}
+          </h1>
         </div>
         <div className="area-top-r">
           {!user ? getButtons(location.pathname) : null}
-          {Addbutton(location.pathname)}
+          {AddButton(location.pathname)}
         </div>
       </section>
 
@@ -204,11 +193,10 @@ const AreaTop = ({ title }) => {
           handleClose={handleCloseEditModalBatch}
         />
       )}
-
       {courseEditModal && (
-        <CoursesModal
+        <NewCourseModal
           open={courseEditModal}
-          handleClose={handleClosecourseModal}
+          handleClose={handleCloseCourseModal}
         />
       )}
     </>

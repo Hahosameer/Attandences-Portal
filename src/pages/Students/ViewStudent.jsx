@@ -11,6 +11,7 @@ const api = axios.create({
 const ViewStudent = () => {
   const location = useLocation();
   const { student } = location.state || {}; // Destructure student from location.state
+  console.log(student);
   const [slot, setSlot] = useState(null);
   const [teacher, setTeacher] = useState(null);
 
