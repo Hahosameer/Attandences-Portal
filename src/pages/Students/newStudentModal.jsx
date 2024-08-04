@@ -64,13 +64,14 @@ function NewStudentModal({ open, handleClose }) {
         phoneNumber,
         batchNumber,
         courseName,
-        slotId,
+        slotId : slotId,
         rollNumber,
       };
 
       const res = await api.post("/student/add", studentobj);
       console.log(res.data);
       handleClose();
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }

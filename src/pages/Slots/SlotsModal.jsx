@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
@@ -7,8 +7,6 @@ import MenuItem from "@mui/material/MenuItem";
 import { Select, InputLabel, FormControl } from "@mui/material";
 import axios from "axios";
 import { URL } from "../../Utils/url.js";
-import { useEffect } from "react";
-import { useState } from "react";
 
 const style = {
   position: "absolute",
@@ -41,14 +39,13 @@ const api = axios.create({
 
 function SlotsModal({ open, handleClose, data }) {
   const [courses, setCourses] = useState([]);
-  const [courseName, setCourseName] = useState(data.CourseName || "");
-  const [batchNumber, setBatchNumber] = useState(data.BatchNumber || null);
-  const [startTime, setStartTime] = useState(data.StartTime || Date.now());
-  const [endTime, setEndTime] = useState(data.EndTime || Date.now());
-  const [days, setDays] = useState(data.Days ? data.Days.join(", ") : "");
-  const [teacherId, setTeacherId] = useState(data.TeacherId || null);
+  const [courseName, setCourseName] = useState(data?.CourseName || "");
+  const [batchNumber, setBatchNumber] = useState(data?.BatchNumber || null);
+  const [startTime, setStartTime] = useState(data?.StartTime || Date.now());
+  const [endTime, setEndTime] = useState(data?.EndTime || Date.now());
+  const [days, setDays] = useState(data?.Days ? data.Days.join(", ") : "");
+  const [teacherId, setTeacherId] = useState(data?.TeacherId || null);
 
-  // fetch courses
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -74,9 +71,7 @@ function SlotsModal({ open, handleClose, data }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // convert days to array
     const daysArray = days.split(",").map((day) => day.trim());
-
     const slotObj = {
       courseName,
       batchNumber,
@@ -85,7 +80,6 @@ function SlotsModal({ open, handleClose, data }) {
       days: daysArray,
       teacherId,
     };
-
     updateSlot(slotObj);
   };
 
@@ -97,7 +91,6 @@ function SlotsModal({ open, handleClose, data }) {
       aria-describedby="child-modal-description"
     >
       <Box sx={{ ...style, width: 500 }}>
-<<<<<<< HEAD
         <h2 id="child-modal-title">EDIT SLOT</h2>
         <form onSubmit={handleSubmit}>
           <FormControl fullWidth margin="normal">
@@ -116,21 +109,6 @@ function SlotsModal({ open, handleClose, data }) {
               ))}
             </Select>
           </FormControl>
-=======
-        <h2 id="child-modal-title">EDIT SLOTE</h2>
-        <form>
-          <TextField
-            fullWidth
-            margin="normal"
-            id="fullName"
-            label="Teacher Name"
-            variant="outlined"
-          />
-
-     
-      
->>>>>>> 9d4a4cd4aecc508320bd07c1773b09b611b90014
-
           <TextField
             onChange={(e) => setBatchNumber(e.target.value)}
             value={batchNumber}
@@ -141,7 +119,6 @@ function SlotsModal({ open, handleClose, data }) {
             type="number"
             variant="outlined"
           />
-
           <TextField
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
@@ -152,7 +129,6 @@ function SlotsModal({ open, handleClose, data }) {
             type="time"
             variant="outlined"
           />
-
           <TextField
             value={endTime}
             onChange={(e) => setEndTime(e.target.value)}
@@ -163,7 +139,6 @@ function SlotsModal({ open, handleClose, data }) {
             type="time"
             variant="outlined"
           />
-
           <TextField
             value={days}
             onChange={(e) => setDays(e.target.value)}
@@ -175,7 +150,6 @@ function SlotsModal({ open, handleClose, data }) {
             type="text"
             variant="outlined"
           />
-
           <TextField
             value={teacherId}
             onChange={(e) => setTeacherId(e.target.value)}
@@ -186,7 +160,6 @@ function SlotsModal({ open, handleClose, data }) {
             type="number"
             variant="outlined"
           />
-
           <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
             <Button onClick={handleClose} variant="outlined" sx={{ mr: 2 }}>
               Cancel

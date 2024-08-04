@@ -1,16 +1,10 @@
 import "./courses.scss";
 import { useEffect, useState } from "react";
-import AreaTop from "../../components/dashboard/areaTop/AreaTop";
+import AreaTop from "../../components/dashboard/areaTop/AreaTop.jsx";
 import axios from "axios";
 import { URL } from "../../Utils/url";
-<<<<<<< HEAD
-const TABLE_HEADS = ["Course", "Action"];
-import CourseTableAction from "./coursesAction";
-=======
-const TABLE_HEADS = ["Course","" , "Action"];
-import  CourseTableAction from "./coursesAction";
-
->>>>>>> 9d4a4cd4aecc508320bd07c1773b09b611b90014
+const TABLE_HEADS = ["Course", "", "Action"];
+import CourseTableAction from "./coursesAction.jsx";
 
 const api = axios.create({
   baseURL: URL,
@@ -24,7 +18,7 @@ const CourseList = () => {
       const res = await api.get("/course");
       console.log(res.data.data);
       setCourse(res.data.data);
-      console.log(res.data , "data");
+      console.log(res.data, "data");
     } catch (error) {
       console.log(error);
     }
@@ -64,9 +58,6 @@ const CourseList = () => {
                 return (
                   <tr key={dataItem.id}>
                     <td>{dataItem.CourseName}</td>
-<<<<<<< HEAD
-=======
-                    
                     <td>
                       <div className="dt-status">
                         <span
@@ -74,9 +65,8 @@ const CourseList = () => {
                         ></span>
                       </div>
                     </td>
->>>>>>> 9d4a4cd4aecc508320bd07c1773b09b611b90014
                     <td className="dt-cell-action">
-                      <CourseTableAction  dataItem={dataItem}/>
+                      <CourseTableAction dataItem={dataItem} />
                     </td>
                   </tr>
                 );

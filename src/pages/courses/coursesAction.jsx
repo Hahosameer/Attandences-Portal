@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { Link } from "react-router-dom";
-<<<<<<< HEAD
 import { URL } from "../../Utils/url.js";
 import CoursesModal from "./Coursemodal.jsx";
 
@@ -11,11 +10,6 @@ const api = axios.create({
 });
 
 const CourseTableAction = ({ dataItem }) => {
-=======
-import EditCoursesModal from "./EditCoursemoda";
-
-const CourseTableAction = ({ course }) => {
->>>>>>> 9d4a4cd4aecc508320bd07c1773b09b611b90014
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -25,7 +19,7 @@ const CourseTableAction = ({ course }) => {
   };
 
   const handleOpenEditModal = () => {
-    setSelectedCourse(course);
+    setSelectedCourse(dataItem);
     setShowEditModal(true);
     setShowDropdown(false);
   };
@@ -83,17 +77,10 @@ const CourseTableAction = ({ course }) => {
         )}
       </button>
       {showEditModal && (
-<<<<<<< HEAD
         <CoursesModal
           open={showEditModal}
           handleClose={handleCloseEditModal}
-          dataItem={dataItem}
-=======
-        <EditCoursesModal
-          open={showEditModal}
-          handleClose={handleCloseEditModal}
-          course={selectedCourse}
->>>>>>> 9d4a4cd4aecc508320bd07c1773b09b611b90014
+          dataItem={selectedCourse}
         />
       )}
     </>
