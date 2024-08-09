@@ -1,5 +1,4 @@
 import { MdOutlineMenu } from "react-icons/md";
-
 import "./AreaTop.scss";
 import { useContext, useState } from "react";
 import { SidebarContext } from "../../../context/SidebarContext";
@@ -10,66 +9,35 @@ import NewSlotsModal from "../../../pages/Slots/newSlotsModal";
 import NewBatchModal from "../../../pages/Batche/newBatchtModal";
 import { useSelector } from "react-redux";
 import CoursesModal from "../../../pages/courses/Coursemodal";
+import NewHolidayModal from "../../../pages/holiday/newHolidayModal";
+
 const AreaTop = ({ title }) => {
   const user = useSelector((state) => state.user.currentUser);
-  // console.log(user)
-  const [teacherEditModal, setTeacherEditModal] = useState(false); // State to manage edit modal visibility
-  const [showEditModal, setShowEditModal] = useState(false); // State to manage edit modal visibility
+  const [teacherEditModal, setTeacherEditModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [slotEditModal, setSlotEditModal] = useState(false);
   const [batchEditModal, setBatchEditModal] = useState(false);
   const [courseEditModal, setCourseEditModal] = useState(false);
+  const [holidayEditModal, setHolidayEditModal] = useState(false); // State for NewHolidayModal
 
-  const handleOpenEditModalBatch = () => {
-    setBatchEditModal(true);
-    // setShowDropdown(false); // Close dropdown when edit modal opens
-  };
+  // Handlers for modals
+  const handleOpenEditModalBatch = () => setBatchEditModal(true);
+  const handleCloseEditModalBatch = () => setBatchEditModal(false);
 
-  const handleCloseEditModalBatch = () => {
-    setBatchEditModal(false);
-  };
-  // slot modal
-  const handleOpenEditModalSlots = () => {
-    setSlotEditModal(true);
-    // setShowDropdown(false); // Close dropdown when edit modal opens
-  };
+  const handleOpenEditModalSlots = () => setSlotEditModal(true);
+  const handleCloseEditModalSlots = () => setSlotEditModal(false);
 
-  const handleCloseEditModalSlots = () => {
-    setSlotEditModal(false);
-  };
+  const handleOpenEditModalTea = () => setTeacherEditModal(true);
+  const handleCloseEditModalTea = () => setTeacherEditModal(false);
 
-  // teacher modal
-  const handleOpenEditModalTea = () => {
-    setTeacherEditModal(true);
-    // setShowDropdown(false); // Close dropdown when edit modal opens
-  };
+  const handleOpenEditModal = () => setShowEditModal(true);
+  const handleCloseEditModal = () => setShowEditModal(false);
 
-  const handleCloseEditModalTea = () => {
-    setTeacherEditModal(false);
-  };
+  const handleOpencourseModal = () => setCourseEditModal(true);
+  const handleClosecourseModal = () => setCourseEditModal(false);
 
-  // student
-  // modeal ha ay
-  const handleOpenEditModal = () => {
-    setShowEditModal(true);
-    // setShowDropdown(false); // Close dropdown when edit modal opens
-  };
-
-  const handleCloseEditModal = () => {
-    setShowEditModal(false);
-  };
-
-  const handleOpencourseModal = () => {
-    setCourseEditModal(true);
-    // setShowDropdown(false); // Close dropdown when edit modal opens
-  };
-
-  const handleopencourseModal = () => {
-    setCourseEditModal(false);
-  };
-
-  const handleClosecourseModal = () => {
-    setCourseEditModal(false);
-  };
+  const handleOpenHolidayModal = () => setHolidayEditModal(true); // Open NewHolidayModal
+  const handleCloseHolidayModal = () => setHolidayEditModal(false); // Close NewHolidayModal
 
   const Handleprint = () => {
     window.print();
@@ -100,6 +68,8 @@ const AreaTop = ({ title }) => {
         return "Student Performance";
       case "/Viewattendence":
         return "View attendence";
+      case "/holidays":
+        return "Holidays"; // Added holidays route
       default:
         return "Dashboard";
     }
@@ -156,6 +126,8 @@ const AreaTop = ({ title }) => {
         );
       case "/courses":
         return <button onClick={handleOpencourseModal}>Add New Course</button>;
+      case "/holiDay":
+        return <button onClick={handleOpenHolidayModal}>Add New Holiday</button>; // Added button for NewHolidayModal
       default:
         return null;
     }
@@ -209,6 +181,13 @@ const AreaTop = ({ title }) => {
         <CoursesModal
           open={courseEditModal}
           handleClose={handleClosecourseModal}
+        />
+      )}
+
+      {holidayEditModal && (
+        <NewHolidayModal
+          open={holidayEditModal}
+          handleClose={handleCloseHolidayModal}
         />
       )}
     </>

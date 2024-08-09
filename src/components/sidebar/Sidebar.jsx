@@ -136,6 +136,14 @@ const Sidebar = () => {
                   <span className="menu-link-text">Mark Attendance</span>
                 </Link>
               </li>
+              <li className="menu-item">
+                <Link to="/holiDay" className="menu-link">
+                  <span className="menu-link-icon">
+                    <CheckCircleIcon size={18} />
+                  </span>
+                  <span className="menu-link-text">HoliDay</span>
+                </Link>
+              </li>
               </>
             )}
 
