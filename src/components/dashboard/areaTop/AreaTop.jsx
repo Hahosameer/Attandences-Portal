@@ -9,6 +9,8 @@ import NewSlotsModal from "../../../pages/Slots/newSlotsModal";
 import NewBatchModal from "../../../pages/Batche/newBatchtModal";
 import { useSelector } from "react-redux";
 import CoursesModal from "../../../pages/courses/Coursemodal";
+import NewHolidayModal from "../../../pages/holiday/newHolidayModal";
+// import NewHolidayModal from "../../../pages/holiday/newHolidayModal";
 // import NewHolidayModal from "../../../pages/HolyDay/newSlotsModal";
 
 
@@ -69,7 +71,7 @@ const AreaTop = ({ title }) => {
         return "Student Performance";
       case "/Viewattendence":
         return "View attendence";
-      case "/holidays":
+      case "/holiDays":
         return "Holidays"; // Added holidays route
       default:
         return "Dashboard";
@@ -127,7 +129,7 @@ const AreaTop = ({ title }) => {
         );
       case "/courses":
         return <button onClick={handleOpencourseModal}>Add New Course</button>;
-      case "/holidays":
+      case "/holiDays":
         return <button onClick={handleOpenHolidayModal}>Add New Holiday</button>; // Added button for NewHolidayModal
       default:
         return null;

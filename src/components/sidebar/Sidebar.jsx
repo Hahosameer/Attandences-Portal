@@ -138,7 +138,7 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li className="menu-item">
-                <Link to="/holiDay" className="menu-link">
+                <Link to="/holiDays" className="menu-link">
                   <span className="menu-link-icon">
                     <EventIcon size={18} />
                   </span>

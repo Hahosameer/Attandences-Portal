@@ -74,14 +74,7 @@ const HolidayTableAction = ({ data }) => {
         {showDropdown && (
           <div className="action-dropdown-menu" ref={dropdownRef}>
             <ul className="dropdown-menu-list">
-              <li className="dropdown-menu-item">
-                <button
-                  className="dropdown-menu-link"
-                  onClick={fetchSingleSlot}
-                >
-                  View
-                </button>
-              </li>
+             
               <li className="dropdown-menu-item" onClick={handleOpenEditModal}>
                 Edit
               </li>
