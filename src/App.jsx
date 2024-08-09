@@ -15,11 +15,13 @@ import Signup from "./pages/Signup/Signup.jsx";
 import Login from "./pages/Login/Login.jsx";
 import Otp from "./pages/Otp/Otp.jsx";
 import ViewStudent from "./pages/Students/ViewStudent.jsx";
-import ViewBatch from "./pages/Batche/ViewBatch.jsx";
 import ViewTeacher from "./pages/Teacher/ViewTeacher.jsx";
 import Viewattendence from "./pages/viewattendence/Viewattendence.jsx";
 import Mark from "./pages/Mark/Mark.jsx";
 import CourseList from "./pages/courses/coursestable.jsx";
+// import HoliDaysList from "./pages/HolyDay/HolidayTable.jsx";
+// import HoliDaysList from "./pages/holiday/HolidayTable.jsx"
+import HoliDaysList from "./pages/holiday/HolidayTable.jsx"
 import { useDispatch } from "react-redux";
 import {
   loginStart,
@@ -28,19 +30,18 @@ import {
 } from "./Redux/Slices/UserSlice.jsx";
 import axios from "axios";
 import { URL } from "./Utils/url.js";
-import ViewSlot from "./pages/Slots/ViewSlot.jsx";
 import styled from "styled-components";
 
 const api = axios.create({
   baseURL: URL,
 });
 
+// import BatchList from "./pages/Batche/BatchTable";
 function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-
-  // Adding dark-mode class if the dark mode is set on to the body tag
+  // adding dark-mode class if the dark mode is set on to the body tag
   useEffect(() => {
     if (theme === DARK_THEME) {
       document.body.classList.add("dark-mode");
@@ -49,7 +50,7 @@ function App() {
     }
   }, [theme]);
 
-  // Check if the user is logged in
+  // check if the user is logged in
   useEffect(() => {
     const isUserLoggedIn = async () => {
       const token = JSON.parse(localStorage.getItem("token"));
@@ -80,19 +81,23 @@ function App() {
     }, 2000);
   }, []);
 
+
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 2000);
   }, []);
 
+
   if (loading) {
     return (
       <LoadingContainer>
-        <img src="/public/loder.gif" alt="Loading" />
+        <img src="/public/loder.gif" alt="LinkedIn Logo" />
+  
       </LoadingContainer>
     );
   }
+
 
   return (
     <>
@@ -108,14 +113,18 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/Otp" element={<Otp />} />
+<<<<<<< HEAD
             <Route path="/viewbatch" element={<ViewBatch />} />
             <Route path="/viewteacher" element={<ViewTeacher />} />
             <Route path="/viewslot" element={<ViewSlot />} />
+=======
+>>>>>>> e03438fc0552238db631216fdb210583682b4fa4
             <Route path="/StudentProfile" element={<ViewStudent />} />
             <Route path="/TeacherProfile" element={<ViewTeacher />} />
             <Route path="/viewattendence" element={<Viewattendence />} />
             <Route path="/markAttendence" element={<Mark />} />
             <Route path="/courses" element={<CourseList />} />
+            <Route path="/holiDay" element={<HoliDaysList />} />
           </Route>
         </Routes>
 
@@ -127,13 +136,14 @@ function App() {
           <img
             className="theme-icon"
             src={theme === LIGHT_THEME ? SunIcon : MoonIcon}
-            alt="Toggle Theme"
           />
         </button>
       </Router>
     </>
   );
 }
+
+
 
 const LoadingContainer = styled.div`
   display: flex;
@@ -148,5 +158,6 @@ const LoadingContainer = styled.div`
     object-fit: contain;
   }
 `;
+
 
 export default App;

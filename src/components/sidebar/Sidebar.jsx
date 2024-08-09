@@ -14,7 +14,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import GroupIcon from "@mui/icons-material/Group";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import StarIcon from "@mui/icons-material/Star";
+import EventIcon from "@mui/icons-material/Event";
+
 import { Link } from "react-router-dom";
 import "./Sidebar.scss";
 import { SidebarContext } from "../../context/SidebarContext";
@@ -122,6 +123,7 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li className="menu-item">
+<<<<<<< HEAD
                   <Link to="/Viewattendence" className="menu-link">
                     <span className="menu-link-icon">
                       <VisibilityIcon size={20} />
@@ -137,6 +139,31 @@ const Sidebar = () => {
                     <span className="menu-link-text">Mark Attendance</span>
                   </Link>
                 </li>
+=======
+              <Link to="/Viewattendence" className="menu-link">
+                <span className="menu-link-icon">
+                  <VisibilityIcon size={20} />
+                </span>
+                <span className="menu-link-text">View Attendance</span>
+              </Link>
+            </li>
+            <li className="menu-item">
+                <Link to="/markAttendence" className="menu-link">
+                  <span className="menu-link-icon">
+                    <CheckCircleIcon size={18} />
+                  </span>
+                  <span className="menu-link-text">Mark Attendance</span>
+                </Link>
+              </li>
+              <li className="menu-item">
+                <Link to="/holiDay" className="menu-link">
+                  <span className="menu-link-icon">
+                    <EventIcon size={18} />
+                  </span>
+                  <span className="menu-link-text">HoliDay</span>
+                </Link>
+              </li>
+>>>>>>> e03438fc0552238db631216fdb210583682b4fa4
               </>
             )}
 
