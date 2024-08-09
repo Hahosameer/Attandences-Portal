@@ -109,6 +109,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/Otp" element={<Otp />} />
             <Route path="/viewbatch" element={<ViewBatch />} />
+            <Route path="/viewteacher" element={<ViewTeacher />} />
             <Route path="/viewslot" element={<ViewSlot />} />
             <Route path="/StudentProfile" element={<ViewStudent />} />
             <Route path="/TeacherProfile" element={<ViewTeacher />} />

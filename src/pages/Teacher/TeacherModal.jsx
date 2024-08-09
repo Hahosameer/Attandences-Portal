@@ -1,10 +1,13 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import { Select, InputLabel, FormControl } from '@mui/material';
+import * as React from "react";
+import { useEffect } from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import { Select, InputLabel, FormControl } from "@mui/material";
+import axios from "axios";
+import { URL } from "../../Utils/url.js";
 
 const style = {
   position: "absolute",
@@ -14,17 +17,16 @@ const style = {
   width: 750,
   height: "80vh",
   bgcolor: "background.paper",
-  borderRadius: '20px',
-  // border: "2px solid #000",
+  borderRadius: "20px",
   boxShadow: 24,
   overflowY: "scroll",
-  scrollbarWidth: "none", // For Firefox
-  msOverflowStyle: "none", // For Internet Explorer and Edge
+  scrollbarWidth: "none",
+  msOverflowStyle: "none",
   pt: 2,
   px: 4,
   pb: 3,
   "&::-webkit-scrollbar": {
-    display: "none" // For Chrome, Safari, and Opera
+    display: "none",
   },
   "@media (max-width: 768px)": {
     width: "100%",
@@ -32,55 +34,59 @@ const style = {
   },
 };
 
+function Teacher({ open, handleClose, dataItem }) {
+  console.log(dataItem);
+  const [fetchcourse, setFetchCourse] = React.useState([]);
+  const [courseName, setCourseName] = React.useState([]);
+  const [email, setEmail] = React.useState(dataItem.Email || "");
+  const [phoneNumber, setPhoneNumber] = React.useState(
+    dataItem.PhoneNumber || ""
+  );
+  const [teacherId, setTeacherId] = React.useState(dataItem.TeacherId || "");
+  const [teacherOf, setTeacherOf] = React.useState(dataItem.TeacherOf || "");
+  const [teacherName, setTeacherName] = React.useState(
+    dataItem.TeacherName || ""
+  );
 
-const courses = [
-  'Web Development',
-  'Graphic Designing',
-  'Digital Marketing',
-  'AutoCAD',
-  'Mobile App Development',
-  'English Language',
-  'Chinese Language',
-  'Networking',
-  'Database Management',
-  'CCNA',
-  'Microsoft Office',
-  'Project Management',
-  'Artificial Intelligence',
-  'Machine Learning',
-  'Blockchain Technology',
-  'Game Development',
-  'UI/UX Design',
-  'Video Editing',
-  'Photography',
-  'Animation',
-  'Robotics',
-  'Data Science',
-  'Cyber Security',
-  'Internet of Things (IoT)',
-  'Virtual Reality (VR)',
-  'Augmented Reality (AR)',
-  'Cloud Computing',
-  '3D Printing',
-  'E-commerce',
-  'Financial Management',
-  'Accounting Software',
-  'Entrepreneurship',
-  'Fashion Designing',
-  'Interior Designing',
-  'Culinary Arts',
-  'Film Making',
-  'Music Production'
-];
+  const api = axios.create({
+    baseURL: URL,
+  });
 
-// const campuses = ['Gulshan', 'Bahadurabad', 'Malir'];
-const slots = [
-  { day: 'Monday Wednesday Friday', time: '6:00 AM - 9:00 AM' },
-  { day: 'Monday Wednesday Friday', time: '2:00 PM - 4:00 PM' },
-  { day: 'Monday Wednesday Friday', time: '8:00 AM - 10:00 AM' }
-];
+  const getAllCourses = async () => {
+    try {
+      const res = await api.get("/course");
+      setFetchCourse(res.data.data);
+      console.log(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-function Teacher({ open, handleClose }) {
+  useEffect(() => {
+    getAllCourses();
+  }, []);
+
+  const handleClick = async (event) => {
+    event.preventDefault();
+    try {
+      const teacherObj = {
+        teacherName: teacherName, // Correctly assign the state value
+        email: email, // Correctly assign the state value
+        phoneNumber: phoneNumber, // Correctly assign the state value
+        teacherOf: teacherOf, // Correctly assign the state value
+        teacherId: teacherId, // Correctly assign the state value
+      };
+      console.log(teacherObj);
+
+      const res = await api.put("/teacher/update/" + dataItem._id, teacherObj);
+      console.log(res.data);
+      handleClose();
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Modal
       open={open}
@@ -90,16 +96,20 @@ function Teacher({ open, handleClose }) {
     >
       <Box sx={{ ...style, width: 500 }}>
         <h2 id="child-modal-title">EDIT TEACHER</h2>
-        <form>
+        <form onSubmit={handleClick}>
           <TextField
+            onChange={(e) => setTeacherName(e.target.value)}
+            value={teacherName}
             fullWidth
             margin="normal"
             id="fullName"
-            label="Full Name"
+            label="Teacher Name"
             variant="outlined"
           />
 
           <TextField
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
             fullWidth
             margin="normal"
             id="email"
@@ -109,6 +119,8 @@ function Teacher({ open, handleClose }) {
           />
 
           <TextField
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            value={phoneNumber}
             fullWidth
             margin="normal"
             id="phoneNumber"
@@ -116,53 +128,34 @@ function Teacher({ open, handleClose }) {
             type="tel"
             variant="outlined"
           />
-
-      
-
-          {/* <TextField
+          <TextField
+            onChange={(e) => setTeacherId(e.target.value)}
+            value={teacherId}
             fullWidth
             margin="normal"
-            id="batch"
-            label="Batch"
+            id="phoneNumber"
+            label="Teacher Id"
             type="number"
             variant="outlined"
-          /> */}
-
-
+          />
           <FormControl fullWidth margin="normal">
             <InputLabel id="course-label">Course</InputLabel>
             <Select
+              defaultValue={teacherOf}
               labelId="course-label"
               id="course"
               label="Course"
-              defaultValue=""
+              onChange={(e) => setTeacherOf(e.target.value)}
             >
-              {courses.map((course, index) => (
-                <MenuItem key={index} value={course}>
-                  {course}
+              {fetchcourse.map((course, index) => (
+                <MenuItem key={index} value={course.CourseName}>
+                  {course.CourseName}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
 
-{/* 
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="slot-label">Slot</InputLabel>
-            <Select
-              labelId="slot-label"
-              id="slot"
-              label="Slot"
-              defaultValue=""
-            >
-              {slots.map((slot, index) => (
-                <MenuItem key={index} value={`${slot.day} ${slot.time}`}>
-                  {`${slot.day} ${slot.time}`}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl> */}
-
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
             <Button onClick={handleClose} variant="outlined" sx={{ mr: 2 }}>
               Cancel
             </Button>

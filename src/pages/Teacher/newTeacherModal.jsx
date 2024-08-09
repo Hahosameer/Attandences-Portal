@@ -7,6 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { Select, InputLabel, FormControl, Input } from "@mui/material";
 import { URL } from "../../Utils/url";
 import axios from "axios";
+import useUploadImage from "../../Custom Hooks/useUploadImage.jsx";
 const style = {
   position: "absolute",
   top: "50%",
@@ -33,20 +34,13 @@ const style = {
   },
 };
 
-const campuses = ["Gulshan", "Bahadurabad", "Malir"];
-const slots = [
-  { day: "Monday Wednesday Friday", time: "6:00 AM - 9:00 AM" },
-  { day: "Monday Wednesday Friday", time: "2:00 PM - 4:00 PM" },
-  { day: "Monday Wednesday Friday", time: "8:00 AM - 10:00 AM" },
-];
-
 const api = axios.create({
   baseURL: URL,
 });
 
 function NewTeacherModal({ open, handleClose }) {
   const [profilePicture, setProfilePicture] = useState(null);
-  const [ Courses, setCourses] = useState([]);
+  const [Courses, setCourses] = useState([]);
   const [teacherName, setTeacherName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -60,13 +54,13 @@ function NewTeacherModal({ open, handleClose }) {
       phoneNumber,
       teacherOf,
       teacherId,
+      profilePicture,
     };
     console.log(TeacherObj);
 
     try {
       const res = await api.post("/teacher/add", TeacherObj);
-      console.log(res.teacherOf);
-      alert("ADD");
+      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -81,9 +75,14 @@ function NewTeacherModal({ open, handleClose }) {
     getCourses();
   }, []);
 
-  const handleImageChange = (event) => {
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
     setProfilePicture(file);
+
+    // Handle image upload
+    const url = await useUploadImage(file, `${Date.now()}-${file.name}`);
+    console.log(url);
+    setProfilePicture(url);
   };
 
   const handleSubmit = (event) => {
