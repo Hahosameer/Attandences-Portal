@@ -1,9 +1,15 @@
+import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import EditCoursesModal from "./EditCoursemoda";
+import { URL } from "../../Utils/url.js";
+import CoursesModal from "./Coursemodal.jsx";
 
-const CourseTableAction = ({ course }) => {
+const api = axios.create({
+  baseURL: URL,
+});
+
+const CourseTableAction = ({ dataItem }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -13,7 +19,7 @@ const CourseTableAction = ({ course }) => {
   };
 
   const handleOpenEditModal = () => {
-    setSelectedCourse(course);
+    setSelectedCourse(dataItem);
     setShowEditModal(true);
     setShowDropdown(false);
   };
@@ -38,6 +44,15 @@ const CourseTableAction = ({ course }) => {
     };
   }, []);
 
+  const HandleDelete = async () => {
+    try {
+      await api.delete(`/course/delete/${dataItem._id}`);
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <button
@@ -53,7 +68,7 @@ const CourseTableAction = ({ course }) => {
                 Edit
               </li>
               <li className="dropdown-menu-item">
-                <Link to="/view" className="dropdown-menu-link">
+                <Link className="dropdown-menu-link" onClick={HandleDelete}>
                   Delete
                 </Link>
               </li>
@@ -62,10 +77,10 @@ const CourseTableAction = ({ course }) => {
         )}
       </button>
       {showEditModal && (
-        <EditCoursesModal
+        <CoursesModal
           open={showEditModal}
           handleClose={handleCloseEditModal}
-          course={selectedCourse}
+          dataItem={selectedCourse}
         />
       )}
     </>

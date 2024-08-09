@@ -20,6 +20,8 @@ import Viewattendence from "./pages/viewattendence/Viewattendence.jsx";
 import Mark from "./pages/Mark/Mark.jsx";
 import CourseList from "./pages/courses/coursestable.jsx";
 // import HoliDaysList from "./pages/HolyDay/HolidayTable.jsx";
+// import HoliDaysList from "./pages/holiday/HolidayTable.jsx"
+import HoliDaysList from "./pages/holiday/HolidayTable.jsx"
 import { useDispatch } from "react-redux";
 import {
   loginStart,
@@ -29,8 +31,7 @@ import {
 import axios from "axios";
 import { URL } from "./Utils/url.js";
 import styled from "styled-components";
-// import HoliDaysList from "./pages/holiday/HolidayTable.jsx";
-import HoliDaysList from "./pages/holiday/HolidayTable.jsx"
+
 const api = axios.create({
   baseURL: URL,
 });

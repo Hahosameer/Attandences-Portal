@@ -1,28 +1,24 @@
 import "./courses.scss";
 import { useEffect, useState } from "react";
-import AreaTop from "../../components/dashboard/areaTop/AreaTop";
+import AreaTop from "../../components/dashboard/areaTop/AreaTop.jsx";
 import axios from "axios";
 import { URL } from "../../Utils/url";
-const TABLE_HEADS = ["Course","" , "Action"];
-import  CourseTableAction from "./coursesAction";
-
+const TABLE_HEADS = ["Course", "", "Action"];
+import CourseTableAction from "./coursesAction.jsx";
 
 const api = axios.create({
   baseURL: URL,
 });
 
-
-
 const CourseList = () => {
   const [course, setCourse] = useState([]);
-
 
   const getCourse = async () => {
     try {
       const res = await api.get("/course");
       console.log(res.data.data);
       setCourse(res.data.data);
-      console.log(res.data , "data");
+      console.log(res.data, "data");
     } catch (error) {
       console.log(error);
     }
@@ -31,11 +27,6 @@ const CourseList = () => {
   useEffect(() => {
     getCourse();
   }, []);
-  
-
-
-
-
 
   return (
     <>
@@ -43,10 +34,7 @@ const CourseList = () => {
       <section className="content-area-table">
         <div className="data-table-info">
           <h4 className="data-table-title">
-            <input
-              type="text"
-              placeholder="Search Data"
-            />
+            <input type="text" placeholder="Search Data" />
           </h4>
         </div>
         <div className="data-table-diagram">
@@ -70,7 +58,6 @@ const CourseList = () => {
                 return (
                   <tr key={dataItem.id}>
                     <td>{dataItem.CourseName}</td>
-                    
                     <td>
                       <div className="dt-status">
                         <span
@@ -79,7 +66,7 @@ const CourseList = () => {
                       </div>
                     </td>
                     <td className="dt-cell-action">
-                      <CourseTableAction />
+                      <CourseTableAction dataItem={dataItem} />
                     </td>
                   </tr>
                 );

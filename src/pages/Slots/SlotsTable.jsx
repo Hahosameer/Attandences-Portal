@@ -1,81 +1,34 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import AreaTop from "../../components/dashboard/areaTop/AreaTop";
+import { URL } from "../../Utils/url.js";
 import SlotsTableAction from "./SlotsTableAction";
 import "./Slot.scss";
-// import { AreaTop } from "../../components";
-import { useState } from "react";
-import AreaTop from "../../components/dashboard/areaTop/AreaTop";
 
-const TABLE_HEADS = ["Course", "Started From", "EndTime", "Batch", "Action"];
+const api = axios.create({
+  baseURL: URL,
+});
 
-const TABLE_DATA = [
-  {
-    course: "Web Development",
-    StartTime: "12/7/20024",
-    EndTime: "12/7/20024",
-
-    
-    
-    Batch: "10",
-  },
-  {
-    course: "Web Development",
-    StartTime: "12/7/20024",
-    EndTime: "12/7/20024",
-
-    
-    
-    Batch: "10",
-  },
-  {
-    course: "Web Development",
-    StartTime: "12/7/20024",
-    EndTime: "12/7/20024",
-
-    
-    
-    Batch: "10",
-  },
-  {
-    course: "Web Development",
-    StartTime: "12/7/20024",
-    EndTime: "12/7/20024",
-
-    
-    
-    Batch: "10",
-  },
-  {
-    course: "Web Development",
-    StartTime: "12/7/20024",
-    EndTime: "12/7/20024",
-
-    
-    
-    Batch: "10",
-  },
-  {
-    course: "Web Development",
-    StartTime: "12/7/20024",
-    EndTime: "12/7/20024",
-
-    
-    
-    Batch: "10",
-  },
-  {
-    course: "Web Development",
-    StartTime: "12/7/20024",
-    EndTime: "12/7/20024",
-
-    
-    
-    Batch: "10",
-  },
-];
+const TABLE_HEADS = ["Course", "Time", "ID", "Batch", "Action"];
 
 const SlotsList = () => {
-  const [data, setData] = useState(TABLE_DATA);
+  const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState(null);
+
+  useEffect(() => {
+    const fetchSlots = async () => {
+      try {
+        const res = await api.get("/slot");
+
+        setData(res.data.data);
+      } catch (err) {
+        console.error("Error fetching slots:", err);
+      }
+    };
+
+    fetchSlots();
+  }, []);
 
   const handleSort = (key) => {
     let direction = "ascending";
@@ -104,11 +57,12 @@ const SlotsList = () => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredData = data.filter((item) =>
+  const filteredData = data?.filter((item) =>
     Object.values(item).some((val) =>
       val.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
+
   return (
     <>
       <AreaTop />
@@ -140,28 +94,24 @@ const SlotsList = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredData?.map((dataItem) => {
-                return (
-                  <tr key={dataItem.id}>
-                    <td>{dataItem.course}</td>
-                    <td>{dataItem.StartTime}</td>
-                    <td>{dataItem.EndTime}</td>
-
-                    <td>
-                      <div className="dt-status">
-                        <span
-                        // className={`dt-status-dot dot-${dataItem.Batch}`}
-                        ></span>
-                        <span className="dt-status-text">{dataItem.Batch}</span>
-                      </div>
-                    </td>
-
-                    <td className="dt-cell-action">
-                      <SlotsTableAction />
-                    </td>
-                  </tr>
-                );
-              })}
+              {filteredData?.map((dataItem) => (
+                <tr key={dataItem.id}>
+                  <td>{dataItem.CourseName}</td>
+                  <td>{dataItem.StartTime} to {dataItem.EndTime}</td>
+                  <td>{dataItem.SlotId}</td>
+                  <td>
+                    <div className="dt-status">
+                      <span></span>
+                      <span className="dt-status-text">
+                        {dataItem.BatchNumber}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="dt-cell-action">
+                    <SlotsTableAction data={dataItem} />
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

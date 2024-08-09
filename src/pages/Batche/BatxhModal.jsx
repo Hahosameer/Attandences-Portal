@@ -1,10 +1,14 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import { Select, InputLabel, FormControl } from '@mui/material';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import { Select, InputLabel, FormControl } from "@mui/material";
+import axios from "axios";
+import { URL } from "../../Utils/url.js";
+import Format from "date-fns/format";
+import { useState, useEffect } from "react";
 
 const style = {
   position: "absolute",
@@ -14,17 +18,16 @@ const style = {
   width: 750,
   height: "80vh",
   bgcolor: "background.paper",
-  borderRadius: '20px',
-  // border: "2px solid #000",
+  borderRadius: "20px",
   boxShadow: 24,
   overflowY: "scroll",
-  scrollbarWidth: "none", // For Firefox
-  msOverflowStyle: "none", // For Internet Explorer and Edge
+  scrollbarWidth: "none",
+  msOverflowStyle: "none",
   pt: 2,
   px: 4,
   pb: 3,
   "&::-webkit-scrollbar": {
-    display: "none" // For Chrome, Safari, and Opera
+    display: "none",
   },
   "@media (max-width: 768px)": {
     width: "100%",
@@ -32,56 +35,55 @@ const style = {
   },
 };
 
+const api = axios.create({
+  baseURL: URL,
+});
 
-const campuses = [
-  'Web Development',
-  'Graphic Designing',
-  'Digital Marketing',
-  'AutoCAD',
-  'Mobile App Development',
-  'English Language',
-  'Chinese Language',
-  'Networking',
-  'Database Management',
-  'CCNA',
-  'Microsoft Office',
-  'Project Management',
-  'Artificial Intelligence',
-  'Machine Learning',
-  'Blockchain Technology',
-  'Game Development',
-  'UI/UX Design',
-  'Video Editing',
-  'Photography',
-  'Animation',
-  'Robotics',
-  'Data Science',
-  'Cyber Security',
-  'Internet of Things (IoT)',
-  'Virtual Reality (VR)',
-  'Augmented Reality (AR)',
-  'Cloud Computing',
-  '3D Printing',
-  'E-commerce',
-  'Financial Management',
-  'Accounting Software',
-  'Entrepreneurship',
-  'Fashion Designing',
-  'Interior Designing',
-  'Culinary Arts',
-  'Film Making',
-  'Music Production'
-];
+function BatchModal({ open, handleClose, dataItem }) {
+  const [courseName, setCourseName] = useState(dataItem?.CourseName || "");
+  const [batchNumber, setBatchNumber] = useState(dataItem?.BatchNumber || "");
+  const [startedFrom, setStartedFrom] = useState(
+    dataItem?.StartedFrom
+      ? Format(new Date(dataItem.StartedFrom), "yyyy-MM-dd")
+      : ""
+  );
+  const [endDate, setEndDate] = useState(
+    dataItem?.EndDate ? Format(new Date(dataItem.EndDate), "yyyy-MM-dd") : ""
+  );
+  const [fetchcourse, setFetchCourse] = useState([]);
 
-const durations = ['2 Month', '10 Month', '8 Month'];
-const slots = [
-  { day: 'Monday Wednesday Friday', time: '6:00 AM - 9:00 AM' },
-  { day: 'Monday Wednesday Friday', time: '2:00 PM - 4:00 PM' },
-  { day: 'Monday Wednesday Friday', time: '8:00 AM - 10:00 AM' }
-];
+  useEffect(() => {
+    const getAllCourses = async () => {
+      try {
+        const res = await api.get("/course");
+        setFetchCourse(res.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-function BatchModal({ open, handleClose }) {
-  
+    getAllCourses();
+  }, []);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const batchobj = {
+        courseName: courseName,
+        batchNumber: batchNumber,
+        startedFrom: startedFrom,
+        endDate: endDate,
+      };
+
+      const res = await api.put("/batch/update/" + dataItem._id, batchobj);
+      console.log(res.data);
+      handleClose();
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Modal
       open={open}
@@ -91,70 +93,67 @@ function BatchModal({ open, handleClose }) {
     >
       <Box sx={{ ...style, width: 500 }}>
         <h2 id="child-modal-title">EDIT BATCH</h2>
-        <form>
-          <TextField
-            fullWidth
-            margin="normal"
-            id="fullName"
-            label="Full Name"
-            variant="outlined"
-          />
-
-          <TextField
-            fullWidth
-            margin="normal"
-            id="email"
-            label="Email"
-            type="email"
-            variant="outlined"
-          />
-
-          <TextField
-            fullWidth
-            margin="normal"
-            id="phoneNumber"
-            label="Started From"
-            type="tel"
-            variant="outlined"
-          />
-
-      
-
-          <TextField
-            fullWidth
-            margin="normal"
-            id="batch"
-            label="Batch"
-            type="number"
-            variant="outlined"
-          />
-
-
+        <form onSubmit={handleSubmit}>
           <FormControl fullWidth margin="normal">
-            <InputLabel id="course-label">Duration</InputLabel>
+            <InputLabel id="course-label">Course</InputLabel>
             <Select
+              value={courseName}
               labelId="course-label"
-              id="duration"
-              label="duration"
-              defaultValue=""
+              id="course"
+              label="Course"
+              onChange={(e) => setCourseName(e.target.value)}
             >
-              {durations.map((duration, index) => (
-                <MenuItem key={index} value={duration}>
-                  {duration}
+              {fetchcourse.map((course, index) => (
+                <MenuItem key={index} value={course.CourseName}>
+                  {course.CourseName}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
 
+          <TextField
+            onChange={(e) => setBatchNumber(e.target.value)}
+            fullWidth
+            value={batchNumber}
+            margin="normal"
+            id="batchNumber"
+            label="Batch Number"
+            type="number"
+            variant="outlined"
+          />
 
-      
+          <TextField
+            onChange={(e) => {
+              setStartedFrom(e.target.value);
+            }}
+            fullWidth
+            value={startedFrom}
+            margin="normal"
+            id="startedFrom"
+            label="Started From"
+            type="date"
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
+          />
 
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+          <TextField
+            onChange={(e) => setEndDate(e.target.value)}
+            fullWidth
+            value={endDate}
+            margin="normal"
+            id="endDate"
+            label="End Date"
+            type="date"
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
+          />
+
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
             <Button onClick={handleClose} variant="outlined" sx={{ mr: 2 }}>
               Cancel
             </Button>
             <Button type="submit" variant="contained">
-              Updated
+              Update
             </Button>
           </Box>
         </form>

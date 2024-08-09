@@ -5,8 +5,13 @@ import AreaTop from "../../components/dashboard/areaTop/AreaTop";
 import axios from "axios";
 import { URL } from "../../Utils/url.js";
 import Format from "date-fns/format";
-const TABLE_HEADS = ["BatchNumber", "CourseName", "Started From","EndTime", "Action"];
-
+const TABLE_HEADS = [
+  "BatchNumber",
+  "CourseName",
+  "Started From",
+  "EndTime",
+  "Action",
+];
 
 const api = axios.create({
   baseURL: URL,
@@ -25,11 +30,10 @@ const BatchList = () => {
     }
   };
 
-
   useEffect(() => {
     getBatch();
   }, []);
-  
+
   // const handleSort = (key) => {
   //   let direction = "ascending";
   //   if (sortConfig && sortConfig.key === key && sortConfig.direction === "ascending") {
@@ -78,7 +82,12 @@ const BatchList = () => {
             <thead>
               <tr>
                 {TABLE_HEADS?.map((th, index) => (
-                  <th key={index} onClick={() => handleSort(th.toLowerCase().replace(" ", "_"))}>
+                  <th
+                    key={index}
+                    onClick={() =>
+                      handleSort(th.toLowerCase().replace(" ", "_"))
+                    }
+                  >
                     {th}
                   </th>
                 ))}
@@ -89,18 +98,22 @@ const BatchList = () => {
                 <tr key={index}>
                   <td>{dataItem.BatchNumber}</td>
                   <td>{dataItem.CourseName}</td>
-                <td>
-                <div className="dt-status">
-                      <span className="dt-status-text">{Format(new Date(dataItem.StartedFrom), "dd/MM/yyyy")}</span>
-                    </div>
-                </td>
                   <td>
                     <div className="dt-status">
-                      <span className="dt-status-text">{Format(new Date(dataItem.EndDate), "dd/MM/yyyy")}</span>
+                      <span className="dt-status-text">
+                        {Format(new Date(dataItem.StartedFrom), "dd/MM/yyyy")}
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="dt-status">
+                      <span className="dt-status-text">
+                        {Format(new Date(dataItem.EndDate), "dd/MM/yyyy")}
+                      </span>
                     </div>
                   </td>
                   <td className="dt-cell-action">
-                    <BatchTableAction />
+                    <BatchTableAction dataItem={dataItem} />
                   </td>
                 </tr>
               ))}

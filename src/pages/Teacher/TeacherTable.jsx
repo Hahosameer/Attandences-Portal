@@ -1,58 +1,19 @@
 import TeacherTableAction from "./TeacherTableAction";
 import "./Teacher.scss";
 // import { AreaTop } from "../../components";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import AreaTop from "../../components/dashboard/areaTop/AreaTop";
+import { URL } from "../../Utils/url.js";
+import axios from "axios";
 
-const TABLE_HEADS = ["Name", "Email", "Batch", "Action"];
+const TABLE_HEADS = ["Name", "Email", "teacherOf", "Teacher Id", "Action"];
 
-const TABLE_DATA = [
-  {
-    course: "Web Development",
-    Name: "samad",
-    Email: "samad.e747@gmail.com",
-    Batch: "10",
-  },
-  {
-    course: "Web Development",
-    Name: "sameer",
-    Email: "sameer@gmail.com",
-    Batch: "10",
-  },
-  {
-    course: "Web Development",
-    Name: "SHAHAZADA",
-    Email: "subhan@gmail.com",
-    Batch: "10",
-  },
-  {
-    course: "Web Development",
-    Name: "SAMIR",
-    Email: "raza@gmail.com",
-    Batch: "10",
-  },
-  {
-    course: "Web Development",
-    Name: "TOFEE",
-    Email: "ahmed@gmail.com",
-    Batch: "10",
-  },
-  {
-    course: "Web Development",
-    Name: "MARYAM",
-    Email: "maryam@gmail.com",
-    Batch: "10",
-  },
-  {
-    course: "Web Development",
-    Name: "AFSHEEN",
-    Email: "afsheen@gmail.com",
-    Batch: "10",
-  },
-];
+const api = axios.create({
+  baseURL: URL,
+});
 
 const TeacherList = () => {
-  const [data, setData] = useState(TABLE_DATA);
+  const [data, setData] = useState();
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState(null);
 
@@ -83,11 +44,31 @@ const TeacherList = () => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredData = data.filter((item) =>
+  const filteredData = data?.filter((item) =>
     Object.values(item).some((val) =>
       val.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
+
+  useEffect(() => {
+    const fetchTeacher = async () => {
+      try {
+        const res = await api.get("/teacher");
+        if (Array.isArray(res.data.data)) {
+          setData(res.data.data);
+          console.log(res.data.data);
+        } else {
+          console.error("Expected an array but got:", res.data);
+          setData([]);
+        }
+      } catch (err) {
+        console.log(err);
+        setData([]); // Set to an empty array in case of error
+      }
+    };
+
+    fetchTeacher();
+  }, []);
   return (
     <>
       <AreaTop />
@@ -107,7 +88,7 @@ const TeacherList = () => {
             <thead>
               <tr>
                 {TABLE_HEADS?.map((th, index) => (
-                  <th 
+                  <th
                     key={index}
                     onClick={() =>
                       handleSort(th.toLowerCase().replace(" ", "_"))
@@ -122,7 +103,7 @@ const TeacherList = () => {
               {filteredData?.map((dataItem) => {
                 return (
                   <tr key={dataItem.id}>
-                    <td>{dataItem.Name}</td>
+                    <td>{dataItem.TeacherName}</td>
                     <td>{dataItem.Email}</td>
 
                     <td>
@@ -130,7 +111,19 @@ const TeacherList = () => {
                         <span
                         // className={`dt-status-dot dot-${dataItem.Batch}`}
                         ></span>
-                        <span className="dt-status-text">{dataItem.Batch}</span>
+                        <span className="dt-status-text">
+                          {dataItem.TeacherOf}
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="dt-status">
+                        <span
+                        // className={`dt-status-dot dot-${dataItem.Batch}`}
+                        ></span>
+                        <span className="dt-status-text">
+                          {dataItem.TeacherId}
+                        </span>
                       </div>
                     </td>
 

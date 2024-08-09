@@ -1,10 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { Link } from "react-router-dom";
-import HolidayModal from "./HoliDayModal";
-const SlotsTableAction = () => {
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { URL } from "../../Utils/url.js";
+import HolidayModal from "./HoliDayModal.jsx";
+
+const api = axios.create({
+  baseURL: URL,
+});
+
+const HolidayTableAction = ({ data }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -18,7 +26,6 @@ const SlotsTableAction = () => {
   const handleCloseEditModal = () => {
     setShowEditModal(false);
   };
-
 
   const dropdownRef = useRef(null);
 
@@ -35,6 +42,27 @@ const SlotsTableAction = () => {
     };
   }, []);
 
+  const deleteSlot = async () => {
+    try {
+      const response = await api.delete(`/slot/delete/${data._id}`);
+      console.log(response.data);
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchSingleSlot = async () => {
+    try {
+      const res = await api.get(`/slot/${data._id}`);
+      console.log("Fetched slot data: ", res.data.data);
+
+      navigate("/viewslot", { state: { slot: res.data.data } });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
       <button
@@ -46,14 +74,19 @@ const SlotsTableAction = () => {
         {showDropdown && (
           <div className="action-dropdown-menu" ref={dropdownRef}>
             <ul className="dropdown-menu-list">
-              
+              <li className="dropdown-menu-item">
+                <button
+                  className="dropdown-menu-link"
+                  onClick={fetchSingleSlot}
+                >
+                  View
+                </button>
+              </li>
               <li className="dropdown-menu-item" onClick={handleOpenEditModal}>
-            
-                  Edit
-      
+                Edit
               </li>
               <li className="dropdown-menu-item">
-                <Link to="/view" className="dropdown-menu-link">
+                <Link className="dropdown-menu-link" onClick={deleteSlot}>
                   Delete
                 </Link>
               </li>
@@ -62,10 +95,14 @@ const SlotsTableAction = () => {
         )}
       </button>
       {showEditModal && (
-        <HolidayModal open={showEditModal} handleClose={handleCloseEditModal} />
+        <HolidayModal
+          data={data}
+          open={showEditModal}
+          handleClose={handleCloseEditModal}
+        />
       )}
     </>
   );
 };
 
-export default SlotsTableAction;
+export default HolidayTableAction;

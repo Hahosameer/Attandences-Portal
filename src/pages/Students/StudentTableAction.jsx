@@ -87,7 +87,7 @@ const StudentTableAction = ({ student }) => {
                 Edit
               </li>
               <li className="dropdown-menu-item" onClick={deleteStudent}>
-                  Delete
+                Delete
               </li>
             </ul>
           </div>
@@ -95,7 +95,7 @@ const StudentTableAction = ({ student }) => {
       </button>
 
       {showEditModal && (
-        <ChildModal open={showEditModal} handleClose={handleCloseEditModal} />
+        <ChildModal open={showEditModal} handleClose={handleCloseEditModal} student={student} />
       )}
     </>
   );

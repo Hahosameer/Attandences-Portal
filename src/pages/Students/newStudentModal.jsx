@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import { Select, InputLabel, FormControl, Input } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import { Select, InputLabel, FormControl, Input } from "@mui/material";
 import { URL } from "../../Utils/url.js";
-import axios from 'axios';
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -16,7 +16,7 @@ const style = {
   width: 750,
   height: "80vh",
   bgcolor: "background.paper",
-  borderRadius: '20px',
+  borderRadius: "20px",
   boxShadow: 24,
   overflowY: "scroll",
   scrollbarWidth: "none",
@@ -25,7 +25,7 @@ const style = {
   px: 4,
   pb: 3,
   "&::-webkit-scrollbar": {
-    display: "none"
+    display: "none",
   },
   "@media (max-width: 768px)": {
     width: "100%",
@@ -33,25 +33,20 @@ const style = {
   },
 };
 
-// const slots = [
-//   { day: 'Monday Wednesday Friday', time: '6:00 AM - 9:00 AM' },
-//   { day: 'Monday Wednesday Friday', time: '2:00 PM - 4:00 PM' },
-//   { day: 'Monday Wednesday Friday', time: '8:00 AM - 10:00 AM' }
-// ];
-
 const api = axios.create({
-  baseURL: URL
+  baseURL: URL,
 });
 
 function NewStudentModal({ open, handleClose }) {
   const [profilePicture, setProfilePicture] = useState(null);
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [fatherEmail, setFatherEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [batchNumber, setBatchNumber] = useState('');
-  const [courseName, setCourseName] = useState('');
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [fatherEmail, setFatherEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [batchNumber, setBatchNumber] = useState("");
+  const [courseName, setCourseName] = useState("");
   const [slotId, setSlotId] = useState("");
+  const [rollNumber, setRollNumber] = useState("");
   const [fetchcourse, setFetchCourse] = useState([]);
 
   const handleImageChange = (event) => {
@@ -69,13 +64,14 @@ function NewStudentModal({ open, handleClose }) {
         phoneNumber,
         batchNumber,
         courseName,
-        slotId
-      }
-       
-      const res = await api.post('/student/add', studentobj);
+        slotId : slotId,
+        rollNumber,
+      };
+
+      const res = await api.post("/student/add", studentobj);
       console.log(res.data);
       handleClose();
-  
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -83,7 +79,7 @@ function NewStudentModal({ open, handleClose }) {
 
   const getAllCourses = async () => {
     try {
-      const res = await api.get('/course');
+      const res = await api.get("/course");
       setFetchCourse(res.data.data);
     } catch (error) {
       console.log(error);
@@ -112,7 +108,6 @@ function NewStudentModal({ open, handleClose }) {
             variant="outlined"
             onChange={(e) => setFullName(e.target.value)}
           />
-
           <TextField
             fullWidth
             margin="normal"
@@ -122,7 +117,6 @@ function NewStudentModal({ open, handleClose }) {
             variant="outlined"
             onChange={(e) => setEmail(e.target.value)}
           />
-
           <TextField
             fullWidth
             margin="normal"
@@ -132,27 +126,24 @@ function NewStudentModal({ open, handleClose }) {
             variant="outlined"
             onChange={(e) => setFatherEmail(e.target.value)}
           />
-
           <TextField
             fullWidth
             margin="normal"
             id="phoneNumber"
             label="Phone Number"
-            type="tel"
+            type="number"
             variant="outlined"
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
-
           <TextField
             fullWidth
             margin="normal"
             id="batch"
-            label="Batch"
+            label="Batch Number"
             type="number"
             variant="outlined"
             onChange={(e) => setBatchNumber(e.target.value)}
           />
-
           <FormControl fullWidth margin="normal">
             <InputLabel id="course-label">Course</InputLabel>
             <Select
@@ -169,45 +160,30 @@ function NewStudentModal({ open, handleClose }) {
               ))}
             </Select>
           </FormControl>
-
-
-
           <TextField
             fullWidth
             margin="normal"
             id="slot"
             label="slot"
-            type="number"
+            type="text"
             variant="outlined"
             onChange={(e) => setSlotId(e.target.value)}
           />
-
-
-
-
-          {/* <FormControl fullWidth margin="normal">
-            <InputLabel id="slot-label">Slot</InputLabel>
-            <Select
-              labelId="slot-label"
-              id="slot"
-              label="Slot"
-              defaultValue=""
-              onChange={(e) => setSlotId(e.target.value)}
-            >
-              {slots.map((slot, index) => (
-                <MenuItem key={index} value={`${slot.day} ${slot.time}`}>
-                  {`${slot.day} ${slot.time}`}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
- */}
+          <TextField
+            fullWidth
+            margin="normal"
+            id="slot"
+            label="Roll Number"
+            type="number"
+            variant="outlined"
+            onChange={(e) => setRollNumber(e.target.value)}
+          />
           <FormControl fullWidth margin="normal">
             <Input
               id="profile-picture"
               type="file"
               accept="image/*"
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
               onChange={handleImageChange}
             />
             <label htmlFor="profile-picture">
@@ -216,11 +192,10 @@ function NewStudentModal({ open, handleClose }) {
               </Button>
             </label>
             {profilePicture && (
-              <span style={{ marginLeft: '1em' }}>{profilePicture.name}</span>
+              <span style={{ marginLeft: "1em" }}>{profilePicture.name}</span>
             )}
           </FormControl>
-
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
             <Button onClick={handleClose} variant="outlined" sx={{ mr: 2 }}>
               Cancel
             </Button>

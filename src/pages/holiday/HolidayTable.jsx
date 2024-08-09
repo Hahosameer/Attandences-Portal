@@ -1,8 +1,12 @@
-import SlotsTableAction from "./HoliDayTableAction";
 import "./HoliDay.scss";
-// import { AreaTop } from "../../components";
 import { useState } from "react";
 import AreaTop from "../../components/dashboard/areaTop/AreaTop";
+import HolidayTableAction from "./HoliDayTableAction";
+// import HolidayTableAction from "./HolidayTableAction";
+// import HolidayTableAction from "./HolidayTableAction.jsx";
+// import HoliDayTableAction from "./HolidayTableAction";
+
+
 
 const TABLE_HEADS = ["Days", "Time", "Action"];
 
@@ -111,7 +115,7 @@ const HoliDaysList = () => {
                     </td> */}
 
                     <td className="dt-cell-action">
-                      <SlotsTableAction />
+                      <HolidayTableAction />
                     </td>
                   </tr>
                 );

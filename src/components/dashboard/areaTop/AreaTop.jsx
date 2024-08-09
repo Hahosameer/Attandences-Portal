@@ -9,7 +9,8 @@ import NewSlotsModal from "../../../pages/Slots/newSlotsModal";
 import NewBatchModal from "../../../pages/Batche/newBatchtModal";
 import { useSelector } from "react-redux";
 import CoursesModal from "../../../pages/courses/Coursemodal";
-import NewHolidayModal from "../../../pages/holiday/newHolidayModal";
+// import NewHolidayModal from "../../../pages/HolyDay/newSlotsModal";
+
 
 const AreaTop = ({ title }) => {
   const user = useSelector((state) => state.user.currentUser);
@@ -126,7 +127,7 @@ const AreaTop = ({ title }) => {
         );
       case "/courses":
         return <button onClick={handleOpencourseModal}>Add New Course</button>;
-      case "/holiDay":
+      case "/holidays":
         return <button onClick={handleOpenHolidayModal}>Add New Holiday</button>; // Added button for NewHolidayModal
       default:
         return null;
