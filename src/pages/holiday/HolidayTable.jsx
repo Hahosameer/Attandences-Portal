@@ -1,37 +1,19 @@
 import "./HoliDay.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AreaTop from "../../components/dashboard/areaTop/AreaTop";
 import HolidayTableAction from "./HoliDayTableAction";
+import axios from "axios";
+import { URL } from "../../Utils/url";
 // import HolidayTableAction from "./HolidayTableAction";
 // import HolidayTableAction from "./HolidayTableAction.jsx";
 // import HoliDayTableAction from "./HolidayTableAction";
 
-
-
-const TABLE_HEADS = ["Days", "Time", "Action"];
-
-const TABLE_DATA = [
-  {
-    Days: "Monday",
-    Time: "12/7/20024",
-  },
-  {
-    Days: "Friday",
-    Time: "12/7/20024",
-  },
-  {
-    Days: "Sunday",
-    Time: "12/7/20024",
-  },
-  {
-    Days: "Thuesday",
-    Time: "12/7/20024",
-  },
-
-];
-
+const TABLE_HEADS = ["Day", "Reason", "Action"];
+const api = axios.create({
+  baseURL: URL,
+});
 const HoliDaysList = () => {
-  const [data, setData] = useState(TABLE_DATA);
+  const [data, setData] = useState();
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState(null);
 
@@ -62,11 +44,31 @@ const HoliDaysList = () => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredData = data.filter((item) =>
+  const filteredData = data?.filter((item) =>
     Object.values(item).some((val) =>
       val.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
+
+  useEffect(() => {
+    const fetchHoliday = async () => {
+      try {
+        const res = await api.get("/holiday");
+        if (Array.isArray(res.data.data)) {
+          setData(res.data.data);
+          console.log(res.data.data);
+        } else {
+          console.error("Expected an array but got:", res.data);
+          setData([]);
+        }
+      } catch (err) {
+        console.log(err);
+        setData([]); // Set to an empty array in case of error
+      }
+    };
+
+    fetchHoliday();
+  }, []);
   return (
     <>
       <AreaTop />
@@ -101,21 +103,12 @@ const HoliDaysList = () => {
               {filteredData?.map((dataItem) => {
                 return (
                   <tr key={dataItem.id}>
-                    <td>{dataItem.Days}</td>
-                    <td>{dataItem.Time}</td>
-                 
+                    <td>{dataItem.Date.slice(0, 10)}</td>
+                    <td>{dataItem.Name}</td>
 
-                    {/* <td>
-                      <div className="dt-status">
-                        <span
-                        // className={`dt-status-dot dot-${dataItem.Batch}`}
-                        ></span>
-                        <span className="dt-status-text">{dataItem.Batch}</span>
-                      </div>
-                    </td> */}
 
                     <td className="dt-cell-action">
-                      <HolidayTableAction />
+                      <HolidayTableAction data={dataItem} />
                     </td>
                   </tr>
                 );

@@ -11,7 +11,6 @@ import { useSelector } from "react-redux";
 import CoursesModal from "../../../pages/courses/Coursemodal";
 // import NewHolidayModal from "../../../pages/HolyDay/newSlotsModal";
 
-
 const AreaTop = ({ title }) => {
   const user = useSelector((state) => state.user.currentUser);
   const [teacherEditModal, setTeacherEditModal] = useState(false);
@@ -105,6 +104,10 @@ const AreaTop = ({ title }) => {
         return (
           <button onClick={handleOpenEditModalTea}>Add New Teacher</button>
         );
+      case "/holiday":
+        return (
+          <button onClick={handleOpenHolidayModal}>Add New Holiday</button>
+        );
       case "/slots":
         return <button onClick={handleOpenEditModalSlots}>Add New Slot</button>;
       case "/batches":
@@ -125,10 +128,13 @@ const AreaTop = ({ title }) => {
             </button>
           </Link>
         );
+
       case "/courses":
         return <button onClick={handleOpencourseModal}>Add New Course</button>;
       case "/holidays":
-        return <button onClick={handleOpenHolidayModal}>Add New Holiday</button>; // Added button for NewHolidayModal
+        return (
+          <button onClick={handleOpenHolidayModal}>Add New Holiday</button>
+        ); // Added button for NewHolidayModal
       default:
         return null;
     }

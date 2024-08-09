@@ -42,24 +42,13 @@ const HolidayTableAction = ({ data }) => {
     };
   }, []);
 
-  const deleteSlot = async () => {
+  const deleteHoliday = async () => {
     try {
-      const response = await api.delete(`/slot/delete/${data._id}`);
+      const response = await api.delete(`/holiday/delete/${data._id}`);
       console.log(response.data);
       window.location.reload();
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const fetchSingleSlot = async () => {
-    try {
-      const res = await api.get(`/slot/${data._id}`);
-      console.log("Fetched slot data: ", res.data.data);
-
-      navigate("/viewslot", { state: { slot: res.data.data } });
-    } catch (err) {
-      console.error(err);
     }
   };
 
@@ -74,21 +63,15 @@ const HolidayTableAction = ({ data }) => {
         {showDropdown && (
           <div className="action-dropdown-menu" ref={dropdownRef}>
             <ul className="dropdown-menu-list">
-              <li className="dropdown-menu-item">
-                <button
-                  className="dropdown-menu-link"
-                  onClick={fetchSingleSlot}
-                >
-                  View
-                </button>
-              </li>
-              <li className="dropdown-menu-item" onClick={handleOpenEditModal}>
+              <li
+                className="dropdown-menu-item"
+                data={data}
+                onClick={handleOpenEditModal}
+              >
                 Edit
               </li>
-              <li className="dropdown-menu-item">
-                <Link className="dropdown-menu-link" onClick={deleteSlot}>
-                  Delete
-                </Link>
+              <li className="dropdown-menu-item" onClick={deleteHoliday}>
+                <Link className="dropdown-menu-link">Delete</Link>
               </li>
             </ul>
           </div>
