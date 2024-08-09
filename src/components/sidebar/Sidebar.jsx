@@ -122,7 +122,6 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li className="menu-item">
-<<<<<<< HEAD
                   <Link to="/Viewattendence" className="menu-link">
                     <span className="menu-link-icon">
                       <VisibilityIcon size={20} />
@@ -147,31 +146,6 @@ const Sidebar = () => {
                     <span className="menu-link-text">HoliDay</span>
                   </Link>
                 </li>
-=======
-              <Link to="/Viewattendence" className="menu-link">
-                <span className="menu-link-icon">
-                  <VisibilityIcon size={20} />
-                </span>
-                <span className="menu-link-text">View Attendance</span>
-              </Link>
-            </li>
-            <li className="menu-item">
-                <Link to="/markAttendence" className="menu-link">
-                  <span className="menu-link-icon">
-                    <CheckCircleIcon size={18} />
-                  </span>
-                  <span className="menu-link-text">Mark Attendance</span>
-                </Link>
-              </li>
-              <li className="menu-item">
-                <Link to="/holiDays" className="menu-link">
-                  <span className="menu-link-icon">
-                    <EventIcon size={18} />
-                  </span>
-                  <span className="menu-link-text">HoliDay</span>
-                </Link>
-              </li>
->>>>>>> 622eae895bc295f51f44a7a8aaf3b2944dcd513e
               </>
             )}
 

@@ -133,15 +133,14 @@ const AreaTop = ({ title }) => {
 
       case "/courses":
         return <button onClick={handleOpencourseModal}>Add New Course</button>;
-<<<<<<< HEAD
       case "/holidays":
         return (
           <button onClick={handleOpenHolidayModal}>Add New Holiday</button>
         ); // Added button for NewHolidayModal
-=======
-      case "/holiDays":
-        return <button onClick={handleOpenHolidayModal}>Add New Holiday</button>; // Added button for NewHolidayModal
->>>>>>> 622eae895bc295f51f44a7a8aaf3b2944dcd513e
+      case "/holiDay":
+        return (
+          <button onClick={handleOpenHolidayModal}>Add New Holiday</button>
+        ); // Added button for NewHolidayModal
       default:
         return null;
     }

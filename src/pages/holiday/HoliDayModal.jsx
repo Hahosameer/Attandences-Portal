@@ -1,10 +1,12 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import { Select, InputLabel, FormControl } from '@mui/material';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import { Select, InputLabel, FormControl } from "@mui/material";
+import axios from "axios";
+import { URL } from "../../Utils/url";
 
 const style = {
   position: "absolute",
@@ -14,7 +16,7 @@ const style = {
   width: 750,
   // height: "80vh",
   bgcolor: "background.paper",
-  borderRadius: '20px',
+  borderRadius: "20px",
   boxShadow: 24,
   overflowY: "scroll",
   scrollbarWidth: "none",
@@ -23,7 +25,7 @@ const style = {
   px: 4,
   pb: 3,
   "&::-webkit-scrollbar": {
-    display: "none"
+    display: "none",
   },
   "@media (max-width: 768px)": {
     width: "100%",
@@ -31,18 +33,29 @@ const style = {
   },
 };
 
-const courses = [
-  'Web Development',
-  //... other courses
-  'Music Production'
-];
+const api = axios.create({
+  baseURL: URL,
+});
 
-const slots = [
-  { day: 'Monday Wednesday Friday', time: '6:00 AM - 9:00 AM' },
-  //... other slots
-];
+function HolidayModal({ open, handleClose, data }) {
+  const [name, setName] = React.useState(data.Name);
+  const [date, setDate] = React.useState(data.Date.slice(0, 10));
 
-function HolidayModal({ open, handleClose }) {
+  const handleSubmit = async (slotObj) => {
+    const updatedData = {
+      name: name,
+      date: date,
+    };
+    try {
+      const res = await api.put("/holiday/update/" + data._id, updatedData);
+      console.log(res.data.data);
+      handleClose();
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Modal
       open={open}
@@ -52,8 +65,10 @@ function HolidayModal({ open, handleClose }) {
     >
       <Box sx={{ ...style, width: 500 }}>
         <h2 id="child-modal-title">EDIT HOLIDAY</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <TextField
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             fullWidth
             margin="normal"
             id="holidayName"
@@ -62,6 +77,8 @@ function HolidayModal({ open, handleClose }) {
           />
 
           <TextField
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
             fullWidth
             margin="normal"
             id="date"
@@ -73,7 +90,7 @@ function HolidayModal({ open, handleClose }) {
             }}
           />
 
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
             <Button onClick={handleClose} variant="outlined" sx={{ mr: 2 }}>
               Cancel
             </Button>

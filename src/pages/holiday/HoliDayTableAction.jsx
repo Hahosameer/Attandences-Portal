@@ -63,16 +63,7 @@ const HolidayTableAction = ({ data }) => {
         {showDropdown && (
           <div className="action-dropdown-menu" ref={dropdownRef}>
             <ul className="dropdown-menu-list">
-<<<<<<< HEAD
-              <li
-                className="dropdown-menu-item"
-                data={data}
-                onClick={handleOpenEditModal}
-              >
-=======
-             
               <li className="dropdown-menu-item" onClick={handleOpenEditModal}>
->>>>>>> 622eae895bc295f51f44a7a8aaf3b2944dcd513e
                 Edit
               </li>
               <li className="dropdown-menu-item" onClick={deleteHoliday}>

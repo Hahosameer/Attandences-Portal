@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import axios from 'axios';
-import { Select, InputLabel, FormControl } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import axios from "axios";
+import { Select, InputLabel, FormControl } from "@mui/material";
 import { URL } from "../../Utils/url.js";
 
 const style = {
@@ -16,7 +16,7 @@ const style = {
   width: 750,
   height: "80vh",
   bgcolor: "background.paper",
-  borderRadius: '20px',
+  borderRadius: "20px",
   boxShadow: 24,
   overflowY: "scroll",
   scrollbarWidth: "none", // For Firefox
@@ -25,7 +25,7 @@ const style = {
   px: 4,
   pb: 3,
   "&::-webkit-scrollbar": {
-    display: "none" // For Chrome, Safari, and Opera
+    display: "none", // For Chrome, Safari, and Opera
   },
   "@media (max-width: 768px)": {
     width: "100%",
@@ -34,14 +34,14 @@ const style = {
 };
 
 const api = axios.create({
-  baseURL: URL
+  baseURL: URL,
 });
 
 function NewBatchModal({ open, handleClose }) {
   const [batchNumber, setBatchNumber] = useState("");
-  const [courseName, setCourseName] = useState('');
-  const [startedFrom, setStartedFrom] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [courseName, setCourseName] = useState("");
+  const [startedFrom, setStartedFrom] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [getcourse, setgetcourse] = useState([]);
   const [error, setError] = useState("");
   const [batch, setBatch] = useState([]);
@@ -56,10 +56,10 @@ function NewBatchModal({ open, handleClose }) {
     setError(""); // Clear previous errors
     try {
       const AddBatch = { batchNumber, courseName, startedFrom, endDate };
-      const res = await api.post('/batch/add', AddBatch);
+      const res = await api.post("/batch/add", AddBatch);
       console.log(res.data);
       setBatch(res.data.data);
-      handleClose()
+      handleClose();
       window.location.reload();
     } catch (error) {
       console.log(error);
@@ -91,7 +91,7 @@ function NewBatchModal({ open, handleClose }) {
     >
       <Box sx={{ ...style, width: 500 }}>
         <h2 id="child-modal-title">NEW BATCH</h2>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
@@ -136,7 +136,7 @@ function NewBatchModal({ open, handleClose }) {
               ))}
             </Select>
           </FormControl>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
             <Button onClick={handleClose} variant="outlined" sx={{ mr: 2 }}>
               Cancel
             </Button>
