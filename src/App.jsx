@@ -112,13 +112,17 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/Otp" element={<Otp />} />
             <Route path="/StudentProfile" element={<ViewStudent />} />
+<<<<<<< HEAD
             <Route path="/viewteacher" element={<ViewTeacher />} />
             <Route path="/viewslot" element={<ViewSlot />} />
+=======
+>>>>>>> 622eae895bc295f51f44a7a8aaf3b2944dcd513e
             <Route path="/TeacherProfile" element={<ViewTeacher />} />
             <Route path="/viewbatch" element={<ViewBatch />} />
             <Route path="/viewattendence" element={<Viewattendence />} />
             <Route path="/markAttendence" element={<Mark />} />
             <Route path="/courses" element={<CourseList />} />
+<<<<<<< HEAD
             <Route path="/holiDay" element={<HoliDaysList />} />
             {/* <Route path="/viewteacher" element={<ViewTeacher />} />
             <Route path="/viewslot" element={<ViewSlot />} />
@@ -127,6 +131,9 @@ function App() {
             <Route path="/markAttendence" element={<Mark />} />
             <Route path="/courses" element={<CourseList />} />
             <Route path="/holiDay" element={<HoliDaysList />} /> */}
+=======
+            <Route path="/holiDays" element={<HoliDaysList />} />
+>>>>>>> 622eae895bc295f51f44a7a8aaf3b2944dcd513e
           </Route>
         </Routes>
 

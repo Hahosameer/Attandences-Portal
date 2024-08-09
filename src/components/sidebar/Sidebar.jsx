@@ -56,13 +56,11 @@ const Sidebar = () => {
       ref={navbarRef}
     >
       <div className="sidebar-top">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <div className="sidebar-brand">
-            <img src={theme === LIGHT_THEME ? LogoBlue : LogoWhite} alt="" />
+        <div className="sidebar-brand">
+          <img src={theme === LIGHT_THEME ? LogoBlue : LogoWhite} alt="" />
 
-            <span className="sidebar-brand-text">Attendance Portal</span>
-          </div>
-        </Link>
+          <span className="sidebar-brand-text">Attendance Portal</span>
+        </div>
         <button className="sidebar-close-btn" onClick={closeSidebar}>
           <MdOutlineClose size={24} />
         </button>
@@ -98,6 +96,7 @@ const Sidebar = () => {
                   </Link>
                 </li>
 
+
                 <li className="menu-item">
                   <Link to="/teachers" className="menu-link">
                     <span className="menu-link-icon">
@@ -123,6 +122,7 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li className="menu-item">
+<<<<<<< HEAD
                   <Link to="/Viewattendence" className="menu-link">
                     <span className="menu-link-icon">
                       <VisibilityIcon size={20} />
@@ -147,18 +147,43 @@ const Sidebar = () => {
                     <span className="menu-link-text">HoliDay</span>
                   </Link>
                 </li>
+=======
+              <Link to="/Viewattendence" className="menu-link">
+                <span className="menu-link-icon">
+                  <VisibilityIcon size={20} />
+                </span>
+                <span className="menu-link-text">View Attendance</span>
+              </Link>
+            </li>
+            <li className="menu-item">
+                <Link to="/markAttendence" className="menu-link">
+                  <span className="menu-link-icon">
+                    <CheckCircleIcon size={18} />
+                  </span>
+                  <span className="menu-link-text">Mark Attendance</span>
+                </Link>
+              </li>
+              <li className="menu-item">
+                <Link to="/holiDays" className="menu-link">
+                  <span className="menu-link-icon">
+                    <EventIcon size={18} />
+                  </span>
+                  <span className="menu-link-text">HoliDay</span>
+                </Link>
+              </li>
+>>>>>>> 622eae895bc295f51f44a7a8aaf3b2944dcd513e
               </>
             )}
 
             {!user?.Role === "teacher" && (
               <li className="menu-item">
-                <Link to="/Viewattendence" className="menu-link">
-                  <span className="menu-link-icon">
-                    <VisibilityIcon size={20} />
-                  </span>
-                  <span className="menu-link-text">View Attendance</span>
-                </Link>
-              </li>
+              <Link to="/Viewattendence" className="menu-link">
+                <span className="menu-link-icon">
+                  <VisibilityIcon size={20} />
+                </span>
+                <span className="menu-link-text">View Attendance</span>
+              </Link>
+            </li>
             )}
             {user?.Role === "student" && (
               <li className="menu-item">
