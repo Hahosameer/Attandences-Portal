@@ -128,7 +128,7 @@ const TeacherList = () => {
                     </td>
 
                     <td className="dt-cell-action">
-                      <TeacherTableAction />
+                      <TeacherTableAction dataItem={dataItem}/>
                     </td>
                   </tr>
                 );

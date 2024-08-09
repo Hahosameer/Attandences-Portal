@@ -28,9 +28,9 @@ const ViewStudent = () => {
       const response = await api.get(`/slot/${slotId}`);
       console.log("Fetched slot data: ", response.data.data);
       setSlot(response.data.data);
-      if (response.data.data?.TeacherId) {
-        fetchTeacher(response.data.data.TeacherId);
-      }
+      // if (response.data.data?.TeacherId) {
+      //   fetchTeacher(response.data.data.TeacherId);
+      // }
     } catch (error) {
       console.error("Error fetching slot data: ", error.message);
     }
@@ -52,7 +52,10 @@ const ViewStudent = () => {
       </div>
       <div className="view-student-body">
         <div className="profile-picture">
-          <img src={student.ProfilePicture || "/public/user.webp"} alt="Profile" />
+          <img
+            src={student.ProfilePicture || "/public/user.webp"}
+            alt="Profile"
+          />
         </div>
         <div className="student-details">
           <div className="detail-item">

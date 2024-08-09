@@ -113,6 +113,12 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/Otp" element={<Otp />} />
+<<<<<<< HEAD
+            <Route path="/viewbatch" element={<ViewBatch />} />
+            <Route path="/viewteacher" element={<ViewTeacher />} />
+            <Route path="/viewslot" element={<ViewSlot />} />
+=======
+>>>>>>> e03438fc0552238db631216fdb210583682b4fa4
             <Route path="/StudentProfile" element={<ViewStudent />} />
             <Route path="/TeacherProfile" element={<ViewTeacher />} />
             <Route path="/viewattendence" element={<Viewattendence />} />

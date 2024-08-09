@@ -72,7 +72,7 @@ function ChildModal({ open, handleClose, student }) {
       const res = await api.put("/student/update/" + student._id, studentobj);
       console.log(res.data);
       handleClose();
-      // window.location.reload();
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }

@@ -7,6 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { Select, InputLabel, FormControl, Input } from "@mui/material";
 import { URL } from "../../Utils/url.js";
 import axios from "axios";
+import useUploadImage from "../../Custom Hooks/useUploadImage.jsx";
 
 const style = {
   position: "absolute",
@@ -49,9 +50,14 @@ function NewStudentModal({ open, handleClose }) {
   const [rollNumber, setRollNumber] = useState("");
   const [fetchcourse, setFetchCourse] = useState([]);
 
-  const handleImageChange = (event) => {
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
     setProfilePicture(file);
+
+    const url = await useUploadImage(file, `${Date.now()}-${file.name}`);
+    console.log(url);
+
+    setProfilePicture(url);
   };
 
   const handleSubmit = async (event) => {
@@ -64,8 +70,9 @@ function NewStudentModal({ open, handleClose }) {
         phoneNumber,
         batchNumber,
         courseName,
-        slotId : slotId,
+        slotId: slotId,
         rollNumber,
+        profilePicture: profilePicture,
       };
 
       const res = await api.post("/student/add", studentobj);
