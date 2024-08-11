@@ -26,8 +26,6 @@ const Signup = () => {
   const [role, setRole] = useState("student");
   const [showPassword, setShowPassword] = useState(false);
 
-
-
   const api = axios.create({
     baseURL: URL,
   });
@@ -35,7 +33,7 @@ const Signup = () => {
 
   const signup = async (e) => {
     e.preventDefault();
-    if (role && email && password) {
+    if (email && password) {
       if (password.length < 7) {
         toast.error("Password must be at least 7 characters 🔒");
         return;
@@ -97,7 +95,7 @@ const Signup = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="role">Role</label>
             <select
               id="role"
@@ -111,7 +109,7 @@ const Signup = () => {
               <option value="teacher">Teacher</option>
               <option value="admin">Admin</option>
             </select>
-          </div>
+          </div> */}
 
           <div className="form-group">
             <label htmlFor="password">Password</label>
