@@ -61,6 +61,7 @@ function NewTeacherModal({ open, handleClose }) {
     try {
       const res = await api.post("/teacher/add", TeacherObj);
       console.log(res.data);
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -183,7 +184,7 @@ function NewTeacherModal({ open, handleClose }) {
               variant="contained"
               onClick={HandleAddTeacher}
             >
-              Add Student
+              Add Teacher
             </Button>
           </Box>
         </form>

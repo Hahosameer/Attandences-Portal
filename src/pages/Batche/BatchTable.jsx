@@ -67,16 +67,7 @@ const BatchList = () => {
     <>
       <AreaTop />
       <section className="content-area-table">
-        <div className="data-table-info">
-          <h4 className="data-table-title">
-            <input
-              type="text"
-              placeholder="Search Data"
-              // value={searchTerm}
-              // onChange={handleSearch}
-            />
-          </h4>
-        </div>
+       
         <div className="data-table-diagram">
           <table>
             <thead>

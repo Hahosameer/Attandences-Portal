@@ -137,3 +137,16 @@
     }
   }
 }
+
+.data-table-input {
+  background-color: var(--scroll-track-bg-color);
+  color: var(--xl-text-color);
+  padding: 10px;
+  border: none;
+  border: 3px solid var(  --thead-bg-color)!important;
+  margin-bottom: 15px;
+}
+
+.data-table-input:focus {
+  outline: none;
+}

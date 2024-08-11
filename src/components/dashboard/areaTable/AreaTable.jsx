@@ -1,68 +1,24 @@
-import React, { useState } from "react";
-import AreaTableAction from "./AreaTableAction";
+import React, { useEffect, useState } from "react";
 import "./AreaTable.css";
+import axios from "axios";
+import { URL } from "../../../Utils/url";
 
-const TABLE_HEADS = ["ID", "Name", "Course", "Present", "Absent", "Total Days", ""];
-
-const TABLE_DATA = [
-  {
-    course: "Web Development",
-    order_id: 11232,
-    Name: "samad",
-    Teacher: "4",
-    Batch: "10",
-    Time: "p",
-    Khali: "",
-  },
-  {
-    course: "Web Development",
-    order_id: 11233,
-    Name: "haroon",
-    Teacher: "4",
-    Batch: "10",
-    Time: "p",
-    Khali: "",
-  },
-  {
-    course: "Web Development",
-    order_id: 11234,
-    Name: "samir",
-    Teacher: "4",
-    Batch: "11",
-    Time: "p",
-    Khali: "",
-  },
-  {
-    course: "Web Development",
-    order_id: 11234,
-    Name: "shahzad",
-    Teacher: "4",
-    Batch: "11",
-    Time: "p",
-    Khali: "",
-  },
-  {
-    course: "Web Development",
-    order_id: 11234,
-    Name: "tOFFE",
-    Teacher: "4",
-    Batch: "11",
-    Time: "p",
-    Khali: "",
-  },
-  {
-    course: "Web Development",
-    order_id: 11235,
-    Name: "maryam",
-    Teacher: "4",
-    Batch: "12",
-    Time: "p",
-    Khali: "",
-  },
+const TABLE_HEADS = [
+  "Roll Number",
+  "Name",
+  "Course",
+  "Present",
+  "Absent",
+  "Total Days",
+  "Percent",
 ];
 
+const api = axios.create({
+  baseURL: URL,
+});
+
 const AreaTable = () => {
-  const [data, setData] = useState(TABLE_DATA);
+  const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState(null);
 
@@ -93,16 +49,50 @@ const AreaTable = () => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredData = data.filter((item) =>
-    Object.values(item).some((val) =>
-      val.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
+  const filteredData = data
+    .filter((item) => {
+      const totalDays = item.TotalDays || 1; // Avoid division by zero
+      const presentDays = item.PresentDays || 0;
+      const attendancePercentage = (presentDays / totalDays) * 100;
+      return attendancePercentage >= 80;
+    })
+    .filter((item) =>
+      Object.values(item).some((val) =>
+        val.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const res = await api.get("/student");
+        if (Array.isArray(res.data.data)) {
+          console.log(res.data.data);
+          setData(res.data.data);
+        } else {
+          console.error("Expected an array but got:", res.data);
+          setData([]);
+        }
+      } catch (err) {
+        console.log(err);
+        setData([]); // Set to an empty array in case of error
+      }
+    };
+
+    fetchStudents();
+  }, []);
 
   return (
     <section className="content-area-table">
       <div className="data-table-info">
         <h4 className="data-table-title">Top Student Performance</h4>
+        <input
+          className="data-table-input"
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={handleSearch}
+        />
       </div>
       <div className="data-table-diagram">
         <table>
@@ -116,23 +106,27 @@ const AreaTable = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredData.map((dataItem, index) => (
-              <tr key={index}>
-                <td>{dataItem.order_id}</td>
-                <td>{dataItem.Name}</td>
-                <td>{dataItem.course}</td>
-                <td>{dataItem.Time}</td>
-                <td>{dataItem.Teacher}</td>
-               
+            {filteredData.map((dataItem, index) => {
+              const totalDays = dataItem.TotalDays || 1; // Avoid division by zero
+              const presentDays = dataItem.PresentDays || 0;
+              const attendancePercentage = (presentDays / totalDays) * 100;
 
-                <td>
-                  
-                    <span className="dt-status-text">{dataItem.Batch}</span>
-               
-                </td>
-                <td>{dataItem.Khali}</td>
-              </tr>
-            ))}
+              return (
+                <tr key={index}>
+                  <td>{dataItem.RollNumber}</td>
+                  <td>{dataItem.FullName}</td>
+                  <td>{dataItem.CourseName}</td>
+                  <td>{dataItem.PresentDays}</td>
+                  <td>{dataItem.AbsentDays}</td>
+                  <td>{dataItem.TotalDays}</td>
+                  <td>
+                    {attendancePercentage >= 80 && (
+                      <span className="high-performance">{attendancePercentage}%</span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

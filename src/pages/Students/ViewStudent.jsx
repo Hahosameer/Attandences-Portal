@@ -51,8 +51,8 @@ const ViewStudent = () => {
         </button>
       </div>
       <div className="view-student-body">
-        <div className="profile-picture">
-          <img
+        <div className="profile-picture" >
+          <img 
             src={student.ProfilePicture || "/public/user.webp"}
             alt="Profile"
           />

@@ -19,7 +19,7 @@ const ViewBatch = () => {
   return (
     <div className="view-slot-container">
       <div className="view-slot-header">
-        <h2>Slot</h2>
+        <h2>Batch</h2>
         <button className="close-btn">
           <Link to="/" className="view-slot-link">
             <MdOutlineClose className="close" size={24} />
