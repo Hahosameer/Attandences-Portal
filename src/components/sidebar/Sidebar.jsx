@@ -93,7 +93,7 @@ const Sidebar = () => {
                 <li className="menu-item">
                   <Link to="/courses" className="menu-link">
                     <span className="menu-link-icon">
-                      <PersonIcon size={20} />
+                      <SchoolIcon size={20} />
                     </span>
                     <span className="menu-link-text">Courses </span>
                   </Link>
@@ -145,7 +145,7 @@ const Sidebar = () => {
                     <span className="menu-link-icon">
                       <EventIcon size={18} />
                     </span>
-                    <span className="menu-link-text">HoliDay</span>
+                    <span className="menu-link-text">Holiday</span>
                   </Link>
                 </li>
               </>
