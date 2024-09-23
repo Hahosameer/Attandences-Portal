@@ -102,7 +102,7 @@ function App() {
       <Router>
         <Routes>
           <Route element={<BaseLayout />}>
-            <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard />} />
             <Route path="*" element={<PageNotFound />} />
             <Route path="/students" element={<StudentList />} />
             <Route path="/teachers" element={<TeacherList />} />
@@ -112,22 +112,12 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/Otp" element={<Otp />} />
             <Route path="/StudentProfile" element={<ViewStudent />} />
-            <Route path="/viewteacher" element={<ViewTeacher />} />
-            <Route path="/viewslot" element={<ViewSlot />} />
-            <Route path="/TeacherProfile" element={<ViewTeacher />} />
-            <Route path="/viewbatch" element={<ViewBatch />} />
-            <Route path="/viewattendence" element={<Viewattendence />} />
-            <Route path="/markAttendence" element={<Mark />} />
-            <Route path="/courses" element={<CourseList />} />
-            <Route path="/holiDay" element={<HoliDaysList />} />
-            {/* <Route path="/viewteacher" element={<ViewTeacher />} />
-            <Route path="/viewslot" element={<ViewSlot />} />
             <Route path="/TeacherProfile" element={<ViewTeacher />} />
             <Route path="/viewattendence" element={<Viewattendence />} />
             <Route path="/markAttendence" element={<Mark />} />
             <Route path="/courses" element={<CourseList />} />
-            <Route path="/holiDay" element={<HoliDaysList />} /> */}
             <Route path="/holiDays" element={<HoliDaysList />} />
+            {/* <Route path="*" element={<NotFound />} /> */}
           </Route>
         </Routes>
 
@@ -159,3 +149,31 @@ const LoadingContainer = styled.div`
   }
 `;
 export default App;
+
+
+
+ {/* <Route path="/" element={<Dashboard />} />
+            <Route path="*" element={<PageNotFound />} />
+            <Route path="/students" element={<StudentList />} />
+            <Route path="/teachers" element={<TeacherList />} />
+            <Route path="/slots" element={<SlotsList />} />
+            <Route path="/batches" element={<BatchList />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/Otp" element={<Otp />} />
+            <Route path="/StudentProfile" element={<ViewStudent />} />
+            <Route path="/viewteacher" element={<ViewTeacher />} />
+            <Route path="/viewslot" element={<ViewSlot />} />
+            <Route path="/TeacherProfile" element={<ViewTeacher />} />
+            <Route path="/viewbatch" element={<ViewBatch />} />
+            <Route path="/viewattendence" element={<Viewattendence />} />
+            <Route path="/markAttendence" element={<Mark />} />
+            <Route path="/courses" element={<CourseList />} />
+            <Route path="/holiDay" element={<HoliDaysList />} />
+            {/* <Route path="/viewteacher" element={<ViewTeacher />} />
+            <Route path="/viewslot" element={<ViewSlot />} />
+            <Route path="/TeacherProfile" element={<ViewTeacher />} />
+            <Route path="/viewattendence" element={<Viewattendence />} />
+            <Route path="/markAttendence" element={<Mark />} />
+            <Route path="/courses" element={<CourseList />} />
+            <Route path="/holiDay" element={<HoliDaysList />} /> */}

@@ -26,23 +26,24 @@ const api = axios.create({
   baseURL: URL,
 });
 
-function NewCourseModal({ open, handleClose }) {
+function NewCourseModal({ open, handleClose, fetchCourses }) {
   const [courseName, setCourseName] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const newCourse = {
-        courseName,
-      };
+      const newCourse = { courseName };
       const res = await api.post("/course/add", newCourse);
-      console.log(res.data);
-      handleClose();
-      window.location.reload();
+      console.log("Course added successfully:", res.data);
+  
+      // Update the UI here instead of reloading the page
+      handleClose(); // This will close the modal
+      fetchCourses(); // Assuming you have a function to fetch and update the course list in the state
     } catch (error) {
-      console.log(error);
+      console.log("Error adding course:", error);
     }
   };
+  
 
   return (
     <Modal
