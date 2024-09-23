@@ -2,9 +2,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     height: 100vh;
+
+
+    .view-student-header{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      margin-bottom: 16px;
+      background: var(--secondary-color);
+      border-radius: 5px;
+      box-shadow: var(--light-shadow1);
+      color: var(--xl-text-color);
+      text-transform: uppercase;
+     
+    }
   }
-  
+
   .auth-card {
     background-color: #fff;
     padding: 2rem;

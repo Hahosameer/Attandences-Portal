@@ -5,26 +5,28 @@ import {
   loginFailure,
   loginStart,
 } from "../../Redux/Slices/UserSlice.jsx";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./login.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { useSelector } from "react-redux";
-
+import { TextField, IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import "./login.scss";
+import { MdOutlineClose } from "react-icons/md";
 const api = axios.create({
   baseURL: URL,
 });
-
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // For toggling password visibility
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
+  
   if (user) {
     return navigate("/");
   }
@@ -34,12 +36,8 @@ const Login = () => {
     if (email && password) {
       dispatch(loginStart());
       api
-        .post("/auth/login", {
-          email,
-          password,
-        })
+        .post("/auth/login", { email, password })
         .then((res) => {
-          console.log(res.data);
           localStorage.setItem("token", JSON.stringify(res.data.token));
           dispatch(loginSuccess(res.data.data));
           toast.success(res.data.message);
@@ -50,7 +48,6 @@ const Login = () => {
           }
         })
         .catch((err) => {
-          console.log(err);
           toast.error(err?.response?.data?.message || err.message);
           dispatch(loginFailure());
         });
@@ -59,31 +56,55 @@ const Login = () => {
     }
   };
 
+  const handleClickShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
     <div className="auth-container">
+       <div className="view-student-header">
+        <h2>Signup</h2>
+        <button className="close-btn">
+          <Link to="/" className="view-student-link">
+            <MdOutlineClose className="close" size={24} />
+          </Link>
+        </button>
+      </div>
       <div className="auth-card">
         <h2>Login</h2>
         <form onSubmit={handleClick}>
           <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
+            <TextField
+              label="Email"
+              variant="outlined"
+              fullWidth
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              error={!email}
+              helperText={!email && "Email is required"}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
+            <TextField
+              label="Password"
+              variant="outlined"
+              fullWidth
               required
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              error={!password}
+              helperText={!password && "Password is required"}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleClickShowPassword}>
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           </div>
           <button type="submit" className="auth-button">
@@ -94,6 +115,7 @@ const Login = () => {
           Don't have an account? <Link to="/signup">Signup</Link>
         </p>
       </div>
+      <ToastContainer />
     </div>
   );
 };
