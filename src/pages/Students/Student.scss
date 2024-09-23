@@ -180,17 +180,15 @@
   justify-content: center;
   align-items: center;
   width: 50%;
-  object-fit: cover !important;
-  
-  
+
 }
 .profile-picture img{
   width: 200px;
   height: 200px;
   background-color: var(--xl-text-color);
   border-radius: 50%;
-  object-fit: cover !important;
-
+object-fit: cover
+;
 }
 .student-details{
   width: 50%;

@@ -71,7 +71,7 @@ const AreaTop = ({ title }) => {
       case "/Viewattendence":
         return "View attendence";
       case "/holiDays":
-        return "Holidays"; // Added holidays route
+        return "holiDays"; // Added holidays route
       default:
         return "Dashboard";
     }
