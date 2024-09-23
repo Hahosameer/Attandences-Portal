@@ -92,7 +92,7 @@ function App() {
   if (loading) {
     return (
       <LoadingContainer>
-        <img src="/public/loder.gif" alt="LinkedIn Logo" />
+        <img src="/loder.gif" alt="" />
       </LoadingContainer>
     );
   }
