@@ -95,7 +95,7 @@ const Signup = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          {/* <div className="form-group">
+           <div className="form-group">
             <label htmlFor="role">Role</label>
             <select
               id="role"
@@ -109,7 +109,7 @@ const Signup = () => {
               <option value="teacher">Teacher</option>
               <option value="admin">Admin</option>
             </select>
-          </div> */}
+          </div> 
 
           <div className="form-group">
             <label htmlFor="password">Password</label>
