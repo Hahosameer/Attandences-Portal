@@ -116,7 +116,7 @@ function App() {
             <Route path="/viewattendence" element={<Viewattendence />} />
             <Route path="/markAttendence" element={<Mark />} />
             <Route path="/courses" element={<CourseList />} />
-            <Route path="/holiDays" element={<HoliDaysList />} />
+            <Route path="/holiDay" element={<HoliDaysList />} />
             {/* <Route path="*" element={<NotFound />} /> */}
           </Route>
         </Routes>
