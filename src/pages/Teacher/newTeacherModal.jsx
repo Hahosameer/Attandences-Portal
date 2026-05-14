@@ -4,10 +4,11 @@ import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import { Select, InputLabel, FormControl, Input } from "@mui/material";
+import { Select, InputLabel, FormControl, Input, CircularProgress } from "@mui/material"; // CircularProgress add kiya
 import { URL } from "../../Utils/url";
 import axios from "axios";
-import useUploadImage from "../../Custom Hooks/useUploadImage.jsx";
+import useUploadImage from "../../Custom Hooks/useUploadImage.jsx"; // Hook import kiya
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -17,16 +18,15 @@ const style = {
   height: "80vh",
   bgcolor: "background.paper",
   borderRadius: "20px",
-  // border: "2px solid #000",
   boxShadow: 24,
   overflowY: "scroll",
-  scrollbarWidth: "none", // For Firefox
-  msOverflowStyle: "none", // For Internet Explorer and Edge
+  scrollbarWidth: "none",
+  msOverflowStyle: "none",
   pt: 2,
   px: 4,
   pb: 3,
   "&::-webkit-scrollbar": {
-    display: "none", // For Chrome, Safari, and Opera
+    display: "none",
   },
   "@media (max-width: 768px)": {
     width: "100%",
@@ -39,7 +39,8 @@ const api = axios.create({
 });
 
 function NewTeacherModal({ open, handleClose }) {
-  const [profilePicture, setProfilePicture] = useState(null);
+  const [profilePicture, setProfilePicture] = useState(""); // Image URL ke liye
+  const [isUploading, setIsUploading] = useState(false); // Loading state
   const [Courses, setCourses] = useState([]);
   const [teacherName, setTeacherName] = useState("");
   const [email, setEmail] = useState("");
@@ -47,107 +48,116 @@ function NewTeacherModal({ open, handleClose }) {
   const [teacherOf, setTeacherOf] = useState("");
   const [teacherId, setTeacherId] = useState("");
 
-  const HandleAddTeacher = async () => {
+  const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      setIsUploading(true);
+      const url = await useUploadImage(file); // Cloudinary pe upload
+      setProfilePicture(url); // URL set kar di
+      setIsUploading(false);
+      console.log("Teacher Image URL:", url);
+    } catch (error) {
+      alert("Teacher image upload fail!");
+      setIsUploading(false);
+    }
+  };
+
+  const HandleAddTeacher = async (event) => {
+    event.preventDefault(); // Form reload hone se rokne ke liye
+
+    if (!profilePicture) {
+      alert("Pehle profile picture upload hone dein!");
+      return;
+    }
+
     const TeacherObj = {
       teacherName,
       email,
       phoneNumber,
       teacherOf,
       teacherId,
-      profilePicture,
+      profilePicture, // Ab ye Cloudinary ka URL bhejega
     };
-    console.log(TeacherObj);
 
     try {
       const res = await api.post("/teacher/add", TeacherObj);
       console.log(res.data);
+      alert("Teacher Added Successfully ✅");
+      handleClose();
       window.location.reload();
     } catch (error) {
-      console.log(error);
+      console.log("Error:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "Something went wrong!");
     }
   };
 
   const getCourses = async () => {
-    const res = await api.get("/course");
-    setCourses(res.data.data);
+    try {
+      const res = await api.get("/course");
+      setCourses(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     getCourses();
   }, []);
 
-  const handleImageChange = async (event) => {
-    const file = event.target.files[0];
-    setProfilePicture(file);
-
-    // Handle image upload
-    const url = await useUploadImage(file, `${Date.now()}-${file.name}`);
-    console.log(url);
-    setProfilePicture(url);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle form submission with all data including profilePicture
-    handleClose();
-  };
-
   return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="child-modal-title"
-      aria-describedby="child-modal-description"
-    >
+    <Modal open={open} onClose={handleClose}>
       <Box sx={{ ...style, width: 500 }}>
         <h2 id="child-modal-title">NEW TEACHER</h2>
-        <form onSubmit={handleSubmit}>
+
+        <form onSubmit={HandleAddTeacher}>
           <TextField
             fullWidth
             margin="normal"
-            id="fullName"
             label="Full Name"
             variant="outlined"
             onChange={(e) => setTeacherName(e.target.value)}
+            required
           />
 
           <TextField
             fullWidth
             margin="normal"
-            id="email"
             label="Email"
             type="email"
             variant="outlined"
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
 
           <TextField
             fullWidth
             margin="normal"
-            id="phoneNumber"
             label="Phone Number"
             type="tel"
             variant="outlined"
             onChange={(e) => setPhoneNumber(e.target.value)}
+            required
           />
 
           <TextField
             fullWidth
             margin="normal"
-            id="TeacherID"
             label="Teacher ID"
             variant="outlined"
             onChange={(e) => setTeacherId(e.target.value)}
+            required
           />
 
           <FormControl fullWidth margin="normal">
             <InputLabel id="course-label">Course</InputLabel>
             <Select
               labelId="course-label"
-              id="course"
               label="Course"
               defaultValue=""
               onChange={(e) => setTeacherOf(e.target.value)}
+              required
             >
               {Courses.map((course, index) => (
                 <MenuItem key={index} value={course.CourseName}>
@@ -157,21 +167,29 @@ function NewTeacherModal({ open, handleClose }) {
             </Select>
           </FormControl>
 
+          {/* Image Upload Field */}
           <FormControl fullWidth margin="normal">
             <Input
-              id="profile-picture"
+              id="teacher-pic"
               type="file"
-              accept="image/*"
-              style={{ display: "none" }} // Hide the file input
+              inputProps={{ accept: "image/*" }}
+              style={{ display: "none" }}
               onChange={handleImageChange}
             />
-            <label htmlFor="profile-picture">
-              <Button component="span" variant="outlined">
-                upload image
+            <label htmlFor="teacher-pic">
+              <Button
+                component="span"
+                variant="outlined"
+                fullWidth
+                disabled={isUploading}
+              >
+                {isUploading ? <CircularProgress size={24} /> : "Upload Teacher Photo"}
               </Button>
             </label>
             {profilePicture && (
-              <span style={{ marginLeft: "1em" }}>{profilePicture.name}</span>
+              <p style={{ color: "green", fontSize: "12px", marginTop: "5px" }}>
+                Image Uploaded ✅
+              </p>
             )}
           </FormControl>
 
@@ -182,9 +200,9 @@ function NewTeacherModal({ open, handleClose }) {
             <Button
               type="submit"
               variant="contained"
-              onClick={HandleAddTeacher}
+              disabled={isUploading}
             >
-              Add Teacher
+              {isUploading ? "Uploading..." : "Add Teacher"}
             </Button>
           </Box>
         </form>

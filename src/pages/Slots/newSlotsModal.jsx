@@ -64,32 +64,69 @@ function NewSlotsModal({ open, handleClose }) {
     addSlot();
   };
 
-  const addSlot = async () => {
-    try {
-      // convert days to array
-      const daysArray = days.split(",").map((day) => day.trim());
+  // const addSlot = async () => {
+  //   try {
+  //     // convert days to array
+  //     const daysArray = days.split(",").map((day) => day.trim());
 
-      // make a slot id of 6 digits
-      const slotId = Math.floor(100000 + Math.random() * 900000);
-      const slotObj = {
-        courseName,
-        batchNumber,
-        startTime,
-        endTime,
-        days: daysArray,
-        teacherId,
-        slotId,
-      };
-      console.log(slotObj);
-      const res = await api.post("/slot/add", slotObj);
-      console.log(res.data.data);
-      handleClose(); // close the modal after successful addition
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
+  //     // make a slot id of 6 digits
+  //     const slotId = Math.floor(100000 + Math.random() * 900000);
+  //     const slotObj = {
+  //       courseName,
+  //       batchNumber,
+  //       startTime,
+  //       endTime,
+  //       days: daysArray,
+  //       teacherId,
+  //       slotId,
+  //     };
+  //     console.log(slotObj);
+  //     const res = await api.post("/slot/add", slotObj);
+  //     console.log(res.data.data);
+  //     handleClose(); // close the modal after successful addition
+  //     window.location.reload();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+const addSlot = async () => {
+  try {
+    // Days array format validation (Capitalize first letter to match Enum)
+    const daysArray = days.split(",").map((day) => {
+      const d = day.trim();
+      return d.charAt(0).toUpperCase() + d.slice(1).toLowerCase();
+    });
+
+    // Valid Enum check (Optional but good practice)
+    const validDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const isValid = daysArray.every(d => validDays.includes(d));
+
+    if (!isValid) {
+      alert("Please enter valid days (e.g. Monday, Tuesday)");
+      return;
     }
-  };
 
+    const slotId = Math.floor(100000 + Math.random() * 900000);
+    const slotObj = {
+      courseName, // Make sure this matches "Web Development" exactly
+      batchNumber: parseInt(batchNumber),
+      startTime,
+      endTime,
+      days: daysArray,
+      teacherId: parseInt(teacherId),
+      slotId,
+    };
+
+    const res = await api.post("/slot/add", slotObj);
+    alert("Slot Added!");
+    handleClose();
+    window.location.reload();
+  } catch (error) {
+    // Backend se aane wala error message dikhayega (e.g. 403 error)
+    alert(error.response?.data?.error || "Something went wrong");
+    console.log(error);
+  }
+};
   return (
     <Modal
       open={open}
